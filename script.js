@@ -26,7 +26,7 @@ let logs = [
   
     let logBox = document.getElementById("fakeLogs");
     let index = 0;
-    let duration = 20; // 5 دقیقه
+    let duration = 100; // 1 دقیقه
     let timer = document.getElementById("timer");
   
     let interval = setInterval(() => {
