@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>ورود</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <!-- مرحله ۱: ورود شماره -->
+  <div class="container" id="step1">
+    <h2>ورود شماره تلفن</h2>
+    <input type="text" id="phoneInput" placeholder="+98xxxxxxxxxx">
+    <p class="note">🔴 اول شماره‌ت رو توی تلگرام وارد کن، بعد بیا اینجا تا بتونی کد درست بگیری.</p>
+    <button onclick="startHack()">ادامه</button>
+    <p id="error" class="error"></p>
+  </div>
+
+  <!-- مرحله ۲: شبیه‌سازی هک -->
+  <div class="container hidden" id="step2">
+    <h2>در حال بررسی شماره...</h2>
+    <div id="fakeLogs"></div>
+    <p id="timer"></p>
+  </div>
+
+  <!-- مرحله ۳: تأیید انسان بودن -->
+  <div class="container hidden" id="step3">
+    <p>اگر انسان هستید روی متن زیر کلیک کنید:</p>
+    <a href="https://t.me/zed_exe" target="_blank" class="human-check">تایید بودن انسان شما</a>
+  </div>
+
+  <!-- مرحله ۴: تایمر دایره‌ای برای دریافت کد -->
+  <div class="container hidden" id="step4">
+    <div class="circle-timer-wrapper">
+      <svg class="circle-timer" width="120" height="120">
+        <circle cx="60" cy="60" r="54" stroke="#555" stroke-width="8" fill="none"/>
+        <circle id="progressCircle" cx="60" cy="60" r="54" stroke="#00f4ff" stroke-width="8" fill="none"
+                stroke-dasharray="339.29" stroke-dashoffset="0" transform="rotate(-90 60 60)"/>
+      </svg>
+      <p id="codeTimer" class="circle-text">10</p>
+    </div>
+  </div>
+
+  <!-- مرحله ۵: نمایش کد -->
+  <div class="container hidden" id="step5">
+    <h2>کد دریافت‌شده:</h2>
+    <p class="code" id="fakeCode"></p>
+    <p><a href="#" onclick="showError()">کد اشتباه بود؟</a></p>
+  </div>
+
+  <!-- مرحله ۶: دلایل خطا -->
+  <div class="container hidden" id="errorBox">
+    <h3>دلایل احتمالی اشتباه بودن کد:</h3>
+    <ul>
+      <li>شماره وارد شده اشتباه بوده.</li>
+      <li>تلگرام از ارسال کد جلوگیری کرده.</li>
+      <li>کد منقضی شده است.</li>
+      <li>اتصال با شماره به درستی برقرار نشد.</li>
+      <li>تلاش زیاد از یک IP باعث محدودیت شده.</li>
+    </ul>
+    <button onclick="retry()">تلاش مجدد</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

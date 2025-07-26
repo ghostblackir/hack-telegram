@@ -1,0 +1,145 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden; /* جلوگیری از اسکرول ناخواسته */
+  }
+  
+  body {
+    font-family: 'Tahoma', sans-serif;
+    background: #111;
+    color: #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
+    direction: rtl;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: #222;
+    padding: 30px 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px #00f4ff55;
+    width: 100%;
+    max-width: 350px;
+    text-align: center;
+    position: relative;
+  }
+  
+  input {
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    text-align: left;
+    direction: ltr;
+    width: 100%;
+  }
+  
+  button {
+    padding: 12px;
+    border: none;
+    background: #00f4ff;
+    color: #000;
+    font-weight: bold;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  button:hover {
+    background: #00c7d6;
+  }
+  
+  .human-check {
+    color: #00f4ff;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 15px;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  .code {
+    font-size: 26px;
+    font-weight: bold;
+    letter-spacing: 8px;
+    color: #0f0;
+  }
+  
+  #error {
+    color: red;
+    font-size: 14px;
+  }
+  
+  .note {
+    font-size: 14px;
+    color: #f44336;
+    margin-top: -10px;
+  }
+  
+  ul {
+    text-align: right;
+    padding-right: 20px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  
+  .circle-timer-wrapper {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+  }
+  
+  .circle-timer {
+    transform: rotate(-90deg);
+  }
+  
+  .circle-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    font-weight: bold;
+    color: #00f4ff;
+  }
+  
+  /* نسخه مخصوص موبایل و سایزهای کوچیک */
+  @media screen and (max-width: 450px) {
+    .container {
+      padding: 25px 15px;
+      max-width: 100%;
+    }
+  
+    input, button {
+      font-size: 15px;
+      padding: 10px;
+    }
+  
+    .circle-timer-wrapper {
+      width: 100px;
+      height: 100px;
+    }
+  
+    .circle-text {
+      font-size: 20px;
+    }
+  
+    .note {
+      font-size: 13px;
+    }
+  }
+  
