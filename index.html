@@ -474,6 +474,7 @@
         </div>
       </div>
 
+
       <!-- STORE TAB -->
       <div id="storeTab" class="hidden">
         <section class="panel">
@@ -512,6 +513,7 @@
           <i class="fa-solid fa-rotate"></i> بچرخون
         </button>
         <p id="result" style="text-align:center; margin-top:10px; font-weight:bold;"></p>
+        <p id="spinMessage" style="color:#ff5252; text-align:center; margin-top:10px;"></p>
       </section>
     </div>
 
@@ -540,6 +542,27 @@
       border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
         فهمیدم
       </button>
+
+      <div id="notifModal" class="overlay hidden">
+        <div class="modal">
+          <h3>📢 فعال‌سازی اعلان‌ها</h3>
+          <p>برای دریافت تخفیف‌های ویژه و پیام‌های مهم، نوتیف برنامه رو فعال کنید.</p>
+          <button class="btn" onclick="hideNotifModal()">باشه</button>
+        </div>
+      </div>
+
+      <script>
+        function hideNotifModal() {
+          document.getElementById("notifModal").classList.add("hidden");
+          localStorage.setItem("notifAsked", "true"); // فقط بار اول نمایش داده بشه
+        }
+
+        window.addEventListener("load", () => {
+          if (!localStorage.getItem("notifAsked")) {
+            document.getElementById("notifModal").classList.remove("hidden");
+          }
+        });
+      </script>
     </div>
     <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js"></script>
     <script>
@@ -713,49 +736,28 @@
       })
 
       const timerEl = document.getElementById('settingsTimer');
-      const startHours = 16;
-      const startMinutes = 0;
-      const startSeconds = 0;
 
-      // تعیین زمان پایان (Deadline)
-      function getDeadline() {
+      function updateTehranTime() {
+        // زمان تهران
         const now = new Date();
-        const today16 = new Date();
-        today16.setHours(startHours, startMinutes, startSeconds, 0);
+        const tehranTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Tehran" }));
 
-        // اگر ساعت گذشته، فردا 16:00
-        if (now > today16) today16.setDate(today16.getDate() + 1);
+        const hours = tehranTime.getHours();
+        const minutes = tehranTime.getMinutes();
+        const seconds = tehranTime.getSeconds();
 
-        return today16.getTime();
-      }
+        // نمایش به صورت HH:MM:SS
+        timerEl.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
-      // ذخیره Deadline در localStorage
-      if (!localStorage.getItem('countdownDeadline')) {
-        localStorage.setItem('countdownDeadline', getDeadline());
-      }
-
-      function updateCountdown() {
-        const deadline = parseInt(localStorage.getItem('countdownDeadline'), 10);
-        const now = new Date().getTime();
-        let totalSeconds = Math.max(0, Math.floor((deadline - now) / 1000));
-
-        const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
-        const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
-        const seconds = String(totalSeconds % 60).padStart(2, '0');
-
-        timerEl.textContent = `${hours}:${minutes}:${seconds}`;
-
-        if (totalSeconds === 0) {
+        // چک برای ارسال نوتیف ساعت 07:00
+        if (hours === 7 && minutes === 0 && seconds === 0) {
           sendNotification();
-          // Deadline جدید برای فردا
-          const newDeadline = getDeadline();
-          localStorage.setItem('countdownDeadline', newDeadline);
         }
 
-        setTimeout(updateCountdown, 1000);
+        setTimeout(updateTehranTime, 1000);
       }
 
-      updateCountdown();
+      updateTehranTime();
 
       function sendNotification() {
         if (Notification.permission !== "granted") {
@@ -826,7 +828,7 @@
         const resultEl = document.getElementById('result');
         switch (segments[selectedSegment]) {
           case 'شانس دوباره':
-            localStorage.removeItem('lastSpinDate'); 
+            localStorage.removeItem('lastSpinDate');
             resultEl.innerHTML = '🔄 شانس دوباره! میتونی دوباره بچرخی.';
             break;
           case '200 تومن هدیه':
@@ -875,9 +877,12 @@
         const today = new Date().toDateString();
 
         if (lastSpin === today) {
-          document.getElementById('dailySpinModal').classList.remove('hidden');
+          const msgEl = document.getElementById('spinMessage');
+          msgEl.textContent = '⚠️ شما امروز قبلاً از گردونه استفاده کرده‌اید. لطفاً فردا دوباره تلاش کنید.';
           return;
         }
+
+
 
         if (!spinning) {
           spinSpeed = 0.3 + Math.random() * 0.2;
