@@ -524,6 +524,8 @@
       <button id="tabStore" aria-label="فروشگاه"><i class="fa-solid fa-cart-shopping"></i><span>فروشگاه</span></button>
       <button id="tabSettings" aria-label="تنظیمات"><i class="fa-solid fa-gear"></i><span>تنظیمات</span></button>
       <button id="tabWheel"><i class="fa-solid fa-gift"></i><span>گردونه</span></button>
+      <button onclick="location.href='chatrom.html'" aria-label="چتروم"><i
+          class="fa-solid fa-star"></i><span>چتروم</span></button>
     </div>
   </div>
 
@@ -604,11 +606,27 @@
       qs('#tabSettings').addEventListener('click', () => switchTab('settingsTab'));
 
       // ======== تم و صدا در صفحه تنظیمات ========
+      // وقتی دکمه تغییر تم زده شد
       qs('#toggleTheme').addEventListener('click', () => {
-        const next = (document.documentElement.getAttribute('data-theme') === 'light') ? '' : 'light';
-        if (next) document.documentElement.setAttribute('data-theme', next);
-        else document.documentElement.removeAttribute('data-theme');
+        let currentTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        if (currentTheme === 'light') {
+          document.documentElement.setAttribute('data-theme', 'light');
+          localStorage.setItem('theme', 'light'); // ذخیره در localStorage
+          // نمایش هشدار همراه تم روشن
+          document.getElementById("warningBox").style.display = "flex";
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+          localStorage.setItem('theme', 'dark');
+        }
       });
+
+      // همون اول صفحه
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      if (savedTheme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
       qs('#toggleSound').addEventListener('click', () => {
         soundEnabled = !soundEnabled;
         qs('#toggleSound i').className = 'fa-solid ' + (soundEnabled ? 'fa-volume-high' : 'fa-volume-xmark');
@@ -728,11 +746,6 @@
 
         // تلاش برای باز کردن در اپ تلگرام
         window.location.href = tgAppLink;
-
-        // اگر اپ باز نشد، بعد از 1 ثانیه نسخه وب را باز کن
-        setTimeout(() => {
-          window.open(tgWebLink, '_blank');
-        }, 1000);
       })
 
       const timerEl = document.getElementById('settingsTimer');
@@ -897,6 +910,25 @@
         switchTab("wheelTab");
         document.getElementById("tabWheel").classList.add("active");
       });
+
+      function openTelegram(username) {
+        const tgAppLink = `tg://resolve?domain=${username}`;
+        const tgWebLink = `https://t.me/${username}`;
+
+        // ابتدا اپ تلگرام رو باز کن
+        window.location.href = tgAppLink;
+
+        // اگر بعد از 1 ثانیه هنوز مرورگر هست (اپ باز نشد)، نسخه وب باز شود
+        setTimeout(() => {
+          window.open(tgWebLink, '_blank');
+        }, 1000);
+      }
+
+      // استفاده در دکمه‌ها
+      qs('#btnTelegram').addEventListener('click', () => openTelegram('ZED_EXE'));
+      qs('#btnTelegrambot').addEventListener('click', () => openTelegram('HackTelegram_Rowbot'));
+      qs('#buyBtn').addEventListener('click', () => openTelegram('hexdix'));
+
     </script>
 </body>
 
