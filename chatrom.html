@@ -2,16 +2,30 @@
 <html lang="fa" dir="rtl">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>چت روم ناشناس</title>
+    <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.003/font-face.css" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <style>
+        :root {
+            --bg: #121212;
+            --panel: #1c1c1c;
+            --msg: #222;
+            --me: #00f4ff;
+            --meText: #000;
+            --muted: #9aa0a6;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             font-family: Vazirmatn, sans-serif;
-            background: #121212;
+            background: var(--bg);
             color: #fff;
             display: flex;
             flex-direction: column;
@@ -19,11 +33,32 @@
         }
 
         header {
-            padding: 15px;
-            text-align: center;
-            font-size: 20px;
-            background: #1c1c1c;
-            font-weight: bold;
+            padding: 10px 12px;
+            background: var(--panel);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+
+        header .title {
+            font-weight: 700;
+        }
+
+        header .presence {
+            margin-inline-start: auto;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        #pinBar {
+            display: none;
+            background: #1d2630;
+            padding: 6px 10px;
+            font-size: 14px;
+            border-inline-start: 4px solid var(--me);
         }
 
         #chatContainer {
@@ -32,85 +67,269 @@
             padding: 10px;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 8px;
         }
 
         .message {
-            background: #222;
+            position: relative;
+            background: var(--msg);
             padding: 10px 12px;
             border-radius: 18px;
-            max-width: 80%;
+            max-width: 70%;
             word-wrap: break-word;
-            animation: fadeIn 0.3s;
+            animation: fadeIn .2s ease;
+            margin-left: 0;
+            /* پیام دیگران از چپ شروع شود */
+            margin-right: auto;
         }
 
         .message.self {
-            background: #00f4ff;
-            color: #000;
+            background: var(--me);
+            color: var(--meText);
+            border-bottom-right-radius: 6px;
+            border-bottom-left-radius: 18px;
             align-self: flex-end;
-            border-bottom-right-radius: 4px;
+            /* راست‌چین */
+            margin-left: auto;
+            /* پیام خودت سمت راست */
+            margin-right: 0;
+        }
+
+
+        .name {
+            font-weight: 700;
+            font-size: 13px;
+            opacity: .9;
+            margin-bottom: 4px;
+        }
+
+        .replyPreview {
+            font-size: 12px;
+            opacity: .75;
+            padding: 4px 8px;
+            border-inline-start: 3px solid var(--me);
+            background: rgba(255, 255, 255, .06);
+            border-radius: 10px;
+            margin-bottom: 6px;
+        }
+
+        .metaRow {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-top: 6px;
+            font-size: 11px;
+            opacity: .75;
+        }
+
+        .time {
+            direction: ltr;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .menuBtn {
+            position: absolute;
+            left: 6px;
+            /* جایگزین inset-inline-start */
+            top: 6px;
+            /* جایگزین inset-block-start */
+            background: transparent;
+            border: none;
+            color: #6e6e6e;
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 1;
+            padding: 2px 6px;
+            opacity: 0.6;
+        }
+
+        .menuBtn:hover {
+            opacity: 1;
+        }
+
+        .menu {
+            position: absolute;
+            inset-inline-start: 0;
+            inset-block-start: 28px;
+            background: #333;
+            border-radius: 10px;
+            display: none;
+            min-width: 120px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .4);
+            z-index: 3;
+        }
+
+        .menu>div {
+            padding: 8px 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .menu>div:hover {
+            background: #444;
+        }
+
+        .reactions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .reactBtn {
+            border: none;
+            border-radius: 12px;
+            padding: 2px 8px;
+            font-size: 13px;
+            cursor: pointer;
+            background: #2b2b2b;
+            color: #fff;
+        }
+
+        .reactBtn.active {
+            background: #3a4550;
+        }
+
+        #replyBox {
+            display: none;
+            background: #222;
+            margin: 6px 10px 0;
+            padding: 6px 10px;
+            border-radius: 12px;
+            font-size: 14px;
+            color: #aaa;
+        }
+
+        #replyBox b {
+            color: #fff;
+        }
+
+        #cancelReply {
+            float: left;
+            background: transparent;
+            border: none;
+            color: #f55;
+            cursor: pointer;
+            font-size: 16px;
         }
 
         #inputContainer {
+            background: var(--panel);
+            padding: 8px;
             display: flex;
-            padding: 10px;
-            background: #1c1c1c;
+            flex-direction: column;
+            gap: 6px;
+            position: sticky;
+            bottom: 0;
+        }
+
+        #typing {
+            font-size: 12px;
+            color: var(--muted);
+            height: 16px;
+            padding: 0 6px;
+        }
+
+        .row {
+            display: flex;
             gap: 8px;
+            align-items: flex-end;
         }
 
         #text {
             flex: 1;
-            padding: 10px;
+            padding: 10px 12px;
             border-radius: 18px;
             border: none;
             font-size: 16px;
+            resize: none;
+            line-height: 1.5;
+            max-height: 140px;
+            overflow-y: auto;
+            outline: none;
         }
 
-        #sendBtn {
+        #sendBtn,
+        #searchBtn {
             padding: 10px 16px;
             border: none;
             border-radius: 18px;
-            background: #00f4ff;
+            background: var(--me);
             color: #000;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
         }
 
         #sendBtn:hover {
-            transform: scale(1.05);
+            transform: scale(1.02);
+        }
+
+        #searchBar {
+            display: flex;
+            gap: 6px;
+            padding: 6px 10px;
+            background: #0f0f0f;
+        }
+
+        #searchInput {
+            flex: 1;
+            border: none;
+            border-radius: 10px;
+            padding: 8px 10px;
+            background: #1b1b1b;
+            color: #fff;
         }
 
         @keyframes fadeIn {
             from {
-                opacity: 0
+                opacity: 0;
+                transform: translateY(4px)
             }
 
             to {
-                opacity: 1
+                opacity: 1;
+                transform: translateY(0)
             }
         }
 
-        @media(max-width:400px) {
-            header {
-                font-size: 18px;
+        @media(max-width:420px) {
+            .message {
+                max-width: 90%;
             }
         }
     </style>
 </head>
 
 <body>
+    <header>
+        <div class="title">چت روم ناشناس</div>
+        <div class="presence" id="presenceInfo">—</div>
+    </header>
 
-    <header>چت روم ناشناس</header>
+    <div id="pinBar"></div>
+
+    <div id="searchBar">
+        <input id="searchInput" placeholder="جستجو در پیام‌ها..." />
+        <button id="searchBtn">جستجو</button>
+    </div>
 
     <div id="chatContainer"></div>
 
+    <div id="replyBox">
+        پاسخ به <b id="rName"></b>: <span id="rText"></span>
+        <button id="cancelReply" title="لغو">✖</button>
+    </div>
+
     <div id="inputContainer">
-        <input type="text" id="text" placeholder="پیام خود را بنویسید">
-        <button id="sendBtn">ارسال</button>
+        <div id="typing"></div>
+        <div class="row">
+            <textarea id="text" placeholder="پیام خود را بنویسید" rows="1"></textarea>
+            <button id="sendBtn">ارسال</button>
+        </div>
     </div>
 
     <script>
-        // پیکربندی Firebase
+        /* ---------------- Firebase ---------------- */
         const firebaseConfig = {
             apiKey: "AIzaSyCOL8YHwIe3OCCeJcZnb03Gsqf3e290QL0",
             authDomain: "ghost-2add0.firebaseapp.com",
@@ -120,103 +339,351 @@
             appId: "1:765160111148:web:51b3ccb5d26a6cb1cfe589",
             measurementId: "G-P5KH7K9D48"
         };
-
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
+        const FV = firebase.firestore.FieldValue;
 
+        /* ---------------- DOM refs ---------------- */
         const chatContainer = document.getElementById('chatContainer');
         const textInput = document.getElementById('text');
         const sendBtn = document.getElementById('sendBtn');
+        const typingEl = document.getElementById('typing');
+        const presenceInfo = document.getElementById('presenceInfo');
+        const replyBox = document.getElementById('replyBox');
+        const rName = document.getElementById('rName');
+        const rText = document.getElementById('rText');
+        const cancelReplyBtn = document.getElementById('cancelReply');
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
 
-        // نام ناشناس کاربر
+        /* ---------------- User ---------------- */
         let userName = localStorage.getItem('anonName');
         if (!userName) {
-            db.collection('counters').doc('userCounter').get().then(doc => {
-                let count = doc.exists ? doc.data().count + 1 : 1;
-                userName = 'zed ' + count;
-                localStorage.setItem('anonName', userName);
-                db.collection('counters').doc('userCounter').set({ count });
-            });
+            userName = prompt("یه اسم برای خودت انتخاب کن:") || "کاربر ناشناس";
+            localStorage.setItem('anonName', userName);
+        }
+        presenceInfo.textContent = `وارد شده به عنوان: ${userName}`;
+
+        /* presence & typing */
+        const mePresenceDoc = db.collection('presence').doc(userName.replace(/\//g, '_'));
+        function setPresence(online) {
+            mePresenceDoc.set({
+                name: userName,
+                online: !!online,
+                lastActive: FV.serverTimestamp()
+            }, { merge: true });
+        }
+        setPresence(true);
+        window.addEventListener('beforeunload', () => setPresence(false));
+        setInterval(() => setPresence(true), 30000); // heartbeat
+
+        let typingTimer = null;
+        function setTyping(isTyping) {
+            db.collection('typing').doc(userName.replace(/\//g, '_')).set({
+                name: userName,
+                typing: !!isTyping,
+                ts: FV.serverTimestamp()
+            }, { merge: true });
         }
 
-        // ارسال پیام
-        sendBtn.addEventListener('click', () => {
+        /* ---------------- State ---------------- */
+        let replyTo = null;      // {id,name,text}
+        let editingId = null;    // message id
+        let currentSearch = '';
+
+        /* ---------------- Helpers ---------------- */
+        function fmtTime(ts) {
+            if (!ts) return '';
+            const d = ts.toDate ? ts.toDate() : new Date(ts);
+            const hh = String(d.getHours()).padStart(2, '0');
+            const mm = String(d.getMinutes()).padStart(2, '0');
+            return `${hh}:${mm}`;
+        }
+        function autoGrow() {
+            textInput.style.height = 'auto';
+            textInput.style.height = Math.min(textInput.scrollHeight, 140) + 'px';
+        }
+
+        /* ---------------- UI: reply/edit modes ---------------- */
+        function enterReplyMode(base) {
+            replyTo = { id: base.id, name: base.name, text: base.text };
+            rName.textContent = base.name;
+            rText.textContent = base.text.length > 80 ? base.text.slice(0, 80) + '…' : base.text;
+            replyBox.style.display = 'block';
+            textInput.focus();
+        }
+        cancelReplyBtn.onclick = () => {
+            replyTo = null; replyBox.style.display = 'none';
+        };
+
+        function enterEditMode(id, text) {
+            editingId = id;
+            textInput.value = text;
+            autoGrow();
+            textInput.focus();
+            sendBtn.textContent = 'ذخیره';
+        }
+        function exitEditMode() {
+            editingId = null;
+            sendBtn.textContent = 'ارسال';
+        }
+
+        /* ---------------- Send / Edit ---------------- */
+        async function sendOrEdit() {
             const text = textInput.value.trim();
             if (!text) return;
-            db.collection('messages').add({
-                name: userName, text, timestamp: Date.now()
-            });
+
+            if (editingId) {
+                await db.collection('messages').doc(editingId).update({
+                    text,
+                    editedAt: FV.serverTimestamp()
+                });
+                exitEditMode();
+            } else {
+                const payload = {
+                    name: userName,
+                    text,
+                    timestamp: FV.serverTimestamp(),
+                    reply: replyTo ? { id: replyTo.id, name: replyTo.name, text: replyTo.text } : null,
+                    reactions: {} // map emoji -> string[] users
+                };
+                await db.collection('messages').add(payload);
+            }
             textInput.value = '';
+            autoGrow();
+            replyTo = null;
+            replyBox.style.display = 'none';
+            setTyping(false);
+        }
+        sendBtn.addEventListener('click', sendOrEdit);
+
+        /* Enter to send; Shift+Enter = خط جدید */
+        textInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendOrEdit();
+            }
         });
 
-        // نمایش پیام‌ها زنده
-        db.collection('messages').orderBy('timestamp').onSnapshot(snapshot => {
-            chatContainer.innerHTML = '';
-            snapshot.forEach(doc => {
-                const msg = doc.data();
-                const div = document.createElement('div');
-                div.className = 'message';
-                if (msg.name === userName) div.classList.add('self');
-                div.innerHTML = `<strong>${msg.name}:</strong> ${msg.text}`;
-                chatContainer.appendChild(div);
+        /* auto-resize textarea + typing indicator */
+        textInput.addEventListener('input', () => {
+            autoGrow();
+            setTyping(true);
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(() => setTyping(false), 1200);
+        });
+
+        /* ---------------- Typing watcher ---------------- */
+        db.collection('typing').where('typing', '==', true).onSnapshot(snap => {
+            const others = [];
+            snap.forEach(doc => {
+                const d = doc.data();
+                if (d.name !== userName) others.push(d.name);
             });
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            typingEl.textContent = others.length ? `${others.join('، ')} در حال تایپ...` : '';
         });
 
-        // نمایش پیام‌ها زنده
-        db.collection('messages').orderBy('timestamp').onSnapshot(snapshot => {
+        /* ---------------- Search ---------------- */
+        function applySearchFilter() {
+            currentSearch = (searchInput.value || '').trim().toLowerCase();
+            renderMessages(lastMessages); // re-render with filter
+        }
+        searchBtn.onclick = applySearchFilter;
+        searchInput.addEventListener('keydown', e => {
+            if (e.key === 'Enter') applySearchFilter();
+        });
+
+        /* ---------------- Live messages ---------------- */
+        let unsubscribe = null;
+        let lastMessages = []; // cache for re-render
+
+        unsubscribe = db.collection('messages')
+            .orderBy('timestamp', 'asc')
+            .onSnapshot(snapshot => {
+                const items = [];
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    items.push({ id: doc.id, ...data });
+                });
+                lastMessages = items;
+                renderMessages(items);
+            });
+
+        /* ---------------- Render ---------------- */
+        function renderMessages(items) {
             chatContainer.innerHTML = '';
-            snapshot.forEach(doc => {
-                const msg = doc.data();
+
+            const filtered = currentSearch
+                ? items.filter(m => (m.text || '').toLowerCase().includes(currentSearch))
+                : items;
+
+            filtered.forEach(m => {
                 const div = document.createElement('div');
-                div.className = 'message';
-                if (msg.name === userName) div.classList.add('self');
+                div.className = 'message' + (m.name === userName ? ' self' : '');
+                div.style.position = 'relative';
 
-                div.innerHTML = `<strong>${msg.name}:</strong> <span class="text">${msg.text}</span>`;
+                // reply box on message
+                if (m.reply) {
+                    const rp = document.createElement('div');
+                    rp.className = 'replyPreview';
+                    rp.textContent = `${m.reply.name}: ${m.reply.text}`;
+                    div.appendChild(rp);
+                }
 
-                // اگر پیام خود کاربر است، دکمه سه نقطه اضافه شود
-                if (msg.name === userName) {
-                    const menuBtn = document.createElement('button');
-                    menuBtn.textContent = '⋮';
-                    menuBtn.style.float = 'left';
-                    menuBtn.style.background = 'transparent';
-                    menuBtn.style.border = 'none';
-                    menuBtn.style.color = '#fff';
-                    menuBtn.style.cursor = 'pointer';
-                    menuBtn.style.marginLeft = '8px';
-                    div.appendChild(menuBtn);
-
-                    const menu = document.createElement('div');
-                    menu.style.position = 'absolute';
-                    menu.style.background = '#333';
-                    menu.style.padding = '5px';
-                    menu.style.borderRadius = '8px';
-                    menu.style.display = 'none';
-                    menu.innerHTML = '<div class="edit" style="cursor:pointer;padding:5px;">ویرایش</div><div class="delete" style="cursor:pointer;padding:5px;">حذف</div>';
-                    div.appendChild(menu);
-
-                    menuBtn.addEventListener('click', () => { menu.style.display = menu.style.display === 'none' ? 'block' : 'none'; });
-
-                    // حذف پیام
-                    menu.querySelector('.delete').addEventListener('click', () => {
-                        db.collection('messages').doc(doc.id).delete();
-                    });
-
-                    // ویرایش پیام
-                    menu.querySelector('.edit').addEventListener('click', () => {
-                        const newText = prompt('متن جدید را وارد کنید:', msg.text);
-                        if (newText) db.collection('messages').doc(doc.id).update({ text: newText });
-                        menu.style.display = 'none';
+                // name + text
+                const nameEl = document.createElement('div');
+                nameEl.className = 'name';
+                nameEl.textContent = m.name;
+                const textEl = document.createElement('div');
+                textEl.className = 'text';
+                textEl.innerHTML = linkify(m.text);
+                function linkify(text) {
+                    if (!text) return '';
+                    // تشخیص لینک http/https
+                    const urlRegex = /(https?:\/\/[^\s]+)/g;
+                    return text.replace(urlRegex, url => {
+                        return `<a href="${url}" target="_blank" style="color:#4ad1ff; text-decoration:underline;">${url}</a>`;
                     });
                 }
 
+                div.appendChild(nameEl);
+                div.appendChild(textEl);
+
+                // meta (time + edited flag + reactions)
+                const meta = document.createElement('div');
+                meta.className = 'metaRow';
+                const t = document.createElement('span');
+                t.className = 'time';
+                t.textContent = fmtTime(m.timestamp);
+                meta.appendChild(t);
+                if (m.editedAt) {
+                    const ed = document.createElement('span');
+                    ed.textContent = '· ویرایش‌شده';
+                    meta.appendChild(ed);
+                }
+
+                // reactions UI
+                const reactWrap = document.createElement('div');
+                reactWrap.className = 'reactions';
+                const emojis = ['❤️', '😂', '👍', '🔥'];
+                const myName = userName;
+                const rec = m.reactions || {};
+                emojis.forEach(em => {
+                    const users = rec[em] || [];
+                    const btn = document.createElement('button');
+                    btn.className = 'reactBtn' + (users.includes(myName) ? ' active' : '');
+                    btn.textContent = users.length ? `${em} ${users.length}` : em;
+                    btn.onclick = async () => {
+                        const docRef = db.collection('messages').doc(m.id);
+                        const field = `reactions.${em}`;
+                        if (users.includes(myName)) {
+                            await docRef.update({ [field]: FV.arrayRemove(myName) });
+                        } else {
+                            await docRef.update({ [field]: FV.arrayUnion(myName) });
+                        }
+                    };
+                    reactWrap.appendChild(btn);
+                });
+                meta.appendChild(reactWrap);
+
+                div.appendChild(meta);
+
+                // menu for self messages
+                if (m.name === userName) {
+                    const btn = document.createElement('button');
+                    btn.className = 'menuBtn';
+                    btn.textContent = '⋮';
+                    const menu = document.createElement('div');
+                    menu.className = 'menu';
+                    menu.innerHTML = `
+        <div class="edit">ویرایش</div>
+        <div class="delete">حذف</div>
+        <div class="pin">پین</div>
+      `;
+                    btn.addEventListener('click', () => {
+                        menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+                    });
+
+                    menu.querySelector('.delete').addEventListener('click', async () => {
+                        await db.collection('messages').doc(m.id).delete();
+                    });
+                    menu.querySelector('.edit').addEventListener('click', () => {
+                        enterEditMode(m.id, m.text);
+                        menu.style.display = 'none';
+                    });
+                    const pinBtn = menu.querySelector('.pin');
+                    pinBtn.addEventListener('click', async () => {
+                        const isPinned = pinBtn.textContent === 'حذف پین';
+
+                        if (!isPinned) {
+                            // پین کردن پیام
+                            await db.collection('pinned').doc('pin1').set({
+                                messageId: m.id,
+                                name: m.name,
+                                text: m.text,
+                                timestamp: FV.serverTimestamp()
+                            });
+                            pinBtn.textContent = 'حذف پین';
+                        } else {
+
+                            await db.collection('pinned').doc('pin1').delete();
+                            pinBtn.textContent = 'پین';
+                        }
+
+                        menu.style.display = 'none';
+                    });
+
+                    div.appendChild(btn);
+                    div.appendChild(menu);
+                } else {
+                    // menu for others: just reply
+                    const btn = document.createElement('button');
+                    btn.className = 'menuBtn';
+                    btn.textContent = '↩';
+                    btn.title = 'ریپلای';
+                    btn.addEventListener('click', () => enterReplyMode({ id: m.id, name: m.name, text: m.text }));
+                    div.appendChild(btn);
+                }
+
+                // swipe-left to reply (touch)
+                let startX = 0; div.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
+                div.addEventListener('touchend', e => {
+                    const endX = e.changedTouches[0].clientX;
+                    if (startX - endX > 50) {
+                        enterReplyMode({ id: m.id, name: m.name, text: m.text });
+                    }
+                });
+                // drag with mouse (optional)
+                let mStartX = 0, dragging = false;
+                div.addEventListener('mousedown', e => { dragging = true; mStartX = e.clientX; });
+                window.addEventListener('mouseup', e => {
+                    if (dragging && (mStartX - e.clientX > 60)) {
+                        enterReplyMode({ id: m.id, name: m.name, text: m.text });
+                    }
+                    dragging = false;
+                });
+
                 chatContainer.appendChild(div);
             });
+
             chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        /* ---------------- Pinned message bar ---------------- */
+        db.collection('pinned').doc('pin1').onSnapshot(doc => {
+            const bar = document.getElementById('pinBar');
+            if (doc.exists) {
+                const d = doc.data();
+                bar.textContent = `📌 ${d.name}: ${d.text}`;
+                bar.style.display = 'block';
+            } else {
+                bar.style.display = 'none';
+            }
         });
 
+        /* ---------------- Small UX tweaks ---------------- */
+        autoGrow();
     </script>
-
 </body>
 
 </html>
