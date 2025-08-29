@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>چت روم - بررسی اتصال</title>
+  <style>
+    body {
+      font-family: Vazirmatn, sans-serif;
+      background: #121212;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+      padding: 20px;
+    }
+    #status {
+      background: #1c1c1c;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 400px;
+    }
+    #status.success {
+      border: 2px solid #0f0;
+    }
+    #status.fail {
+      border: 2px solid #f55;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 12px;
+      background: #00f4ff;
+      color: #000;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div id="status">در حال بررسی اتصال به سرور...</div>
+  <script>
+    const statusEl = document.getElementById('status');
+
+    // تابع بررسی اتصال
+    async function checkConnection() {
+      try {
+        // تست دسترسی به Firebase یا ping ساده
+        const res = await fetch('https://firestore.googleapis.com/v1/projects/ghost-2add0/databases/(default)/documents/messages?pageSize=1');
+        if (res.ok) {
+          // موفق بود → ریدایرکت
+          statusEl.className = 'success';
+          statusEl.textContent = 'اتصال برقرار است! در حال ورود به چت‌روم...';
+          setTimeout(() => {
+            window.location.href = 'chatroom.html';
+          }, 1500);
+        } else {
+          throw new Error('فیلترشکن روشن نیست');
+        }
+      } catch (e) {
+        // شکست → هشدار
+        statusEl.className = 'fail';
+        statusEl.innerHTML = `
+          ❌ اتصال برقرار نشد!<br>
+          لطفاً فیلترشکنتو روشن کن تا بتوانی وارد چت‌روم شوی.<br>
+          <button onclick="checkConnection()">تلاش دوباره</button>
+        `;
+      }
+    }
+
+    // اجرا
+    checkConnection();
+  </script>
+</body>
+</html>
