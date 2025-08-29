@@ -301,6 +301,46 @@
 </head>
 
 <body>
+
+    <div id="nameModal" style="
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+">
+        <div style="
+        background: #1c1c1c;
+        padding: 20px 30px;
+        border-radius: 16px;
+        text-align: center;
+        max-width: 350px;
+        width: 90%;
+        color: #fff;
+    ">
+            <h2 style="margin-bottom: 12px;">اسم خودت رو وارد کن</h2>
+            <input id="nameInput" placeholder="مثلاً کاربر ناشناس" style="
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: none;
+            font-size: 16px;
+            margin-bottom: 12px;
+        ">
+            <button id="saveNameBtn" style="
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: none;
+            background: #00f4ff;
+            color: #000;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 16px;
+        ">ثبت</button>
+        </div>
+    </div>
     <header>
         <div class="title">چت روم ناشناس</div>
         <div class="presence" id="presenceInfo">—</div>
@@ -355,18 +395,67 @@
         const cancelReplyBtn = document.getElementById('cancelReply');
         const searchInput = document.getElementById('searchInput');
         const searchBtn = document.getElementById('searchBtn');
+        const nameModal = document.getElementById('nameModal');
+        const nameInput = document.getElementById('nameInput');
+        const saveBtn = document.getElementById('saveNameBtn');
 
         /* ---------------- User ---------------- */
         let userName = localStorage.getItem('anonName');
-        if (!userName) {
-            userName = prompt("یه اسم برای خودت انتخاب کن:") || "کاربر ناشناس";
-            localStorage.setItem('anonName', userName);
-        }
-        presenceInfo.textContent = `وارد شده به عنوان: ${userName}`;
 
+        if (!userName || userName.trim() === "") {
+            // اسم ذخیره نشده → مودال رو نمایش بده
+            nameModal.style.display = 'flex';
+        } else {
+            // اسم ذخیره شده → مودال رو نشون نده و مستقیم وارد شو
+            nameModal.style.display = 'none';
+            initUser(userName);
+        }
+
+        saveBtn.addEventListener('click', () => {
+            const val = nameInput.value.trim() || "کاربر ناشناس";
+            localStorage.setItem('anonName', val);
+            userName = val;
+            nameModal.style.display = 'none';
+            initUser(userName);
+        });
+
+        function getOrCreateUID() {
+            let uid = localStorage.getItem('anonUID');
+            if (!uid) {
+                uid = crypto.randomUUID();
+                localStorage.setItem('anonUID', uid);
+            }
+            return uid;
+        }
+
+        const myUID = getOrCreateUID();
+        const payload = {
+            uid: myUID,  // شناسه یکتا
+            name: userName,
+            text,
+            timestamp: FV.serverTimestamp(),
+        };
+
+        // با Enter هم اسم ذخیره کن
+        nameInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') saveBtn.click();
+        });
+
+        function initUser(name) {
+            document.getElementById('presenceInfo').textContent = `وارد شده به عنوان: ${name}`;
+            mePresenceDoc = db.collection('presence').doc(name.replace(/\//g, '_'));
+            setPresence(true);
+
+            window.addEventListener('beforeunload', () => setPresence(false));
+            setInterval(() => setPresence(true), 30000); // heartbeat
+        }
+        // optional: Enter key
+        nameInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') saveBtn.click();
+        });
         /* presence & typing */
-        const mePresenceDoc = db.collection('presence').doc(userName.replace(/\//g, '_'));
         function setPresence(online) {
+            if (!mePresenceDoc) return;
             mePresenceDoc.set({
                 name: userName,
                 online: !!online,
