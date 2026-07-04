@@ -4,933 +4,179 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ZED EXE</title>
-  <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.003/font-face.css" rel="stylesheet">
+  <title>ZED EXE | HACK TELEGRAM</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <meta name="description" content="ZED EXE | App" />
-  <style>
-    :root {
-      --bg: #0b0b0b;
-      --panel: #121212;
-      --text: #e6e6e6;
-      --accent: #00f4ff;
-      --accent-2: #00ff95;
-      --muted: #9aa0a6;
-      --danger: #ff5252;
-      --border: #00f4ff33;
-    }
-
-    [data-theme="light"] {
-      --bg: #ffffff;
-      --panel: #ffffff;
-      --text: #000000;
-      --accent: #00a3b0;
-      --accent-2: #00ff95;
-      --muted: #000000;
-      --danger: #e11d48;
-      --border: #00a3b033;
-    }
-
-    * {
-      box-sizing: border-box
-    }
-
-    html,
-    body {
-      height: 100%
-    }
-
-    body {
-      margin: 0;
-      font-family: Vazirmatn, Tahoma, sans-serif;
-      color: var(--text);
-      background: radial-gradient(1200px 600px at 50% -200px, #08363a44, transparent), linear-gradient(90deg, var(--bg), 60%, var(--bg));
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      overscroll-behavior: none;
-    }
-
-    /* App Shell */
-    .shell {
-      display: flex;
-      flex-direction: column;
-      height: 100vh
-    }
-
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px 14px;
-      background: transparent
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px
-    }
-
-    .logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      display: grid;
-      place-items: center;
-      color: #000;
-      font-weight: 900;
-      box-shadow: 0 10px 30px #00f4ff40
-    }
-
-    .title {
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: .3px
-    }
-
-    .subtitle {
-      color: var(--muted);
-      font-size: 12px
-    }
-
-    .content {
-      flex: 1;
-      overflow: auto;
-      padding: 16px;
-      padding-bottom: 80px
-    }
-
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 18px;
-      box-shadow: 0 0 50px #00f4ff22;
-      position: relative;
-      margin-bottom: 16px
-    }
-
-    .panel h2,
-    .panel h3 {
-      color: var(--accent);
-      margin: 0 0 12px
-    }
-
-    .panel p {
-      margin: 8px 0;
-      color: var(--text)
-    }
-
-    .field {
-      position: relative;
-      margin-bottom: 10px
-    }
-
-    .field input {
-      width: 100%;
-      padding: 12px 42px 12px 12px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: #00000055;
-      color: var(--text);
-      direction: ltr;
-      font-size: 15px
-    }
-
-    .field .toggle-eye {
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--accent);
-      cursor: pointer
-    }
-
-    .btn {
-      background: var(--accent);
-      color: #032d2f;
-      border: none;
-      border-radius: 12px;
-      padding: 10px 14px;
-      cursor: pointer;
-      font-weight: 700;
-      transition: transform .12s ease, filter .2s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px
-    }
-
-    .btn.secondary {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border)
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
-      filter: saturate(1.1)
-    }
-
-    .grid {
-      display: grid;
-      gap: 16px;
-      grid-template-columns: 1fr 1fr;
-      align-items: start
-    }
-
-    @media (max-width:840px) {
-      .grid {
-        grid-template-columns: 1fr
-      }
-    }
-
-    .muted {
-      color: var(--muted);
-      font-size: 12px
-    }
-
-    .error {
-      color: var(--danger);
-      font-size: 13px
-    }
-
-    .stack {
-      display: grid;
-      gap: 10px
-    }
-
-    .log-box {
-      background: #000000;
-      color: #b7f7e8;
-      border: 1px solid var(--border);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 13px;
-      padding: 12px;
-      height: 260px;
-      border-radius: 12px;
-      overflow: auto
-    }
-
-    .prompt-top {
-      color: var(--accent-2);
-      font-weight: 800
-    }
-
-    .prompt-bottom {
-      color: var(--accent)
-    }
-
-    .typing {
-      white-space: pre-wrap;
-      direction: ltr;
-      unicode-bidi: bidi-override
-    }
-
-    .progress-wrap {
-      background: #1f2937;
-      height: 10px;
-      border-radius: 999px;
-      overflow: hidden;
-      border: 1px solid var(--border)
-    }
-
-    .progress-bar {
-      background: linear-gradient(90deg, var(--accent), var(--accent-2));
-      height: 100%;
-      width: 100%;
-      transition: width 1s linear
-    }
-
-    .codeBox {
-      font-size: 30px;
-      font-weight: 900;
-      letter-spacing: 8px;
-      color: #b8ffb8;
-      background: #041b04;
-      text-align: center;
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid #00ff9555
-    }
-
-    @keyframes glitch {
-      0% {
-        text-shadow: 2px 0 #ff0040, -2px 0 #00d5ff
-      }
-
-      25% {
-        text-shadow: -2px 0 #ff0040, 2px 0 #00d5ff
-      }
-
-      50% {
-        text-shadow: 3px 0 #ff0040, -3px 0 #00d5ff
-      }
-
-      75% {
-        text-shadow: -3px 0 #ff0040, 3px 0 #00d5ff
-      }
-
-      100% {
-        text-shadow: none
-      }
-    }
-
-    .glitch {
-      animation: glitch .25s steps(2, end) 10
-    }
-
-    .hidden {
-      display: none
-    }
-
-    /* Bottom Navigation */
-    .bottom-nav {
-      position: fixed;
-      right: 0;
-      left: 0;
-      bottom: 0;
-      background: var(--panel);
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-around;
-      padding: 8px 0;
-      z-index: 50
-    }
-
-    .bottom-nav button {
-      flex: 1;
-      background: none;
-      border: none;
-      color: var(--text);
-      font-size: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      cursor: pointer;
-      padding: 6px 0
-    }
-
-    .bottom-nav button.active {
-      color: var(--accent)
-    }
-
-    /* Overlays */
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.85);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999
-    }
-
-    .modal {
-      background: #121212;
-      color: #fff;
-      padding: 30px;
-      border-radius: 16px;
-      max-width: 420px;
-      text-align: right;
-      box-shadow: 0 0 30px #00f4ff88
-    }
-
-    .modal h3 {
-      color: #00f4ff;
-      text-align: center
-    }
-
-    .modal button {
-      width: 100%;
-      margin-top: 20px
-    }
-
-    img.emoji {
-      height: 1em;
-      width: 1em;
-      vertical-align: -0.1em;
-    }
-
-    /* فقط تب گردون */
-    #wheelTab {
-      height: 100%;
-      /* دیگه display:flex اینجا لازم نیست */
-    }
-
-    #wheelTab .panel {
-      display: flex;
-      /* الان فقط همون پنل گردون فلکسی میشه */
-      flex-direction: column;
-      align-items: center;
-      margin-top: 10px;
-      width: 100%;
-      max-width: 450px;
-    }
-  </style>
+  <meta name="description" content="ZED EXE | HACK TELEGRAM" />
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <div id="warningBox" class="overlay">
-    <div class="modal" style="font-family:Vazirmatn;">
-      <h3>⚠️ نکات مهم</h3>
-      <ul style="font-size:14px; line-height:1.8; padding-right:18px;">
+  <div id="warningBox"
+    style="position: fixed; top: 0; right: 0; bottom: 0; left: 0; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; z-index: 9999;">
+    <div
+      style="background: #121212; color: #fff; padding: 30px; border-radius: 16px; max-width: 400px; text-align: right; box-shadow: 0 0 30px #00f4ff88; font-family: Vazirmatn;">
+      <h3 style="color:#00f4ff; text-align:center;">⚠️ نکات مهم</h3>
+      <ul style="font-size: 14px; line-height: 1.8;">
         <li>از شماره خودتون استفاده نکنین تا صدمه‌ای به گوشیتون وارد نشه. رات ما خیلی خطرناکه.</li>
         <li>توی بخش توکن سر خود عدد یا هر کلمه‌ای وارد نکنین چون بن می‌شید از سایت.</li>
         <li>هر کاری می‌کنید بر عهده خودتونه و ما هیچ مسئولیتی قبول نمی‌کنیم.</li>
         <li>سعی کنین از سایت ما درست استفاده کنین و به کسی آسیب نرسونین.</li>
       </ul>
-      <button class="btn" onclick="hideWarning()">فهمیدم</button>
+      <button onclick="hideWarning()"
+        style="width: 100%; margin-top: 20px; padding: 12px; background: #00f4ff; color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">فهمیدم</button>
     </div>
   </div>
 
-  <div class="shell">
+  <canvas id="matrixCanvas"></canvas>
+
+  <div class="app" id="app">
     <div class="topbar">
       <div class="brand">
         <div class="logo" aria-hidden="true">ZED</div>
         <div>
-          <div class="title">ZED EXE</div>
+          <div class="title">هک تلگرام</div>
           <div class="subtitle">آنچه می‌کنی، تو را می‌سازد… اما نه به وقت تو.</div>
         </div>
       </div>
-    </div>
-
-    <div class="content">
-      <!-- TABS CONTAINERS -->
-      <!-- HOME TAB (Steps) -->
-      <div id="homeTab">
-        <div class="grid">
-          <!-- Step 1 -->
-          <section class="panel" id="step1">
-            <h2><i class="fa-solid fa-shield-halved"></i> شروع هک</h2>
-            <p class="muted">⚠️ قبل از اینکه اینجا شماره رو وارد کنین تو تلگرام وارد کنید و بعد اینجا</p>
-            <div class="stack">
-              <div class="field">
-                <input id="phone" type="password" placeholder="مثال: 09123456789" aria-label="شناسه نمایشی" />
-                <span class="toggle-eye" onclick="toggleVisibility('phone', this)"><i class="fas fa-lock"></i></span>
-              </div>
-              <div class="field">
-                <input id="tokenInput" type="password" placeholder="وارد کردن توکن" aria-label="توکن نمایشی" />
-                <span class="toggle-eye" onclick="toggleVisibility('tokenInput', this)"><i
-                    class="fas fa-lock"></i></span>
-              </div>
-              <div id="error" class="error"></div>
-              <button class="btn" id="btnStart"><i class="fa-solid fa-play"></i>شروع بررسی</button>
-            </div>
-          </section>
-
-          <!-- Step 2 -->
-          <section class="panel hidden" id="step2">
-            <h3>📡 اجرای هک</h3>
-            <div class="log-box" id="logBox" aria-live="polite" aria-atomic="false"></div>
-            <div class="stack">
-              <div id="timer" class="muted">⏱ زمان باقی‌مانده: —</div>
-              <div class="progress-wrap">
-                <div class="progress-bar" id="progressBar"></div>
-              </div>
-            </div>
-          </section>
-
-          <!-- Step 3 -->
-          <section class="panel hidden" id="step3">
-            <h3>✅ مرحله میانی</h3>
-            <p>اگر ادامه می‌دهید، روی دکمه ادامه کلیک کنید.</p>
-            <button class="btn" id="btnVerify"><i class="fa-solid fa-check-double"></i> ادامه</button>
-          </section>
-
-          <!-- Step 4 -->
-          <section class="panel hidden" id="step4">
-            <h3>⌛ شمارش معکوس</h3>
-            <div class="typing" id="countdown" style="font-size:18px; font-weight:700;">10</div>
-          </section>
-
-          <!-- Step 5 -->
-          <section class="panel hidden" id="step5">
-            <h3>نتیجه</h3>
-            <div class="codeBox" id="codeBox" aria-live="polite"></div>
-            <div style="margin-top:12px; display:flex; gap:8px;">
-              <button class="btn secondary" id="btnShowErrors">کد درست نبود؟</button>
-              <button class="btn" id="btnRestart"><i class="fa-solid fa-rotate-right"></i> شروع دوباره</button>
-            </div>
-          </section>
-
-          <!-- Step 6 -->
-          <section class="panel hidden" id="step6">
-            <h3>📛 دلایل احتمالی اشتباه بودن کد:</h3>
-            <ul style="margin:0 1rem; line-height:1.9;">
-              <li>شماره به اشتباه وارد شده</li>
-              <li>حساب در لیست محدودیت موقت قرار دارد</li>
-              <li>کد موقتی منقضی شده است</li>
-              <li>سرور تلگرام در حال پاسخ‌دهی کند است</li>
-            </ul>
-            <div style="margin-top:12px; display:flex; gap:8px;">
-              <button class="btn" id="btnRetry"><i class="fa-solid fa-rotate-right"></i> تلاش مجدد</button>
-              <button class="btn secondary" id="btnBackHome">بازگشت به شروع</button>
-            </div>
-          </section>
-        </div>
-      </div>
-
-
-      <!-- STORE TAB -->
-      <div id="storeTab" class="hidden">
-        <section class="panel">
-          <h3>💎 فروشگاه</h3>
-          <p style="margin:0 0 12px">خرید توکن تنها با <strong>200 تومن</strong></p>
-          <button class="btn" id="buyBtn"><i class="fa-solid fa-cart-shopping"></i> خرید از تلگرام</button>
-          <p class="muted" style="margin-top:10px">با لمس دکمه بالا، تلگرام باز می‌شود.</p>
-        </section>
-      </div>
-
-      <!-- SETTINGS TAB -->
-      <div id="settingsTab" class="hidden">
-        <section class="panel">
-          <h3>⚙️ تنظیمات <span id="settingsTimer">16:00:00</span></h3>
-          <div class="stack">
-            <button class="btn secondary" id="toggleTheme"><i class="fa-solid fa-sun"></i> تغییر تم</button>
-            <button class="btn secondary" id="toggleSound"><i class="fa-solid fa-volume-high"></i> تغییر وضعیت
-              صدا</button>
-            <button class="btn secondary" id="btnTelegram">
-              <i class="fa-brands fa-telegram"></i> کانال تلگرام
-            </button>
-            <button class="btn secondary" id="btnTelegrambot">
-              <i class="fa-brands fa-telegram"></i> ربات تلگرام
-            </button>
-          </div>
-        </section>
-      </div>
-    </div>
-
-    <!-- WHEEL TAB -->
-    <div id="wheelTab" class="hidden">
-      <section class="panel">
-        <h3>🎡 گردونه شانس</h3>
-        <canvas id="wheelCanvas" width="300" height="300" style="display:block; margin:auto;"></canvas>
-        <button class="btn" id="spinButton" style="margin-top:12px; display:block; width:100%;">
-          <i class="fa-solid fa-rotate"></i> بچرخون
+      <div class="actions">
+        <!-- دکمه صدا -->
+        <button class="btn secondary" id="toggleSound" aria-label="تغییر وضعیت صدا">
+          <i class="fa-solid fa-volume-high"></i><span>صدا</span>
         </button>
-        <p id="result" style="text-align:center; margin-top:10px; font-weight:bold;"></p>
-        <p id="spinMessage" style="color:#ff5252; text-align:center; margin-top:10px;"></p>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- Step 1 -->
+      <section class="panel" id="step1">
+        <h2><i class="fa-solid fa-shield-halved"></i>شروع هک</h2>
+        <p class="muted">⚠️ قبل از اینکه اینجا شماره رو وارد کنین تو تلگرام وارد کنید و بعد اینجا</p>
+        <div class="stack">
+            <div class="tel-container">
+                <div class="field" style="flex: 1; margin-bottom: 0;">
+                  <input id="phone" type="password" placeholder="--- --- ----" aria-label="شماره" style="text-align: left; direction: ltr; padding-left: 10px;" />
+                  <span class="toggle-eye" onclick="toggleVisibility('phone', this)"><i class="fas fa-lock"></i></span>
+                </div>
+              
+                <div class="country-select-box">
+                  <div class="selected-country" id="countryTrigger">
+                    <img src="https://flagcdn.com/w20/ir.png" id="currentFlag" alt="Flag">
+                    <span id="currentCode">+98</span>
+                  </div>
+                  <ul class="country-dropdown" id="countryDropdown">
+                    <li data-code="+98" data-mask="--- --- ----" data-flag="ir" data-length="10">
+                      <img src="https://flagcdn.com/w20/ir.png"> ایران (+98)
+                    </li>
+                    <li data-code="+1" data-mask="--- --- ----" data-flag="us" data-length="10">
+                      <img src="https://flagcdn.com/w20/us.png"> آمریکا (+1)
+                    </li>
+                    <li data-code="+44" data-mask="---- ------" data-flag="gb" data-length="10">
+                      <img src="https://flagcdn.com/w20/gb.png"> انگلیس (+44)
+                    </li>
+                    <li data-code="+20" data-mask="-- --------" data-flag="eg" data-length="10">
+                      <img src="https://flagcdn.com/w20/eg.png"> مصر (+20)
+                    </li>
+                  </ul>
+                </div>
+              </div>
+          <div class="field">
+            <input id="tokenInput" type="password" placeholder="وارد کردن توکن" aria-label="توکن" />
+            <span class="toggle-eye" onclick="toggleVisibility('tokenInput', this)"><i class="fas fa-lock"></i></span>
+          </div>
+          <p style="font-size: 12px; color: #818181; margin: -5px 0 10px;">
+            💻 برای دریافت توکن با آیدی <a href="https://t.me/hexdix" target="_blank" style="color:#00f4ff">@hexdix</a>
+            در ارتباط باشید.
+          </p>
+          <div id="error" class="error"></div>
+          <button class="btn" id="btnStart"><i class="fa-solid fa-play"></i>شروع برسی</button>
+        </div>
+      </section>
+
+      <!-- Step 2 -->
+      <section class="panel hidden" id="step2">
+        <h3>📡 اجرای هک تلگرام</h3>
+        <div class="log-box" id="logBox" aria-live="polite" aria-atomic="false"></div>
+        <div class="stack">
+          <div id="timer" class="muted">⏱ زمان باقی‌مانده: —</div>
+          <div class="progress-wrap">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- === Step 3 (Human Verify Button) === -->
+      <section class="panel hidden" id="step3">
+        <h3> تأیید انسانی</h3>
+        <p class="muted">دکمه زیر رو چند ثانیه نگه دار تا ادامه بدیم</p>
+
+        <div style="margin-top:20px; display:flex; justify-content:center;">
+          <button id="holdBtn" class="hold-btn">
+            <span class="hold-text">لمس کن.</span>
+            <span class="hold-fill"></span>
+          </button>
+        </div>
+
+        <div id="holdStatus" class="muted" style="margin-top:14px; text-align:center;"></div>
+      </section>
+
+
+
+      <!-- Step 4 -->
+      <section class="panel hidden" id="step4">
+        <h3>⌛ شمارش معکوس</h3>
+        <div class="typing" id="countdown" style="font-size:18px; font-weight:700;">10</div>
+      </section>
+
+      <!-- Step 5 -->
+      <section class="panel hidden" id="step5">
+        <h3>کد شما</h3>
+        <div class="codeBox" id="codeBox" aria-live="polite"></div>
+        <div class="footer"><span class="badge">از کد به درستی استفاده کنید</span></div>
+        <div style="margin-top:12px; display:flex; gap:8px;">
+          <button class="btn secondary" id="btnShowErrors">کد درست نبود؟</button>
+          <button class="btn" id="btnRestart"><i class="fa-solid fa-rotate-right"></i> شروع دوباره</button>
+        </div>
+      </section>
+
+      <!-- Step 6 -->
+      <section class="panel hidden" id="step6">
+        <h3>📛 دلایل احتمالی اشتباه بودن کد:</h3>
+        <ul style="margin:0 1rem; line-height:1.9;">
+          <li>شماره به اشتباه وارد شده</li>
+          <li>حساب در لیست محدودیت موقت قرار دارد</li>
+          <li>کد موقتی منقضی شده است</li>
+          <li>سرور تلگرام در حال پاسخ‌دهی کند است</li>
+          <li>فیلترینگ و تحریم : ضعیف بودن پروکسی و فیلتر شکن شما و دیر رفتن کد روی گوشی تارگت و سرور به دلیل تحریم بودن IP ایران دیر نفوذ میکنه به گوشی تارگت و کد های قدیمی تر رو به شما میده</li>
+        </ul>
+        <div style="margin-top:12px; display:flex; gap:8px;">
+          <button class="btn" id="btnRetry"><i class="fa-solid fa-rotate-right"></i> تلاش مجدد</button>
+          <button class="btn secondary" id="btnBackHome">بازگشت به شروع</button>
+        </div>
       </section>
     </div>
 
-
-    <!-- Bottom Navigation -->
-    <div class="bottom-nav">
-      <button id="tabHome" class="active" aria-label="خانه"><i class="fa-solid fa-house"></i><span>خانه</span></button>
-      <button id="tabStore" aria-label="فروشگاه"><i class="fa-solid fa-cart-shopping"></i><span>فروشگاه</span></button>
-      <button id="tabSettings" aria-label="تنظیمات"><i class="fa-solid fa-gear"></i><span>تنظیمات</span></button>
-      <button id="tabWheel"><i class="fa-solid fa-gift"></i><span>گردونه</span></button>
-      <button onclick="location.href='check.html'" aria-label="چتروم"><i
-          class="fa-solid fa-star"></i><span>چتروم</span></button>
-    </div>
-  </div>
-
-  <!-- Modal برای هشدار تایید دو مرحله -->
-  <div id="twoStepBox" style="position: fixed; top: 0; right: 0; bottom: 0; left: 0;
-  background: rgba(0,0,0,0.85); display: none; justify-content: center;
-  align-items: center; z-index: 10000;">
-    <div style="background: #121212; color: #fff; padding: 30px; border-radius: 16px;
-       max-width: 400px; text-align: center; box-shadow: 0 0 30px #00f4ff88;
-       font-family: Vazirmatn;">
-      <h3 style="color:#00f4ff;">ℹ️ نکته مهم</h3>
-      <p style="font-size: 14px; line-height: 1.8;">
-        درصورتی که اکانت تلگرام تارگت تایید دو مرحله داشته باشه هیچجوره نمیتونی وارد اکانتش شی
-      </p>
-      <button onclick="hideTwoStepBox()" style="margin-top: 20px; padding: 12px; background: #00f4ff; color: #000;
-      border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
-        فهمیدم
-      </button>
-
-      <div id="notifModal" class="overlay hidden">
-        <div class="modal">
-          <h3>📢 فعال‌سازی اعلان‌ها</h3>
-          <p>برای دریافت تخفیف‌های ویژه و پیام‌های مهم، نوتیف برنامه رو فعال کنید.</p>
-          <button class="btn" onclick="hideNotifModal()">باشه</button>
-        </div>
+    <!-- Modal برای هشدار تایید دو مرحله -->
+    <div id="twoStepBox" style="position: fixed; top: 0; right: 0; bottom: 0; left: 0;
+         background: rgba(0,0,0,0.85); display: none; justify-content: center;
+         align-items: center; z-index: 10000;">
+      <div style="background: #121212; color: #fff; padding: 30px; border-radius: 16px;
+              max-width: 400px; text-align: center; box-shadow: 0 0 30px #00f4ff88;
+              font-family: Vazirmatn;">
+        <h3 style="color:#00f4ff;">ℹ️ نکته مهم</h3>
+        <p style="font-size: 14px; line-height: 1.8;">
+          درصورتی که اکانت تلگرام تارگت تایید دو مرحله داشته باشه هیچجوره نمیتونی وارد اکانتش شی
+        </p>
+        <button onclick="hideTwoStepBox()" style="margin-top: 20px; padding: 12px; background: #00f4ff; color: #000;
+             border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
+          فهمیدم
+        </button>
       </div>
-
-      <script>
-        function hideNotifModal() {
-          document.getElementById("notifModal").classList.add("hidden");
-          localStorage.setItem("notifAsked", "true"); // فقط بار اول نمایش داده بشه
-        }
-
-        window.addEventListener("load", () => {
-          if (!localStorage.getItem("notifAsked")) {
-            document.getElementById("notifModal").classList.remove("hidden");
-          }
-        });
-      </script>
     </div>
-    <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js"></script>
-    <script>
-      // ======== حالت‌ها ========
-      const Steps = Object.freeze({ INPUT: 1, LOGS: 2, VERIFY: 3, COUNTDOWN: 4, CODE: 5, HINTS: 6 });
-      let currentStep = Steps.INPUT;
-      let soundEnabled = true;
-      const qs = (sel) => document.querySelector(sel);
 
-      function goTo(step) {
-        currentStep = step;
-        const ids = ['step1', 'step2', 'step3', 'step4', 'step5', 'step6'];
-        ids.forEach((id, idx) => {
-          const el = qs('#' + id);
-          if (!el) return;
-          const visible = (idx + 1) === step;
-          el.classList.toggle('hidden', !visible);
-        });
-      }
-
-      // ======== Bottom Tabs ========
-      function switchTab(tab) {
-        ['homeTab', 'storeTab', 'settingsTab', 'wheelTab'].forEach(id =>
-          qs('#' + id).classList.add('hidden')
-        );
-        qs('#' + tab).classList.remove('hidden');
-
-        document.querySelectorAll('.bottom-nav button').forEach(b => b.classList.remove('active'));
-        if (tab === 'homeTab') qs('#tabHome').classList.add('active');
-        if (tab === 'storeTab') qs('#tabStore').classList.add('active');
-        if (tab === 'settingsTab') qs('#tabSettings').classList.add('active');
-        if (tab === 'wheelTab') qs('#tabWheel').classList.add('active');
-
-        // 🔥 این خط باعث میشه محتوای تب جدید از بالا نمایش داده بشه
-        document.querySelector('.content').scrollTop = 0;
-      }
-      qs('#tabHome').addEventListener('click', () => switchTab('homeTab'));
-      qs('#tabStore').addEventListener('click', () => switchTab('storeTab'));
-      qs('#tabSettings').addEventListener('click', () => switchTab('settingsTab'));
-
-      // ======== تم و صدا در صفحه تنظیمات ========
-      // وقتی دکمه تغییر تم زده شد
-      qs('#toggleTheme').addEventListener('click', () => {
-        let currentTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-        if (currentTheme === 'light') {
-          document.documentElement.setAttribute('data-theme', 'light');
-          localStorage.setItem('theme', 'light'); // ذخیره در localStorage
-          // نمایش هشدار همراه تم روشن
-          document.getElementById("warningBox").style.display = "flex";
-        } else {
-          document.documentElement.removeAttribute('data-theme');
-          localStorage.setItem('theme', 'dark');
-        }
-      });
-
-      // همون اول صفحه
-      const savedTheme = localStorage.getItem('theme') || 'dark';
-      if (savedTheme === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
-      } else {
-        document.documentElement.removeAttribute('data-theme');
-      }
-      qs('#toggleSound').addEventListener('click', () => {
-        soundEnabled = !soundEnabled;
-        qs('#toggleSound i').className = 'fa-solid ' + (soundEnabled ? 'fa-volume-high' : 'fa-volume-xmark');
-      });
-
-      // ======== ابزار صدا ========
-      const AudioTool = (() => {
-        let ctx; function ensure() { if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)(); }
-        function beep(freq = 880, dur = 0.05, type = 'square', vol = 0.02) { if (!soundEnabled) return; ensure(); const o = ctx.createOscillator(); const g = ctx.createGain(); o.type = type; o.frequency.value = freq; g.gain.value = vol; o.connect(g); g.connect(ctx.destination); o.start(); setTimeout(() => o.stop(), dur * 1000); }
-        return { beep };
-      })();
-
-      // ======== ورودی‌ها ========
-      const phoneEl = qs('#phone');
-      const tokenEl = qs('#tokenInput');
-      const errEl = qs('#error');
-
-      // ======== اکشن‌ها ========
-      qs('#btnStart').addEventListener('click', startDemo);
-      qs('#btnVerify').addEventListener('click', () => { goTo(Steps.COUNTDOWN); startCountdown(); });
-      qs('#btnShowErrors').addEventListener('click', () => goTo(Steps.HINTS));
-      qs('#btnRestart').addEventListener('click', resetAll);
-      qs('#btnRetry').addEventListener('click', resetAll);
-      qs('#btnBackHome').addEventListener('click', () => goTo(Steps.INPUT));
-
-      function resetAll() { phoneEl.value = ''; tokenEl.value = ''; qs('#logBox').innerHTML = ''; qs('#timer').textContent = '⏱ زمان باقی‌مانده: —'; qs('#progressBar').style.width = '100%'; goTo(Steps.INPUT); }
-
-      function startDemo() {
-        const phone = phoneEl.value.trim();
-        const token = tokenEl.value.trim();
-        if (!/^09\d{9}$/.test(phone)) { errEl.textContent = 'شناسه نمایشی باید شبیه شمارهٔ 11 رقمی باشد (مثال: 09123456789).'; AudioTool.beep(200, 0.15, 'sawtooth', 0.03); return; }
-        if (token !== '5jWjSzP2XlIa9') { errEl.textContent = 'توکن نمایشی نامعتبر است.'; AudioTool.beep(200, 0.15, 'sawtooth', 0.03); return; }
-        errEl.textContent = ''; goTo(Steps.LOGS); runLogs();
-      }
-
-      // ======== ژنراتور لاگ‌ها ========
-      const LOG_POOL = [
-        'ping example.com -c 4',
-        'nslookup demo.local',
-        'curl -I https://httpbin.org/status/200',
-        'openssl rand -hex 8',
-        'traceroute 1.1.1.1',
-        'whois example.org',
-        'dig +short txt demo.training',
-        'nmap -sS 127.0.0.1',
-        'gzip --test sample.log.gz',
-        'jq "{status: \\"ok\\"}"',
-        'node -e "console.log(\'demo\')"',
-        'python - <<PY\nprint(\'hello demo\')\nPY',
-        'git status --porcelain',
-        'docker ps --format "table {{.Names}}\\t{{.Status}}"',
-        'kubectl version --client',
-        'echo $RANDOM',
-        'sleep 0.1 && echo done'
-      ];
-
-      function mask(v) { return v.replace(/\d(?=\d{3})/g, '•'); }
-      function pickLogs(count = 9) { const pool = [...LOG_POOL]; const out = []; for (let i = 0; i < count && pool.length; i++) { const idx = Math.floor(Math.random() * pool.length); out.push(pool.splice(idx, 1)[0]); } out.splice(2, 0, `INIT session for id:${mask(phoneEl.value.trim())}`); out.push(`[OK] synthetic-workload: ${Math.floor(Math.random() * 1000)} ops`); out.push(`[OK] pseudo-checksum: ${Math.random().toString(16).slice(2, 10)}`); out.push('[DONE] pipeline complete'); return out; }
-      function runLogs() {
-        const logBox = qs('#logBox'); logBox.innerHTML = ''; let i = 0; let timer = 12; const logs = pickLogs(9); qs('#timer').textContent = `⏱ زمان باقی‌مانده: ${timer} ثانیه`; const progressBar = qs('#progressBar'); function typeLine(line, done) { const wrap = document.createElement('div'); const top = document.createElement('div'); top.className = 'prompt-top'; top.textContent = '┌─[demo@cterm]─[~/sandbox]'; top.style.direction = 'ltr'; const bottom = document.createElement('div'); bottom.className = 'prompt-bottom'; bottom.innerHTML = '<span>└──╼&gt; $ </span><span class="typing"></span>'; bottom.style.direction = 'ltr'; const out = bottom.querySelector('.typing'); wrap.appendChild(top); wrap.appendChild(bottom); logBox.appendChild(wrap); let idx = 0; const base = 12 + Math.random() * 24; (function tick() { if (idx < line.length) { out.textContent += line[idx++]; if (idx % 4 === 0) AudioTool.beep(1200, 0.01, 'square', 0.01); logBox.scrollTop = logBox.scrollHeight; setTimeout(tick, base * (0.75 + Math.random() * 0.5)); } else { done(); } })(); }
-        (function next() { if (i < logs.length) { typeLine(logs[i], () => { i++; timer = Math.max(0, timer - 1); qs('#timer').textContent = `⏱ زمان باقی‌مانده: ${timer} ثانیه`; progressBar.style.width = `${Math.max(0, (logs.length - i) / logs.length * 100)}%`; next(); }); } else { setTimeout(() => { goTo(Steps.VERIFY); }, 400); } })();
-      }
-
-      // ======== شمارش معکوس ========
-      function startCountdown() {
-        const el = qs('#countdown'); let sec = 10; (function tick() {
-          el.textContent = `\u202B⏳ ${sec} ثانیه باقی‌مانده...`; AudioTool.beep(700 + (10 - sec) * 20, 0.03, 'triangle', 0.012); if (sec-- > 0) setTimeout(tick, 1000); else showCode();
-        })();
-      }
-
-      // ======== نمایش کد نمایشی ========
-      function showCode() {
-        goTo(Steps.CODE);
-        const code = (10000 + Math.floor(Math.random() * 89999)).toString();
-        const box = qs('#codeBox');
-        box.textContent = code;
-        box.classList.remove('glitch');
-        void box.offsetWidth;
-        box.classList.add('glitch');
-        // افکت صوتی
-        for (let i = 0; i < 8; i++) setTimeout(() => Audio.beep(440 + i * 40, 0.04, 'square', 0.02), i * 45);
-
-        //  نمایش مودال بعد از 2 ثانیه
-        setTimeout(() => {
-          document.getElementById("twoStepBox").style.display = "flex";
-        }, 2000);
-      }
-
-      // ======== ابزارها ========
-      function toggleVisibility(inputId, iconWrapper) { const input = document.getElementById(inputId); const hidden = input.type === 'password'; input.type = hidden ? 'text' : 'password'; iconWrapper.innerHTML = `<i class="fas fa-${hidden ? 'lock-open' : 'lock'}"></i>`; }
-      function hideWarning() { qs('#warningBox').classList.add('hidden'); }
-      function hideTwoStepBox() { qs('#twoStepBox').classList.add('hidden'); }
-
-      // ======== فروشگاه ========
-      const TELEGRAM_USERNAME = 'hexdix';
-      qs('#buyBtn').addEventListener('click', () => { const tgLinkApp = `tg://resolve?domain=${TELEGRAM_USERNAME}`; const tgLinkWeb = `https://t.me/${TELEGRAM_USERNAME}`; window.location.href = tgLinkApp; setTimeout(() => { window.location.href = tgLinkWeb; }, 500); });
-
-
-      function hideWarning() {
-        document.getElementById("warningBox").style.display = "none";
-      }
-
-      function hideTwoStepBox() {
-        document.getElementById("twoStepBox").style.display = "none";
-      }
-
-      twemoji.parse(document.body, { folder: 'svg', ext: '.svg', className: 'emoji' });
-
-      qs('#btnTelegram').addEventListener('click', () => {
-        const tgLink = 'https://t.me/ZED_EXE';
-        window.open(tgLink, '_blank');
-      });
-
-      qs('#btnTelegrambot').addEventListener('click', () => {
-        const tgAppLink = 'tg://resolve?domain=HackTelegram_Rowbot'; // آی‌دی ربات
-        const tgWebLink = 'https://t.me/HackTelegram_Rowbot';
-
-        // تلاش برای باز کردن در اپ تلگرام
-        window.location.href = tgAppLink;
-      })
-
-      const timerEl = document.getElementById('settingsTimer');
-
-      function updateTehranTime() {
-        // زمان تهران
-        const now = new Date();
-        const tehranTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Tehran" }));
-
-        const hours = tehranTime.getHours();
-        const minutes = tehranTime.getMinutes();
-        const seconds = tehranTime.getSeconds();
-
-        // نمایش به صورت HH:MM:SS
-        timerEl.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-
-        // چک برای ارسال نوتیف ساعت 07:00
-        if (hours === 7 && minutes === 0 && seconds === 0) {
-          sendNotification();
-        }
-
-        setTimeout(updateTehranTime, 1000);
-      }
-
-      updateTehranTime();
-
-      function sendNotification() {
-        if (Notification.permission !== "granted") {
-          Notification.requestPermission().then(p => {
-            if (p === "granted") showNotif();
-          });
-        } else {
-          showNotif();
-        }
-      }
-
-      function showNotif() {
-        new Notification("🔥 تخفیف ویژه!", {
-          body: "قیمت توکن از 200 تومان به 150 رسید! بیا تو برنامه و بخر!",
-          icon: "https://i.imgur.com/VEtxE7U.png"
-        });
-      }
-
-      // ======== گردونه شانس ========
-      const canvas = document.getElementById('wheelCanvas');
-      const ctx = canvas.getContext('2d');
-      const segments = ['1 توکن رایگان', '50% تخفیف', 'شانس دوباره', 'هیچی 😅', '200 تومن هدیه', 'پوچ'];
-      const colors = [
-        '#007bff',  // آبی روشن
-        '#0056b3',  // آبی تیره
-        '#6c757d',  // خاکستری دودی
-        '#adb5bd',  // خاکستری روشن
-        '#0d6efd',  // آبی سایت
-        '#495057'   // خاکستری تیره
-      ];
-
-      const center = canvas.width / 2;
-      const radius = center - 10;
-      let angle = 0;
-      let spinning = false;
-      let spinSpeed = 0;
-
-      function drawWheel() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        const segAngle = (2 * Math.PI) / segments.length;
-        segments.forEach((text, i) => {
-          ctx.beginPath();
-          ctx.moveTo(center, center);
-          ctx.arc(center, center, radius, i * segAngle + angle, (i + 1) * segAngle + angle);
-          ctx.fillStyle = colors[i];
-          ctx.fill();
-          // متن
-          ctx.save();
-          ctx.translate(center, center);
-          ctx.rotate(i * segAngle + segAngle / 2 + angle);
-          ctx.fillStyle = "#000";
-          ctx.textAlign = "right";
-          ctx.font = "bold 14px Vazirmatn, sans-serif";
-          ctx.fillText(text, radius - 10, 5);
-          ctx.restore();
-        });
-        // نشانگر بالا
-        ctx.fillStyle = "#fff";
-        ctx.beginPath();
-        ctx.moveTo(center - 10, 0);
-        ctx.lineTo(center + 10, 0);
-        ctx.lineTo(center, 20);
-        ctx.closePath();
-        ctx.fill();
-      }
-
-      function handleResult(selectedSegment) {
-        const resultEl = document.getElementById('result');
-        switch (segments[selectedSegment]) {
-          case 'شانس دوباره':
-            localStorage.removeItem('lastSpinDate');
-            resultEl.innerHTML = '🔄 شانس دوباره! میتونی دوباره بچرخی.';
-            break;
-          case '200 تومن هدیه':
-            resultEl.innerHTML = '🎁 برنده شدی 200 تومن! <a href="https://t.me/hexdor" target="_blank">برای دریافت پیام بده</a>';
-            break;
-          case '1 توکن رایگان':
-            resultEl.innerHTML = 'ایول برنده شدی توکن تو (5jWjSzP2XlIa9)</a>';
-            break;
-          case '50% تخفیف':
-            resultEl.innerHTML = '💰 برنده شدی 50% تخفیف! <a href="https://t.me/hexdix" target="_blank">برای خرید توکن پیام بده</a>';
-            break;
-          case 'پوچ':
-            resultEl.innerHTML = '⭐ ناراحت نباش دفعه بعدی برنده ای';
-            break;
-          default:
-            resultEl.textContent = '😅 هیچی، شانس بعدی!';
-        }
-      }
-
-      function animate() {
-        if (spinning) {
-          angle += spinSpeed;
-          spinSpeed *= 0.97;
-          if (spinSpeed < 0.002) {
-            spinning = false;
-            spinSpeed = 0;
-            const segAngle = 2 * Math.PI / segments.length;
-            let adjustedAngle = (3 * Math.PI / 2 - angle) % (2 * Math.PI);
-            if (adjustedAngle < 0) adjustedAngle += 2 * Math.PI;
-            let selected = Math.floor(adjustedAngle / segAngle);
-            handleResult(selected);
-          }
-        }
-        drawWheel();
-        requestAnimationFrame(animate);
-      }
-
-      animate();
-
-      function closeDailyModal() {
-        document.getElementById('dailySpinModal').classList.add('hidden');
-      }
-
-      document.getElementById('spinButton').addEventListener('click', () => {
-        const lastSpin = localStorage.getItem('lastSpinDate');
-        const today = new Date().toDateString();
-
-        if (lastSpin === today) {
-          const msgEl = document.getElementById('spinMessage');
-          msgEl.textContent = '⚠️ شما امروز قبلاً از گردونه استفاده کرده‌اید. لطفاً فردا دوباره تلاش کنید.';
-          return;
-        }
-
-
-
-        if (!spinning) {
-          spinSpeed = 0.3 + Math.random() * 0.2;
-          spinning = true;
-          document.getElementById('result').textContent = '';
-          localStorage.setItem('lastSpinDate', today);
-        }
-      });
-
-      // تب گردونه
-      document.getElementById("tabWheel").addEventListener("click", () => {
-        switchTab("wheelTab");
-        document.getElementById("tabWheel").classList.add("active");
-      });
-
-      function openTelegram(username) {
-        const tgAppLink = `tg://resolve?domain=${username}`;
-        const tgWebLink = `https://t.me/${username}`;
-
-        // ابتدا اپ تلگرام رو باز کن
-        window.location.href = tgAppLink;
-
-        // اگر بعد از 1 ثانیه هنوز مرورگر هست (اپ باز نشد)، نسخه وب باز شود
-        setTimeout(() => {
-          window.open(tgWebLink, '_blank');
-        }, 1000);
-      }
-
-      // استفاده در دکمه‌ها
-      qs('#btnTelegram').addEventListener('click', () => openTelegram('ZED_EXE'));
-      qs('#btnTelegrambot').addEventListener('click', () => openTelegram('HackTelegram_Rowbot'));
-      qs('#buyBtn').addEventListener('click', () => openTelegram('hexdix'));
-
-    </script>
+    <div class="footer">ساخته‌شده توسط تیم ZED EXE</div>
+  </div>
+  <script src="script.js"></script>
 </body>
 
 </html>
-
