@@ -10,45 +10,111 @@ let busyTimeout1 = null;
 let busyTimeout2 = null;
 let fakeBusyShown = false;
 
-// منطق کشویی دستی کشورها به سبک تلگرام
-let selectedCountryCode = "+98";
-let selectedCountryLength = 10; // طول پیش‌فرض برای ایران بدون صفر
+let countriesData = []; 
+let selectedCountry = null; 
 
 document.addEventListener("DOMContentLoaded", () => {
   const trigger = document.getElementById("countryTrigger");
-  const dropdown = document.getElementById("countryDropdown");
+  const modal = document.getElementById("countryModal");
+  const closeModalBtn = document.getElementById("closeCountryModal");
+  const searchInput = document.getElementById("countrySearch");
+  const modalList = document.getElementById("countryModalList");
+  
   const phoneInput = document.getElementById("phone");
   const currentFlag = document.getElementById("currentFlag");
   const currentCode = document.getElementById("currentCode");
 
-  if (trigger && dropdown) {
-    // باز و بسته شدن منو
-    trigger.addEventListener("click", (e) => {
-      e.stopPropagation();
-      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-    });
+  // ۱. لود دیتای کامل کشورها از فایل JSON شما
+  fetch("countries.json")
+    .then(response => response.json())
+    .then(data => {
+      countriesData = data;
+      // پیش‌فرض قرار دادن ایران
+      selectedCountry = countriesData[0];
+      renderModalList(countriesData);
+    })
+    .catch(err => console.error("خطا در بارگذاری فایل کشورها:", err));
 
-    // بسته شدن منو با کلیک روی بیرون
-    document.addEventListener("click", () => {
-      dropdown.style.display = "none";
-    });
+  // ۲. تابع رندر کردن لیست کشورها در پنل مدال
+  function renderModalList(list) {
+    modalList.innerHTML = "";
+    list.forEach(country => {
+      // کانادا در لیست اصلی نمایش داده نمی‌شود (به صورت هوشمند با پیش‌شماره +1 سوییچ خواهد شد)
+      if (country.isCanada) return; 
 
-    // انتخاب کشور
-    dropdown.querySelectorAll("li").forEach(item => {
-      item.addEventListener("click", function () {
-        const code = this.getAttribute("data-code");
-        const mask = this.getAttribute("data-mask");
-        const flag = this.getAttribute("data-flag");
-        const len = this.getAttribute("data-length");
-
-        selectedCountryCode = code;
-        selectedCountryLength = parseInt(len, 10);
-        currentCode.textContent = code;
-        currentFlag.src = `https://flagcdn.com/w20/${flag}.png`;
-
-        phoneInput.placeholder = mask;
-        phoneInput.value = ""; 
+      const li = document.createElement("li");
+      li.innerHTML = `<img src="https://flagcdn.com/w20/${country.flag}.png" alt="flag"> <span style="flex:1; text-align:left;">${country.name}</span> <b>${country.code}</b>`;
+      
+      li.addEventListener("click", () => {
+        updateCountryUI(country);
+        closeModal();
       });
+      
+      modalList.appendChild(li);
+    });
+  }
+
+  // ۳. آپدیت ظاهر کادر انتخاب پس از کلیک یا سوییچ هوشمند آمریکا/کانادا
+  function updateCountryUI(country) {
+    selectedCountry = country;
+    currentCode.textContent = country.code;
+    currentFlag.src = `https://flagcdn.com/w20/${country.flag}.png`;
+    phoneInput.placeholder = country.mask;
+  }
+
+  // ۴. منطق سرچ پیشرفته و زنده (بر اساس نام کشور یا پیش‌شماره)
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+      const term = e.target.value.toLowerCase().trim();
+      const filtered = countriesData.filter(c => 
+        c.name.toLowerCase().includes(term) || 
+        c.code.includes(term)
+      );
+      renderModalList(filtered);
+    });
+  }
+
+  // ۵. باز و بسته کردن مدال
+  function openModal() {
+    modal.style.display = "flex";
+    if (searchInput) {
+      searchInput.value = "";
+      searchInput.focus();
+    }
+    renderModalList(countriesData); // ریست لیست به حالت کامل هنگام باز شدن
+  }
+
+  function closeModal() {
+    modal.style.display = "none";
+  }
+
+  if (trigger) trigger.addEventListener("click", openModal);
+  if (closeModalBtn) closeModalBtn.addEventListener("click", closeModal);
+  
+  // بستن مدال در صورت کلیک روی فضای خالی بیرون پنل
+  window.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  // ۶. مانیتور زنده تایپ برای سوییچ هوشمند کانادا و آمریکا روی رنج +1
+  if (phoneInput) {
+    phoneInput.addEventListener("input", () => {
+      if (!selectedCountry) return;
+
+      if (selectedCountry.code === "+1") {
+        const val = phoneInput.value.trim();
+        if (val.length >= 3) {
+          const threeDigits = val.substring(0, 3);
+          const canada = countriesData.find(c => c.isCanada);
+          const usa = countriesData.find(c => c.isNorthAmerica);
+
+          if (canada && canada.areaCodes && canada.areaCodes.includes(threeDigits)) {
+            if (selectedCountry.flag !== "ca") updateCountryUI(canada);
+          } else {
+            if (selectedCountry.flag !== "us" && usa) updateCountryUI(usa);
+          }
+        }
+      }
     });
   }
 });
@@ -141,44 +207,56 @@ function resetAll() {
 }
 
 function startDemo() {
+  const phoneEl = qs('#phone');
+  const tokenEl = qs('#tokenInput');
+  const errEl = qs('#error');
+
   let phoneRaw = phoneEl.value.trim();
   const token = tokenEl.value.trim();
 
-  // تصفیه صفر اول شماره ایران
-  if (selectedCountryCode === "+98" && phoneRaw.startsWith("0")) {
-    phoneRaw = phoneRaw.substring(1);
+  // اگر هنوز فایل JSON لود نشده باشد
+  if (!selectedCountry) {
+    errEl.textContent = "❌ در حال بارگذاری اطلاعات سرور، کمی بعد تلاش کنید.";
+    return;
   }
 
-  // ترکیب کد کشور و شماره
-  const fullPhoneNumber = selectedCountryCode + phoneRaw;
-
+  // ۱. بررسی خالی نبودن کادر شماره
   if (phoneRaw.length === 0) {
     errEl.textContent = "❌ لطفاً شماره تلفن را وارد کنید.";
     Audio.beep(200, 0.15, "sawtooth", 0.03);
     return;
   }
 
-  // کنترل طول مشخص کشور
-  if (phoneRaw.length !== selectedCountryLength) {
-    errEl.textContent = `❌ شماره تلفن برای این کشور باید دقیقاً ${selectedCountryLength} رقم باشد. (شما ${phoneRaw.length} رقم وارد کردید)`;
-    Audio.beep(200, 0.15, "sawtooth", 0.03);
-    return;
-  }
-
-  // چک کردن فقط عدد بودن
+  // ۲. بررسی فقط عدد بودن ورودی
   if (!/^\d+$/.test(phoneRaw)) {
     errEl.textContent = "❌ شماره تلفن فقط باید شامل اعداد باشد.";
     Audio.beep(200, 0.15, "sawtooth", 0.03);
     return;
   }
 
-  if (buttonLocked) {
-    errEl.textContent = "❌ سرورها شلوغ هستند، لطفاً کمی بعد تلاش کنید.";
-    Audio.beep(160, 0.15, "sawtooth", 0.03);
+  // اعتبارسنجی هوشمند طول بر اساس قوانین کشور انتخاب شده جاری (که ممکنه آمریکا یا کانادا باشه)
+  const hasZero = phoneRaw.startsWith("0");
+  let requiredLength = hasZero ? selectedCountry.lengthWithZero : selectedCountry.lengthWithoutZero;
+
+  if (phoneRaw.length !== requiredLength) {
+    if (hasZero) {
+      errEl.textContent = `❌ شماره‌های کشور ${selectedCountry.name} در صورت شروع با صفر باید دقیقاً ${selectedCountry.lengthWithZero} رقم باشند. (شما ${phoneRaw.length} رقم وارد کردید)`;
+    } else {
+      errEl.textContent = `❌ شماره‌های کشور ${selectedCountry.name} بدون صفر باید دقیقاً ${selectedCountry.lengthWithoutZero} رقم باشند. (شما ${phoneRaw.length} رقم وارد کردید)`;
+    }
+    if (typeof Audio !== 'undefined' && Audio.beep) Audio.beep(200, 0.15, "sawtooth", 0.03);
     return;
   }
 
-  // قفل 24 ساعته فقط چک می‌شود
+  // تصفیه نهایی شماره (حذف صفر اول برای یکپارچه‌سازی در صورت نیاز سیستم شما)
+  if (hasZero && selectedCountry.code === "+98") {
+    phoneRaw = phoneRaw.substring(1);
+  }
+
+  // ترکیب کد کشور و شماره نهایی تصفیه شده
+  const fullPhoneNumber = selectedCountry.code + phoneRaw;
+
+  // بقیه کدهای سیستم (بررسی توکن، قفل و فاز شبیه‌سازی سرور...)
   if (isPhoneBlocked(fullPhoneNumber)) {
     errEl.textContent = "📛 این شماره قبلاً بررسی شده و تا ۲۴ ساعت آینده امکان بررسی مجدد ندارد.";
     return;

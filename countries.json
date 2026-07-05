@@ -1,0 +1,2001 @@
+[
+    {
+        "name": "ایران",
+        "code": "+98",
+        "flag": "ir",
+        "mask": "--- --- ----",
+        "lengthWithZero": 11,
+        "lengthWithoutZero": 10
+    },
+    {
+        "name": "آمریکا",
+        "code": "+1",
+        "flag": "us",
+        "mask": "--- --- ----",
+        "lengthWithZero": 10,
+        "lengthWithoutZero": 10,
+        "isNorthAmerica": true
+    },
+    {
+        "name": "کانادا",
+        "code": "+1",
+        "flag": "ca",
+        "mask": "--- --- ----",
+        "lengthWithZero": 10,
+        "lengthWithoutZero": 10,
+        "isCanada": true,
+        "areaCodes": [
+            "416",
+            "647",
+            "905",
+            "289",
+            "514",
+            "438",
+            "604",
+            "778",
+            "686",
+            "808",
+            "606"
+        ]
+    },
+    {
+        "name": "انگلیس",
+        "code": "+44",
+        "flag": "gb",
+        "mask": "---- ------",
+        "lengthWithZero": 10,
+        "lengthWithoutZero": 10
+    },
+    {
+        "name": "مصر",
+        "code": "+20",
+        "flag": "eg",
+        "mask": "-- --------",
+        "lengthWithZero": 11,
+        "lengthWithoutZero": 10
+    },
+    {
+        "name": "روسیه",
+        "code": "+7",
+        "flag": "ru",
+        "mask": "--- --- ----",
+        "lengthWithZero": 11,
+        "lengthWithoutZero": 10
+    },
+    {
+        "name": "عراق",
+        "code": "+964",
+        "flag": "iq",
+        "mask": "--- --- ----",
+        "lengthWithZero": 11,
+        "lengthWithoutZero": 10
+    },
+    {
+        "name": "ترکیه",
+        "code": "+90",
+        "flag": "tr",
+        "mask": "--- --- ----",
+        "lengthWithZero": 11,
+        "lengthWithoutZero": 10
+    },
+    {
+        "name": "آلمان",
+        "code": "+49",
+        "flag": "de",
+        "mask": "---- --------",
+        "lengthWithZero": 11,
+        "lengthWithoutZero": 10
+    },
+    {
+        "name": "عربستان",
+        "code": "+966",
+        "flag": "sa",
+        "mask": "-- --- ----",
+        "lengthWithZero": 10,
+        "lengthWithoutZero": 11
+    },
+    {
+        "name": "افغانستان",
+        "code": "+93",
+        "flag": "af",
+        "mask": "--- --- ----",
+        "lengthWithZero": 10,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "آلبانی",
+        "code": "+355",
+        "flag": "al",
+        "mask": "--- --- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "الجزایر",
+        "code": "+213",
+        "flag": "dz",
+        "mask": "-- --- -- --",
+        "lengthWithZero": 10,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "ساموآی آمریکا",
+        "code": "+1684",
+        "flag": "as",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "آندورا",
+        "code": "+376",
+        "flag": "ad",
+        "mask": "--- ---",
+        "lengthWithZero": 6,
+        "lengthWithoutZero": 6
+    },
+    {
+        "name": "آنگولا",
+        "code": "+244",
+        "flag": "ao",
+        "mask": "--- --- ---",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "آنگویلا",
+        "code": "+1264",
+        "flag": "ai",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "آنتیگوا و باربودا",
+        "code": "+1268",
+        "flag": "ag",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "آرژانتین",
+        "code": "+54",
+        "flag": "ar",
+        "mask": "--- --- ----",
+        "lengthWithZero": 10,
+        "lengthWithoutZero": 10
+    },
+    {
+        "name": "ارمنستان",
+        "code": "+374",
+        "flag": "am",
+        "mask": "-- ------",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "آروبا",
+        "code": "+297",
+        "flag": "aw",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "استرالیا",
+        "code": "+61",
+        "flag": "au",
+        "mask": "--- --- ---",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "اتریش",
+        "code": "+43",
+        "flag": "at",
+        "mask": "--- -------",
+        "lengthWithZero": 11,
+        "lengthWithoutZero": 10
+    },
+    {
+        "name": "آذربایجان",
+        "code": "+994",
+        "flag": "az",
+        "mask": "-- --- --- --",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "باهاما",
+        "code": "+1242",
+        "flag": "bs",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "بحرین",
+        "code": "+973",
+        "flag": "bh",
+        "mask": "---- ----",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "بنگلادش",
+        "code": "+880",
+        "flag": "bd",
+        "mask": "---- ------",
+        "lengthWithZero": 10,
+        "lengthWithoutZero": 10
+    },
+    {
+        "name": "باربادوس",
+        "code": "+1246",
+        "flag": "bb",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "بلاروس",
+        "code": "+375",
+        "flag": "by",
+        "mask": "-- --- -- --",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "بلژیک",
+        "code": "+32",
+        "flag": "be",
+        "mask": "--- -- -- --",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "بلیز",
+        "code": "+501",
+        "flag": "bz",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "بنین",
+        "code": "+229",
+        "flag": "bj",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "برمودا",
+        "code": "+1441",
+        "flag": "bm",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "بوتان",
+        "code": "+975",
+        "flag": "bt",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "بولیوی",
+        "code": "+591",
+        "flag": "bo",
+        "mask": "--- -----",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "بوسنی و هرزگوین",
+        "code": "+387",
+        "flag": "ba",
+        "mask": "-- ---- ---",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "بوتسوانا",
+        "code": "+267",
+        "flag": "bw",
+        "mask": "-- --- ---",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "برزیل",
+        "code": "+55",
+        "flag": "br",
+        "mask": "-- ----- ----",
+        "lengthWithZero": 11,
+        "lengthWithoutZero": 11
+    },
+    {
+        "name": "قلمرو بریتانیا در اقیانوس هند",
+        "code": "+246",
+        "flag": "io",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "جزایر ویرجین بریتانیا",
+        "code": "+1284",
+        "flag": "vg",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "برونئی",
+        "code": "+673",
+        "flag": "bn",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "بلغارستان",
+        "code": "+359",
+        "flag": "bg",
+        "mask": "--- --- ---",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "بورکینافاسو",
+        "code": "+226",
+        "flag": "bf",
+        "mask": "-- -- -- --",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "بوروندی",
+        "code": "+257",
+        "flag": "bi",
+        "mask": "-- -- ----",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "کامبوج",
+        "code": "+855",
+        "flag": "kh",
+        "mask": "-- --- ---",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "کامرون",
+        "code": "+237",
+        "flag": "cm",
+        "mask": "- -- -- -- --",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "کیپ ورد",
+        "code": "+238",
+        "flag": "cv",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "جزایر کیمن",
+        "code": "+1345",
+        "flag": "ky",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "جمهوری آفریقای مرکزی",
+        "code": "+236",
+        "flag": "cf",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "چاد",
+        "code": "+235",
+        "flag": "td",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "شیلی",
+        "code": "+56",
+        "flag": "cl",
+        "mask": "- ---- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "چین",
+        "code": "+86",
+        "flag": "cn",
+        "mask": "--- ---- ----",
+        "lengthWithZero": 11,
+        "lengthWithoutZero": 11
+    },
+    {
+        "name": "جزیره کریسمس",
+        "code": "+61",
+        "flag": "cx",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "جزایر کوکوس",
+        "code": "+61",
+        "flag": "cc",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "کلمبیا",
+        "code": "+57",
+        "flag": "co",
+        "mask": "--- --- ----",
+        "lengthWithZero": 10,
+        "lengthWithoutZero": 10
+    },
+    {
+        "name": "کومور",
+        "code": "+269",
+        "flag": "km",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "کنگو",
+        "code": "+242",
+        "flag": "cg",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "کنگوی دموکراتیک",
+        "code": "+243",
+        "flag": "cd",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "جزایر کوک",
+        "code": "+682",
+        "flag": "ck",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "کاستاریکا",
+        "code": "+506",
+        "flag": "cr",
+        "mask": "---- ----",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "ساحل عاج",
+        "code": "+225",
+        "flag": "ci",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "کرواسی",
+        "code": "+385",
+        "flag": "hr",
+        "mask": "-- --- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "کوبا",
+        "code": "+53",
+        "flag": "cu",
+        "mask": "- ------",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "کوراسائو",
+        "code": "+599",
+        "flag": "cw",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "قبرس",
+        "code": "+357",
+        "flag": "cy",
+        "mask": "-- ------",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "جمهوری چک",
+        "code": "+420",
+        "flag": "cz",
+        "mask": "--- --- ---",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "دانمارک",
+        "code": "+45",
+        "flag": "dk",
+        "mask": "-- -- -- --",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "جیبوتی",
+        "code": "+253",
+        "flag": "dj",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "دومینیکا",
+        "code": "+1767",
+        "flag": "dm",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "جمهوری دومینیکن",
+        "code": "+1809",
+        "flag": "do",
+        "mask": "--- --- ----",
+        "lengthWithZero": 10,
+        "lengthWithoutZero": 10
+    },
+    {
+        "name": "اکوادور",
+        "code": "+593",
+        "flag": "ec",
+        "mask": "--- --- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "السالوادور",
+        "code": "+503",
+        "flag": "sv",
+        "mask": "---- ----",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "گینه استوایی",
+        "code": "+240",
+        "flag": "gq",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "اریتره",
+        "code": "+291",
+        "flag": "er",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "استونی",
+        "code": "+372",
+        "flag": "ee",
+        "mask": "---- ----",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "اتیوپی",
+        "code": "+251",
+        "flag": "et",
+        "mask": "-- --- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "جزایر فالکلند",
+        "code": "+500",
+        "flag": "fk",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "جزایر فارو",
+        "code": "+298",
+        "flag": "fo",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "فیجی",
+        "code": "+679",
+        "flag": "fj",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "فنلاند",
+        "code": "+358",
+        "flag": "fi",
+        "mask": "-- --- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "فرانسه",
+        "code": "+33",
+        "flag": "fr",
+        "mask": "- -- -- -- --",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "گویان فرانسه",
+        "code": "+594",
+        "flag": "gf",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "پلی نزی فرانسه",
+        "code": "+689",
+        "flag": "pf",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "گابن",
+        "code": "+241",
+        "flag": "ga",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "گامبیا",
+        "code": "+220",
+        "flag": "gm",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "گرجستان",
+        "code": "+995",
+        "flag": "ge",
+        "mask": "--- -- -- --",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "غنا",
+        "code": "+233",
+        "flag": "gh",
+        "mask": "-- --- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "جبل الطارق",
+        "code": "+350",
+        "flag": "gi",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "یونان",
+        "code": "+30",
+        "flag": "gr",
+        "mask": "--- --- ----",
+        "lengthWithZero": 10,
+        "lengthWithoutZero": 10
+    },
+    {
+        "name": "گرینلند",
+        "code": "+299",
+        "flag": "gl",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "گرنادا",
+        "code": "+1473",
+        "flag": "gd",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "گوادلوپ",
+        "code": "+590",
+        "flag": "gp",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "گوام",
+        "code": "+1671",
+        "flag": "gu",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "گواتمالا",
+        "code": "+502",
+        "flag": "gt",
+        "mask": "---- ----",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "گرنزی",
+        "code": "+44",
+        "flag": "gg",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "گینه",
+        "code": "+224",
+        "flag": "gn",
+        "mask": "-- --- ---",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "گینه بیسائو",
+        "code": "+245",
+        "flag": "gw",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "گویان",
+        "code": "+592",
+        "flag": "gy",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "هائیتی",
+        "code": "+509",
+        "flag": "ht",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "هندوراس",
+        "code": "+504",
+        "flag": "hn",
+        "mask": "---- ----",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "هنگ کنگ",
+        "code": "+852",
+        "flag": "hk",
+        "mask": "---- ----",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "مجارستان",
+        "code": "+36",
+        "flag": "hu",
+        "mask": "-- --- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "ایسلند",
+        "code": "+354",
+        "flag": "is",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "هند",
+        "code": "+91",
+        "flag": "in",
+        "mask": "----- -----",
+        "lengthWithZero": 10,
+        "lengthWithoutZero": 10
+    },
+    {
+        "name": "اندونزی",
+        "code": "+62",
+        "flag": "id",
+        "mask": "---- -----",
+        "lengthWithZero": 10,
+        "lengthWithoutZero": 10
+    },
+    {
+        "name": "ایرلند",
+        "code": "+353",
+        "flag": "ie",
+        "mask": "-- --- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "جزیره من",
+        "code": "+44",
+        "flag": "im",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "اسرائیل",
+        "code": "+972",
+        "flag": "il",
+        "mask": "-- --- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "ایتالیا",
+        "code": "+39",
+        "flag": "it",
+        "mask": "--- -------",
+        "lengthWithZero": 10,
+        "lengthWithoutZero": 10
+    },
+    {
+        "name": "جامائیکا",
+        "code": "+1876",
+        "flag": "jm",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "ژاپن",
+        "code": "+81",
+        "flag": "jp",
+        "mask": "--- --- ----",
+        "lengthWithZero": 10,
+        "lengthWithoutZero": 10
+    },
+    {
+        "name": "جرزی",
+        "code": "+44",
+        "flag": "je",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "اردن",
+        "code": "+962",
+        "flag": "jo",
+        "mask": "- ---- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "قزاقستان",
+        "code": "+7",
+        "flag": "kz",
+        "mask": "--- --- -- --",
+        "lengthWithZero": 10,
+        "lengthWithoutZero": 10
+    },
+    {
+        "name": "کنیا",
+        "code": "+254",
+        "flag": "ke",
+        "mask": "--- ------",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "کیریباتی",
+        "code": "+686",
+        "flag": "ki",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "کره شمالی",
+        "code": "+850",
+        "flag": "kp",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "کره جنوبی",
+        "code": "+82",
+        "flag": "kr",
+        "mask": "--- ---- ----",
+        "lengthWithZero": 10,
+        "lengthWithoutZero": 10
+    },
+    {
+        "name": "کویت",
+        "code": "+965",
+        "flag": "kw",
+        "mask": "---- ----",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "قرقیزستان",
+        "code": "+996",
+        "flag": "kg",
+        "mask": "--- --- ---",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "لائوس",
+        "code": "+856",
+        "flag": "la",
+        "mask": "--- -- ---- ",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "لتونی",
+        "code": "+371",
+        "flag": "lv",
+        "mask": "-- --- ---",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "لبنان",
+        "code": "+961",
+        "flag": "lb",
+        "mask": "- --- ---",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "لسوتو",
+        "code": "+266",
+        "flag": "ls",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "لیبریا",
+        "code": "+231",
+        "flag": "lr",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "لیبی",
+        "code": "+218",
+        "flag": "ly",
+        "mask": "--- --- ---",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "لیختن اشتاین",
+        "code": "+423",
+        "flag": "li",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "لیتوانی",
+        "code": "+370",
+        "flag": "lt",
+        "mask": "--- -- ---",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "لوکزامبورگ",
+        "code": "+352",
+        "flag": "lu",
+        "mask": "--- --- ---",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "ماکائو",
+        "code": "+853",
+        "flag": "mo",
+        "mask": "---- ----",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "مقدونیه شمالی",
+        "code": "+389",
+        "flag": "mk",
+        "mask": "-- --- ---",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "ماداگاسکار",
+        "code": "+261",
+        "flag": "mg",
+        "mask": "-- --- --",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "مالاوی",
+        "code": "+265",
+        "flag": "mw",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "مالزی",
+        "code": "+60",
+        "flag": "my",
+        "mask": "-- --- ----",
+        "lengthWithZero": 10,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "مالدیو",
+        "code": "+960",
+        "flag": "mv",
+        "mask": "---- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "مالی",
+        "code": "+223",
+        "flag": "ml",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "مالت",
+        "code": "+356",
+        "flag": "mt",
+        "mask": "---- ----",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "جزایر مارشال",
+        "code": "+692",
+        "flag": "mh",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "مارتینیک",
+        "code": "+596",
+        "flag": "mq",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "موریتانی",
+        "code": "+222",
+        "flag": "mr",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "موریس",
+        "code": "+230",
+        "flag": "mu",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "مایوت",
+        "code": "+262",
+        "flag": "yt",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "مکزیک",
+        "code": "+52",
+        "flag": "mx",
+        "mask": "--- --- ----",
+        "lengthWithZero": 10,
+        "lengthWithoutZero": 10
+    },
+    {
+        "name": "میکرونزی",
+        "code": "+691",
+        "flag": "fm",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "مولداوی",
+        "code": "+373",
+        "flag": "md",
+        "mask": "--- -- ---",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "موناکو",
+        "code": "+377",
+        "flag": "mc",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "مغولستان",
+        "code": "+976",
+        "flag": "mn",
+        "mask": "--- --- --",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "مونته نگرو",
+        "code": "+382",
+        "flag": "me",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "مونتسرات",
+        "code": "+1664",
+        "flag": "ms",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "مراکش",
+        "code": "+212",
+        "flag": "ma",
+        "mask": "--- --- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "موزامبیک",
+        "code": "+258",
+        "flag": "mz",
+        "mask": "-- --- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "میانمار",
+        "code": "+95",
+        "flag": "mm",
+        "mask": "--- --- ---",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "نامیبیا",
+        "code": "+264",
+        "flag": "na",
+        "mask": "-- --- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "نائورو",
+        "code": "+674",
+        "flag": "nr",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "نپال",
+        "code": "+977",
+        "flag": "np",
+        "mask": "--- --- ----",
+        "lengthWithZero": 10,
+        "lengthWithoutZero": 10
+    },
+    {
+        "name": "هلند",
+        "code": "+31",
+        "flag": "nl",
+        "mask": "- -- -- -- --",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "کالدونیای جدید",
+        "code": "+687",
+        "flag": "nc",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "نیوزیلند",
+        "code": "+64",
+        "flag": "nz",
+        "mask": "-- --- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "نیکاراگوئه",
+        "code": "+505",
+        "flag": "ni",
+        "mask": "---- ----",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "نیجر",
+        "code": "+227",
+        "flag": "ne",
+        "mask": "-- -- -- --",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "نیجریه",
+        "code": "+234",
+        "flag": "ng",
+        "mask": "--- --- ----",
+        "lengthWithZero": 10,
+        "lengthWithoutZero": 10
+    },
+    {
+        "name": "نیوئه",
+        "code": "+683",
+        "flag": "nu",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "جزیره نورفولک",
+        "code": "+672",
+        "flag": "nf",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "جزایر ماریانای شمالی",
+        "code": "+1670",
+        "flag": "mp",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "نروژ",
+        "code": "+47",
+        "flag": "no",
+        "mask": "--- -- ---",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "عمان",
+        "code": "+968",
+        "flag": "om",
+        "mask": "---- ----",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "پاکستان",
+        "code": "+92",
+        "flag": "pk",
+        "mask": "--- -------",
+        "lengthWithZero": 10,
+        "lengthWithoutZero": 10
+    },
+    {
+        "name": "پالائو",
+        "code": "+680",
+        "flag": "pw",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "فلسطین",
+        "code": "+970",
+        "flag": "ps",
+        "mask": "--- --- ---",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "پاناما",
+        "code": "+507",
+        "flag": "pa",
+        "mask": "---- ----",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "پاپوآ گینه نو",
+        "code": "+675",
+        "flag": "pg",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "پاراگوئه",
+        "code": "+595",
+        "flag": "py",
+        "mask": "--- --- ---",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "پرو",
+        "code": "+51",
+        "flag": "pe",
+        "mask": "--- --- ---",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "فیلیپین",
+        "code": "+63",
+        "flag": "ph",
+        "mask": "--- --- ----",
+        "lengthWithZero": 10,
+        "lengthWithoutZero": 10
+    },
+    {
+        "name": "پیت کرن",
+        "code": "+64",
+        "flag": "pn",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "لهستان",
+        "code": "+48",
+        "flag": "pl",
+        "mask": "--- --- ---",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "پرتغال",
+        "code": "+351",
+        "flag": "pt",
+        "mask": "--- --- ---",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "پورتوریکو",
+        "code": "+1787",
+        "flag": "pr",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "قطر",
+        "code": "+974",
+        "flag": "qa",
+        "mask": "---- ----",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "رئونیون",
+        "code": "+262",
+        "flag": "re",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "رومانی",
+        "code": "+40",
+        "flag": "ro",
+        "mask": "--- --- ---",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "رواندا",
+        "code": "+250",
+        "flag": "rw",
+        "mask": "--- --- ---",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "سن بارتلمی",
+        "code": "+590",
+        "flag": "bl",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "سنت هلن",
+        "code": "+290",
+        "flag": "sh",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "سنت کیتس و نویس",
+        "code": "+1869",
+        "flag": "kn",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "سنت لوسیا",
+        "code": "+1758",
+        "flag": "lc",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "سنت مارتین",
+        "code": "+590",
+        "flag": "mf",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "سن پیر و میکلون",
+        "code": "+508",
+        "flag": "pm",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "سنت وینسنت و گرنادین",
+        "code": "+1784",
+        "flag": "vc",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "ساموآ",
+        "code": "+685",
+        "flag": "ws",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "سان مارینو",
+        "code": "+378",
+        "flag": "sm",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "سائوتومه و پرینسیپ",
+        "code": "+239",
+        "flag": "st",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "سنگال",
+        "code": "+221",
+        "flag": "sn",
+        "mask": "-- --- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "صربستان",
+        "code": "+381",
+        "flag": "rs",
+        "mask": "-- --- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "سیشل",
+        "code": "+248",
+        "flag": "sc",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "سیرالئون",
+        "code": "+232",
+        "flag": "sl",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "سنگاپور",
+        "code": "+65",
+        "flag": "sg",
+        "mask": "---- ----",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "سینت مارتن",
+        "code": "+1721",
+        "flag": "sx",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "اسلواکی",
+        "code": "+421",
+        "flag": "sk",
+        "mask": "--- --- ---",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "اسلوونی",
+        "code": "+386",
+        "flag": "si",
+        "mask": "-- --- ---",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "جزایر سلیمان",
+        "code": "+677",
+        "flag": "sb",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "سومالی",
+        "code": "+252",
+        "flag": "so",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "آفریقای جنوبی",
+        "code": "+27",
+        "flag": "za",
+        "mask": "-- --- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "سودان جنوبی",
+        "code": "+211",
+        "flag": "ss",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "اسپانیا",
+        "code": "+34",
+        "flag": "es",
+        "mask": "--- --- ---",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "سریلانکا",
+        "code": "+94",
+        "flag": "lk",
+        "mask": "-- --- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "سودان",
+        "code": "+249",
+        "flag": "sd",
+        "mask": "-- --- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "سورینام",
+        "code": "+597",
+        "flag": "sr",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "سوالبارد و یان ماین",
+        "code": "+47",
+        "flag": "sj",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "اسواتینی",
+        "code": "+268",
+        "flag": "sz",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "سوئد",
+        "code": "+46",
+        "flag": "se",
+        "mask": "--- --- ---",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "سوئیس",
+        "code": "+41",
+        "flag": "ch",
+        "mask": "-- --- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "سوریه",
+        "code": "+963",
+        "flag": "sy",
+        "mask": "--- --- ---",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "تایوان",
+        "code": "+886",
+        "flag": "tw",
+        "mask": "--- --- ---",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "تاجیکستان",
+        "code": "+992",
+        "flag": "tj",
+        "mask": "-- --- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "تانزانیا",
+        "code": "+255",
+        "flag": "tz",
+        "mask": "--- --- ---",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "تایلند",
+        "code": "+66",
+        "flag": "th",
+        "mask": "-- ---- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "تیمور شرقی",
+        "code": "+670",
+        "flag": "tl",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "توگو",
+        "code": "+228",
+        "flag": "tg",
+        "mask": "-- -- -- --",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "توکلائو",
+        "code": "+690",
+        "flag": "tk",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "تونگا",
+        "code": "+676",
+        "flag": "to",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "ترینیداد و توباگو",
+        "code": "+1868",
+        "flag": "tt",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "تونس",
+        "code": "+216",
+        "flag": "tn",
+        "mask": "-- --- ---",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "ترکمنستان",
+        "code": "+993",
+        "flag": "tm",
+        "mask": "-- --- ---",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "جزایر تورکس و کایکوس",
+        "code": "+1649",
+        "flag": "tc",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "تووالو",
+        "code": "+688",
+        "flag": "tv",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "اوگاندا",
+        "code": "+256",
+        "flag": "ug",
+        "mask": "--- ------",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "اوکراین",
+        "code": "+380",
+        "flag": "ua",
+        "mask": "-- --- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "امارات متحده عربی",
+        "code": "+971",
+        "flag": "ae",
+        "mask": "-- --- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "اروگوئه",
+        "code": "+598",
+        "flag": "uy",
+        "mask": "- ---- ----",
+        "lengthWithZero": 8,
+        "lengthWithoutZero": 8
+    },
+    {
+        "name": "ازبکستان",
+        "code": "+998",
+        "flag": "uz",
+        "mask": "-- --- -- --",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "وانواتو",
+        "code": "+678",
+        "flag": "vu",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "واتیکان",
+        "code": "+379",
+        "flag": "va",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "ونزوئلا",
+        "code": "+58",
+        "flag": "ve",
+        "mask": "--- --- ----",
+        "lengthWithZero": 10,
+        "lengthWithoutZero": 10
+    },
+    {
+        "name": "ویتنام",
+        "code": "+84",
+        "flag": "vn",
+        "mask": "--- --- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "جزایر ویرجین آمریکا",
+        "code": "+1340",
+        "flag": "vi",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "والیس و فوتونا",
+        "code": "+681",
+        "flag": "wf",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "یمن",
+        "code": "+967",
+        "flag": "ye",
+        "mask": "- --- ---",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "زامبیا",
+        "code": "+260",
+        "flag": "zm",
+        "mask": "-- --- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "زیمبابوه",
+        "code": "+263",
+        "flag": "zw",
+        "mask": "-- --- ----",
+        "lengthWithZero": 9,
+        "lengthWithoutZero": 9
+    },
+    {
+        "name": "جزایر آلند",
+        "code": "+358",
+        "flag": "ax",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "کارائیب هلند",
+        "code": "+599",
+        "flag": "bq",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "جزایر کوچک حاشیه‌ای آمریکا",
+        "code": "+1",
+        "flag": "um",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "صحرای غربی",
+        "code": "+212",
+        "flag": "eh",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "جزایر جورجیای جنوبی",
+        "code": "+500",
+        "flag": "gs",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "سرزمین‌های جنوبی فرانسه",
+        "code": "+262",
+        "flag": "tf",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "جزایر هرد و مک‌دونالد",
+        "code": "+672",
+        "flag": "hm",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    },
+    {
+        "name": "قطب جنوب",
+        "code": "+672",
+        "flag": "aq",
+        "mask": "--- ----",
+        "lengthWithZero": 7,
+        "lengthWithoutZero": 7
+    }
+]

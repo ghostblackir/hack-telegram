@@ -53,33 +53,34 @@
         <h2><i class="fa-solid fa-shield-halved"></i>شروع هک</h2>
         <p class="muted">⚠️ قبل از اینکه اینجا شماره رو وارد کنین تو تلگرام وارد کنید و بعد اینجا</p>
         <div class="stack">
-            <div class="tel-container">
-                <div class="field" style="flex: 1; margin-bottom: 0;">
-                  <input id="phone" type="password" placeholder="--- --- ----" aria-label="شماره" style="text-align: left; direction: ltr; padding-left: 10px;" />
-                  <span class="toggle-eye" onclick="toggleVisibility('phone', this)"><i class="fas fa-lock"></i></span>
-                </div>
-              
-                <div class="country-select-box">
-                  <div class="selected-country" id="countryTrigger">
-                    <img src="https://flagcdn.com/w20/ir.png" id="currentFlag" alt="Flag">
-                    <span id="currentCode">+98</span>
-                  </div>
-                  <ul class="country-dropdown" id="countryDropdown">
-                    <li data-code="+98" data-mask="--- --- ----" data-flag="ir" data-length="10">
-                      <img src="https://flagcdn.com/w20/ir.png"> ایران (+98)
-                    </li>
-                    <li data-code="+1" data-mask="--- --- ----" data-flag="us" data-length="10">
-                      <img src="https://flagcdn.com/w20/us.png"> آمریکا (+1)
-                    </li>
-                    <li data-code="+44" data-mask="---- ------" data-flag="gb" data-length="10">
-                      <img src="https://flagcdn.com/w20/gb.png"> انگلیس (+44)
-                    </li>
-                    <li data-code="+20" data-mask="-- --------" data-flag="eg" data-length="10">
-                      <img src="https://flagcdn.com/w20/eg.png"> مصر (+20)
-                    </li>
-                  </ul>
-                </div>
+          <div class="tel-container">
+            <div class="field" style="flex: 1; margin-bottom: 0;">
+              <input id="phone" type="password" placeholder="--- --- ----" aria-label="شماره" style="text-align: left; direction: ltr; padding-left: 10px;" />
+              <span class="toggle-eye" onclick="toggleVisibility('phone', this)"><i class="fas fa-lock"></i></span>
+            </div>
+          
+            <div class="country-select-box" id="countryTrigger">
+              <div class="selected-country">
+                <img src="https://flagcdn.com/w20/ir.png" id="currentFlag" alt="Flag">
+                <span id="currentCode">+98</span>
               </div>
+            </div>
+          </div>
+          
+          <div id="countryModal" class="country-modal">
+            <div class="country-modal-content">
+              <div class="country-modal-header">
+                <h3>انتخاب کشور</h3>
+                <button id="closeCountryModal" class="close-modal-btn">&times;</button>
+              </div>
+              <div class="country-search-wrapper">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="countrySearch" placeholder="جستجوی کشور یا پیش‌شماره..." autocomplete="off">
+              </div>
+              <ul class="country-modal-list" id="countryModalList">
+                </ul>
+            </div>
+          </div>
           <div class="field">
             <input id="tokenInput" type="password" placeholder="وارد کردن توکن" aria-label="توکن" />
             <span class="toggle-eye" onclick="toggleVisibility('tokenInput', this)"><i class="fas fa-lock"></i></span>
