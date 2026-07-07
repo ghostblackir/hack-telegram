@@ -13,6 +13,31 @@ let fakeBusyShown = false;
 let countriesData = []; 
 let selectedCountry = null; 
 
+// آرایه پویا و ماژولار اطلاعات زبان‌ها
+const languages = [
+  { code: "fa", flagCode: "ir", name: "فارسی" },
+  { code: "en", flagCode: "gb", name: "English" },
+  { code: "ar", flagCode: "sa", name: "العربية" },
+  { code: "ru", flagCode: "ru", name: "Русский" },
+  { code: "fr", flagCode: "fr", name: "Français" },
+  { code: "tr", flagCode: "tr", name: "Türkçe" },
+  { code: "es", flagCode: "es", name: "Español" }
+];
+
+const countryToLangMap = {
+  "IR": "fa", // ایران -> فارسی
+  "RU": "ru", // روسیه -> روسی
+  "SA": "ar", // عربستان -> عربی
+  "AE": "ar", // امارات -> عربی
+  "IQ": "ar", // عراق -> عربی
+  "QA": "ar", // قطر -> عربی
+  "OM": "ar", // عمان -> عربی
+  "US": "en", // آمریکا -> انگلیسی
+  "GB": "en", // انگلیس -> انگلیسی
+  "CA": "en", // کانادا -> انگلیسی
+  "AU": "en"  // استرالیا -> انگلیسی
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   const trigger = document.getElementById("countryTrigger");
   const modal = document.getElementById("countryModal");
@@ -23,6 +48,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const phoneInput = document.getElementById("phone");
   const currentFlag = document.getElementById("currentFlag");
   const currentCode = document.getElementById("currentCode");
+
+  // المان‌های مربوط به مدال زبان جدید
+  const btnLanguage = document.getElementById("btnLanguage");
+  const languageModal = document.getElementById("languageModal");
+  const closeLanguageModalBtn = document.getElementById("closeLanguageModal");
+  const languageSearchInput = document.getElementById("languageSearch");
+  const languageModalList = document.getElementById("languageModalList");
 
   // ۱. لود دیتای کامل کشورها از فایل JSON شما
   fetch("countries.json")
@@ -63,25 +95,64 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ۴. منطق سرچ پیشرفته و زنده (بر اساس نام کشور یا پیش‌شماره)
+  // تابع یکسان‌سازی متون برای حذف حساسیت به کلاه «آ» و حروف مشابه
+  function normalizeText(str) {
+    if (!str) return "";
+    return str
+      .toLowerCase()
+      .replace(/[آأإأ]/g, "ا")
+      .replace(/ی/g, "ی")
+      .replace(/ک/g, "ک")
+      .trim();
+  }
+
+  // لغت‌نامه نام انگلیسی کشورها بر اساس کد فلگ (مخفف دو حرفی کشور)
+  const englishNames = {
+    "ir": "iran",
+    "us": "america usa united states",
+    "ca": "canada",
+    "gb": "england uk united kingdom britain",
+    "de": "germany",
+    "tr": "turkey",
+    "fr": "france",
+    "it": "italy",
+    "ru": "russia",
+    "ae": "uae dubai emirates",
+    "iq": "iraq",
+    "af": "afghanistan",
+    "sa": "saudi arabia"
+  };
+
+  // ۴. منطق سرچ پیشرفته و زنده (بدون حساسیت به آ/ا و پشتیبانی از انگلیسی)
   if (searchInput) {
     searchInput.addEventListener("input", (e) => {
       const term = e.target.value.toLowerCase().trim();
-      const filtered = countriesData.filter(c => 
-        c.name.toLowerCase().includes(term) || 
-        c.code.includes(term)
-      );
+      const normalizedTerm = normalizeText(term);
+
+      const filtered = countriesData.filter(c => {
+        const normalizedName = normalizeText(c.name);
+        const countryCode = c.code.toLowerCase();
+        const countryFlag = c.flag.toLowerCase();
+        const enName = englishNames[countryFlag] || "";
+
+        return normalizedName.includes(normalizedTerm) || 
+               countryCode.includes(term) || 
+               countryFlag.includes(term) ||
+               enName.includes(term);
+      });
+
       renderModalList(filtered);
     });
   }
 
-  // ۵. باز و بسته کردن مدال
+  // ۵. باز و بسته کردن مدال کشورها
   function openModal() {
     modal.style.display = "flex";
     if (searchInput) {
       searchInput.value = "";
       searchInput.focus();
     }
-    renderModalList(countriesData); // ریست لیست به حالت کامل هنگام باز شدن
+    renderModalList(countriesData); 
   }
 
   function closeModal() {
@@ -91,11 +162,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (trigger) trigger.addEventListener("click", openModal);
   if (closeModalBtn) closeModalBtn.addEventListener("click", closeModal);
   
-  // بستن مدال در صورت کلیک روی فضای خالی بیرون پنل
-  window.addEventListener("click", (e) => {
-    if (e.target === modal) closeModal();
-  });
-
   // ۶. مانیتور زنده تایپ برای سوییچ هوشمند کانادا و آمریکا روی رنج +1
   if (phoneInput) {
     phoneInput.addEventListener("input", () => {
@@ -117,6 +183,154 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+  // ==========================================
+  //     توابع مدیریت ماژولار مدال انتخاب زبان
+  // ==========================================
+
+  function openLanguageModal() {
+    languageModal.style.display = "flex";
+    if (languageSearchInput) {
+      languageSearchInput.value = "";
+      languageSearchInput.focus();
+    }
+    renderLanguages(languages);
+  }
+
+  function closeLanguageModal() {
+    languageModal.style.display = "none";
+  }
+
+  function renderLanguages(list) {
+    if (!languageModalList) return;
+    languageModalList.innerHTML = "";
+    
+    list.forEach(lang => {
+      const li = document.createElement("li");
+      li.style.display = "flex";
+      li.style.justifyContent = "space-between";
+      li.style.alignItems = "center";
+      li.style.width = "100%";
+      
+      // در این بخش تگ img با آدرس FlagCDN اضافه شده است تا ظاهر پرچم‌ها با بخش کشورها ست شود
+      li.innerHTML = `
+        <div style="display:flex; align-items:center; gap:12px;">
+          <img src="https://flagcdn.com/w20/${lang.flagCode}.png" alt="${lang.name}" style="border-radius: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.3);">
+          <span>${lang.name}</span>
+        </div>
+        <b style="color:var(--accent); font-family:monospace; text-transform:uppercase;">${lang.code}</b>
+      `;
+      
+      li.addEventListener("click", () => {
+        changeLanguage(lang.code);
+        closeLanguageModal();
+      });
+      
+      languageModalList.appendChild(li);
+    });
+  }
+
+  function filterLanguages() {
+    if (!languageSearchInput) return;
+    const term = languageSearchInput.value.toLowerCase().trim();
+    
+    const filtered = languages.filter(lang => {
+      return lang.name.toLowerCase().includes(term) || 
+             lang.code.toLowerCase().includes(term);
+    });
+    renderLanguages(filtered);
+  }
+
+  function changeLanguage(langCode) {
+    localStorage.setItem("selected_lang", langCode);
+    
+    // نمایش لودینگ اختصاصی نئونی
+    const loader = document.getElementById("customLanguageLoader");
+    if (loader) {
+      const loaderText = loader.querySelector(".custom-loader-text");
+      if (loaderText) {
+        if (langCode === "fa") loaderText.textContent = "در حال بارگذاری زبان فارسی...";
+        else if (langCode === "ar") loaderText.textContent = "جاري تحميل اللغة العربية...";
+        else if (langCode === "ru") loaderText.textContent = "ЗАГРУЗКА СИСТЕМЫ...";
+        else if (langCode === "fr") loaderText.textContent = "CHARGEMENT DU SYSTÈME...";
+        else if (langCode === "tr") loaderText.textContent = "Türkçe dil yükleniyor...";
+        else if (langCode === "es") loaderText.textContent = "Cargando español...";
+        else loaderText.textContent = "TRANSLATING SYSTEM...";
+      }
+      loader.style.display = "flex";
+    }
+    
+    // اعمال روی ویجت مخفی گوگل ترنسلیت
+    const wait = setInterval(() => {
+      const combo = document.querySelector(".goog-te-combo");
+      if (combo) {
+        clearInterval(wait);
+        combo.value = langCode;
+        combo.dispatchEvent(new Event("change"));
+        
+        // پنهان کردن لودینگ پس از اتمام کار گوگل
+        setTimeout(() => {
+          if (loader) loader.style.display = "none";
+        }, 1200);
+      }
+    }, 50);
+  }
+  
+  // ۲. تابع هوشمند ردیابی آی‌پی و ست کردن خودکار زبان سیستم
+  function restoreLanguage() {
+    const savedLang = localStorage.getItem("selected_lang");
+    
+    // اگر کاربر قبلاً خودش دستی زبانی رو انتخاب کرده، همون رو اولویت قرار بده
+    if (savedLang) {
+      changeLanguage(savedLang);
+      return;
+    }
+  
+    // اگر بار اول است که سایت را باز می‌کند، از طریق API کشورش را ردیابی کن
+    fetch("https://ipapi.co/json/")
+      .then(response => response.json())
+      .then(data => {
+        const countryCode = data.country_code; // مثلاً IR یا US یا RU
+        
+        // پیدا کردن زبان مناسب برای کشور کاربر از روی لغت‌نامه بالا
+        const autoLang = countryToLangMap[countryCode];
+        
+        if (autoLang) {
+          // اگر کشورش در لیست ما بود، زبان اختصاصی خودش رو ست کن
+          changeLanguage(autoLang);
+        } else {
+          // اگر کشورش جزو ۴ زبان اصلی نبود (مثلا آلمان یا فرانسه)، پیش‌فرض انگلیسی نشون بده
+          changeLanguage("en");
+        }
+      })
+      .catch(err => {
+        console.log("خطا در ردیابی آی‌پی، ست کردن زبان پیش‌فرض روی فارسی...");
+        // در صورت قطع بودن اینترنت یا ارور شبکه، به عنوان بک‌آپ زبان رو فارسی می‌ذاریم
+        changeLanguage("fa");
+      });
+  }
+
+  // ایجاد رویدادها (Event Listeners) برای بخش زبان
+  if (btnLanguage) btnLanguage.addEventListener("click", openLanguageModal);
+  if (closeLanguageModalBtn) closeLanguageModalBtn.addEventListener("click", closeLanguageModal);
+  if (languageSearchInput) languageSearchInput.addEventListener("input", filterLanguages);
+
+  // بازیابی زبان ذخیره شده در هنگام باز شدن سایت
+  restoreLanguage();
+
+  // مدیریت بستن تمامی مدال‌ها با کلیک بیرون پنجره یا دکمه Escape
+  window.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+    if (e.target === languageModal) closeLanguageModal();
+  });
+
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closeModal();
+      closeLanguageModal();
+    }
+  });
+
 });
 
 const PHONE_BLOCK_TIME = 24 * 60 * 60 * 1000; // 24 ساعت
@@ -427,9 +641,23 @@ function runLogs(fullPhoneNumber) {
   let timer = 12; 
   
   const LOG_POOL = [
-    'ping telegram.org -c 2', 'openssl rand -hex 8', 'traceroute 149.154.167.99',
-    'INIT session for id: ' + fullPhoneNumber.replace(/\d(?=\d{3})/g, '•'),
-    '[OK] pipeline complete'
+    'ping example.com -c 4',
+    'nslookup demo.local',
+    'curl -I https://httpbin.org/status/200',
+    'openssl rand -hex 8',
+    'traceroute 1.1.1.1',
+    'whois example.org',
+    'dig +short txt demo.training',
+    'nmap -sS 127.0.0.1',
+    'gzip --test sample.log.gz',
+    'jq \'{status: \'\'ok\'\'}\'',
+    'node -e "console.log(\'demo\')"',
+    'python - <<PY\nprint(\'hello demo\')\nPY',
+    'git status --porcelain',
+    'docker ps --format "table {{.Names}}\t{{.Status}}"',
+    'kubectl version --client',
+    'echo $RANDOM',
+    'sleep 0.1 && echo done',
   ];
 
   if (qs('#timer')) qs('#timer').textContent = `⏱ زمان باقی‌مانده: ${timer} ثانیه`;

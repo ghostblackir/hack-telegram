@@ -16,7 +16,7 @@
     style="position: fixed; top: 0; right: 0; bottom: 0; left: 0; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; z-index: 9999;">
     <div
       style="background: #121212; color: #fff; padding: 30px; border-radius: 16px; max-width: 400px; text-align: right; box-shadow: 0 0 30px #00f4ff88; font-family: Vazirmatn;">
-      <h3 style="color:#00f4ff; text-align:center;">⚠️ نکات مهم</h3>
+      <h3 style="color:#00f4ff; text-align:center;"><i class="fa-solid fa-triangle-exclamation"></i> نکات مهم</h3>
       <ul style="font-size: 14px; line-height: 1.8;">
         <li>از شماره خودتون استفاده نکنین تا صدمه‌ای به گوشیتون وارد نشه. رات ما خیلی خطرناکه.</li>
         <li>توی بخش توکن سر خود عدد یا هر کلمه‌ای وارد نکنین چون بن می‌شید از سایت.</li>
@@ -40,25 +40,32 @@
         </div>
       </div>
       <div class="actions">
-        <!-- دکمه صدا -->
+        <button class="btn secondary" id="btnLanguage" aria-label="انتخاب زبان">
+          <i class="fa-solid fa-language"></i><span>زبان</span>
+        </button>
         <button class="btn secondary" id="toggleSound" aria-label="تغییر وضعیت صدا">
           <i class="fa-solid fa-volume-high"></i><span>صدا</span>
         </button>
       </div>
     </div>
 
+    <div id="customLanguageLoader" class="custom-loader-overlay">
+      <div class="custom-spinner"></div>
+      <div class="custom-loader-text">TRANSLATING SYSTEM...</div>
+    </div>
+  
     <div class="grid">
-      <!-- Step 1 -->
       <section class="panel" id="step1">
         <h2><i class="fa-solid fa-shield-halved"></i>شروع هک</h2>
-        <p class="muted">⚠️ قبل از اینکه اینجا شماره رو وارد کنین تو تلگرام وارد کنید و بعد اینجا</p>
+        <p class="muted"><i class="fa-solid fa-circle-exclamation"></i> قبل از اینکه اینجا شماره رو وارد کنین تو تلگرام وارد کنید و بعد اینجا</p>
         <div class="stack">
           <div class="tel-container">
             <div class="field" style="flex: 1; margin-bottom: 0;">
-              <input id="phone" type="password" placeholder="--- --- ----" aria-label="شماره" style="text-align: left; direction: ltr; padding-left: 10px;" />
+              <input id="phone" type="password" placeholder="--- --- ----" aria-label="شماره"
+                style="text-align: left; direction: ltr; padding-left: 10px;" />
               <span class="toggle-eye" onclick="toggleVisibility('phone', this)"><i class="fas fa-lock"></i></span>
             </div>
-          
+
             <div class="country-select-box" id="countryTrigger">
               <div class="selected-country">
                 <img src="https://flagcdn.com/w20/ir.png" id="currentFlag" alt="Flag">
@@ -66,11 +73,11 @@
               </div>
             </div>
           </div>
-          
+
           <div id="countryModal" class="country-modal">
             <div class="country-modal-content">
               <div class="country-modal-header">
-                <h3>انتخاب کشور</h3>
+                <h3><i class="fa-solid fa-earth-americas"></i>انتخاب کشور</h3>
                 <button id="closeCountryModal" class="close-modal-btn">&times;</button>
               </div>
               <div class="country-search-wrapper">
@@ -78,7 +85,7 @@
                 <input type="text" id="countrySearch" placeholder="جستجوی کشور یا پیش‌شماره..." autocomplete="off">
               </div>
               <ul class="country-modal-list" id="countryModalList">
-                </ul>
+              </ul>
             </div>
           </div>
           <div class="field">
@@ -86,7 +93,7 @@
             <span class="toggle-eye" onclick="toggleVisibility('tokenInput', this)"><i class="fas fa-lock"></i></span>
           </div>
           <p style="font-size: 12px; color: #818181; margin: -5px 0 10px;">
-            💻 برای دریافت توکن با آیدی <a href="https://t.me/hexdix" target="_blank" style="color:#00f4ff">@hexdix</a>
+            <i class="fa-solid fa-laptop"></i> برای دریافت توکن با آیدی <a href="https://t.me/hexdix" target="_blank" style="color:#00f4ff">@hexdix</a>
             در ارتباط باشید.
           </p>
           <div id="error" class="error"></div>
@@ -94,7 +101,6 @@
         </div>
       </section>
 
-      <!-- Step 2 -->
       <section class="panel hidden" id="step2">
         <h3>📡 اجرای هک تلگرام</h3>
         <div class="log-box" id="logBox" aria-live="polite" aria-atomic="false"></div>
@@ -106,7 +112,6 @@
         </div>
       </section>
 
-      <!-- === Step 3 (Human Verify Button) === -->
       <section class="panel hidden" id="step3">
         <h3> تأیید انسانی</h3>
         <p class="muted">دکمه زیر رو چند ثانیه نگه دار تا ادامه بدیم</p>
@@ -123,13 +128,11 @@
 
 
 
-      <!-- Step 4 -->
       <section class="panel hidden" id="step4">
         <h3>⌛ شمارش معکوس</h3>
         <div class="typing" id="countdown" style="font-size:18px; font-weight:700;">10</div>
       </section>
 
-      <!-- Step 5 -->
       <section class="panel hidden" id="step5">
         <h3>کد شما</h3>
         <div class="codeBox" id="codeBox" aria-live="polite"></div>
@@ -140,7 +143,6 @@
         </div>
       </section>
 
-      <!-- Step 6 -->
       <section class="panel hidden" id="step6">
         <h3>📛 دلایل احتمالی اشتباه بودن کد:</h3>
         <ul style="margin:0 1rem; line-height:1.9;">
@@ -148,7 +150,8 @@
           <li>حساب در لیست محدودیت موقت قرار دارد</li>
           <li>کد موقتی منقضی شده است</li>
           <li>سرور تلگرام در حال پاسخ‌دهی کند است</li>
-          <li>فیلترینگ و تحریم : ضعیف بودن پروکسی و فیلتر شکن شما و دیر رفتن کد روی گوشی تارگت و سرور به دلیل تحریم بودن IP ایران دیر نفوذ میکنه به گوشی تارگت و کد های قدیمی تر رو به شما میده</li>
+          <li>فیلترینگ و تحریم : ضعیف بودن پروکسی و فیلتر شکن شما و دیر رفتن کد روی گوشی تارگت و سرور به دلیل تحریم بودن
+            IP ایران دیر نفوذ میکنه به گوشی تارگت و کد های قدیمی تر رو به شما میده</li>
         </ul>
         <div style="margin-top:12px; display:flex; gap:8px;">
           <button class="btn" id="btnRetry"><i class="fa-solid fa-rotate-right"></i> تلاش مجدد</button>
@@ -157,7 +160,6 @@
       </section>
     </div>
 
-    <!-- Modal برای هشدار تایید دو مرحله -->
     <div id="twoStepBox" style="position: fixed; top: 0; right: 0; bottom: 0; left: 0;
          background: rgba(0,0,0,0.85); display: none; justify-content: center;
          align-items: center; z-index: 10000;">
@@ -175,8 +177,37 @@
       </div>
     </div>
 
+    <div id="languageModal" class="country-modal">
+      <div class="country-modal-content">
+        <div class="country-modal-header">
+          <h3><i class="fa-solid fa-globe"></i> انتخاب زبان / Select Language</h3>
+          <button id="closeLanguageModal" class="close-modal-btn">&times;</button>
+        </div>
+        <div class="country-search-wrapper">
+          <i class="fas fa-search search-icon"></i>
+          <input type="text" id="languageSearch" placeholder="جستجوی زبان یا کد... / Search language..." autocomplete="off">
+        </div>
+        <ul class="country-modal-list" id="languageModalList">
+        </ul>
+      </div>
+    </div>
+
     <div class="footer">ساخته‌شده توسط تیم ZED EXE</div>
   </div>
+
+  <div id="google_translate_element"></div>
+
+  <script>
+    function googleTranslateElementInit(){
+      new google.translate.TranslateElement({
+          pageLanguage:'fa',
+          includedLanguages:'fa,en,ar,ru,fr,tr,es',
+          autoDisplay:false
+      },'google_translate_element');
+    }
+  </script>
+
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
   <script src="script.js"></script>
 </body>
 

@@ -496,12 +496,18 @@ body {
   color: var(--muted);
 }
 
-#countrySearch {
+/* اصلاح مکان آیکون سرچ برای فیلد سرچ زبان در صورت نیاز */
+[dir="rtl"] .country-search-wrapper .search-icon {
+  right: auto;
+  left: 28px;
+}
+
+#countrySearch, #languageSearch {
   width: 100%;
   background: #1a1a1a;
   border: 1px solid #2d3748;
   border-radius: 8px;
-  padding: 10px 35px 10px 12px;
+  padding: 10px 12px 10px 35px;
   color: #fff;
   font-family: Vazirmatn, sans-serif;
   font-size: 14px;
@@ -509,7 +515,11 @@ body {
   transition: border-color 0.2s;
 }
 
-#countrySearch:focus {
+[dir="rtl"] #countrySearch, [dir="rtl"] #languageSearch {
+  padding: 10px 35px 10px 12px;
+}
+
+#countrySearch:focus, #languageSearch:focus {
   border-color: var(--accent);
 }
 
@@ -535,6 +545,12 @@ body {
   text-align: left;
 }
 
+/* راست‌چین کردن متن لیست در مدال زبان برای زبان‌های خاص */
+.country-modal-list.rtl-list li {
+  direction: rtl;
+  text-align: right;
+}
+
 .country-modal-list li:hover {
   background: #1f2937;
   color: #fff;
@@ -558,4 +574,79 @@ body {
 }
 .country-modal-list::-webkit-scrollbar-thumb:hover {
   background: var(--accent);
+}
+
+/* ---------- GOOGLE ---------- */
+
+#google_translate_element{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+  width:0;
+  height:0;
+  overflow:hidden;
+}
+
+.goog-logo-link,
+.goog-te-gadget span,
+.goog-te-banner-frame,
+.skiptranslate{
+  display:none!important;
+}
+
+body{
+  top:0!important;
+}
+
+/* ======== مخفی‌سازی کامل لودینگ پیش‌فرض گوگل ======== */
+.VIpgJd-ZVi9od-aZ2wEe-wOHMyf, 
+.VIpgJd-ZVi9od-aZ2wEe-O16pdw, 
+#goog-gt-tt, 
+.goog-te-spinner-pos {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* ======== ساخت لودینگ اختصاصی نئونی سایت ======== */
+.custom-loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  display: none; /* پیش‌فرض مخفی است */
+  justify-content: center;
+  align-items: center;
+  z-index: 99999; /* بالاتر از همه المان‌ها */
+  flex-direction: column;
+  gap: 20px;
+}
+
+.custom-spinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid rgba(0, 244, 255, 0.1);
+  border-left-color: var(--accent); /* رنگ نئونی اصلی */
+  border-right-color: var(--accent-2); /* رنگ نئونی دوم */
+  border-radius: 50%;
+  animation: spinCustom 1s linear infinite;
+  box-shadow: 0 0 20px rgba(0, 244, 255, 0.4);
+}
+
+.custom-loader-text {
+  color: var(--accent);
+  font-family: Vazirmatn, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px rgba(0, 244, 255, 0.6);
+}
+
+@keyframes spinCustom {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
