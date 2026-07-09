@@ -333,9 +333,9 @@
   <script src="alert-system.js"></script>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
     import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
+  
     const firebaseConfig = {
       apiKey: "AIzaSyCKGR-kZpIowWukh8fnbr-hepGuXyZG3Vg",
       authDomain: "ghost-3151c.firebaseapp.com",
@@ -344,28 +344,54 @@
       messagingSenderId: "538505756050",
       appId: "1:538505756050:web:1448b00baff4018cc4954b"
     };
-
+  
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
     const googleProvider = new GoogleAuthProvider();
-
+  
+    // کنترل بازگشت از ریدایرکت گوگل (مخصوص داخل تلگرام)
+    window.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const result = await getRedirectResult(auth);
+        if (result && result.user) {
+          const user = result.user;
+          await handleUserFirestoreSetup(user, "کاربر گوگل", 100);
+          window.location.replace("index.html");
+        }
+      } catch (error) {
+        console.error("Redirect Auth Error:", error);
+      }
+    });
+  
+    // تابع کمکی برای ثبت دیتابیس جهت جلوگیری از تکرار کد
+    async function handleUserFirestoreSetup(user, displayName, coins) {
+      await setDoc(doc(db, "users", user.uid), {
+        uid: user.uid,
+        displayName: displayName,
+        email: user.email,
+        coins: coins,
+        hackCount: 0,
+        isBanned: false
+      }, { merge: true });
+    }
+  
     // ۱. سیستم تشخیص قدرت پسورد نئونی
     function checkPasswordStrength(password) {
       const bar = document.getElementById("strengthBar");
       const text = document.getElementById("strengthText");
-
+  
       if (!password) {
         bar.style.width = "0%";
         text.textContent = "";
         return;
       }
-
+  
       let score = 0;
       if (password.length >= 8) score++;
       if (/[A-Z]/.test(password) || /[0-9]/.test(password)) score++;
       if (/[^A-Za-z0-9]/.test(password)) score++;
-
+  
       bar.className = "";
       if (score <= 1 || password.length < 8) {
         bar.style.width = "33%";
@@ -384,102 +410,101 @@
         text.style.color = "var(--accent-2)";
       }
     }
-
+  
     // ۳- تابع تغییر وضعیت لودینگ دکمه
     function setAuthLoading(isLoading, buttonId, originalText) {
       const btn = document.getElementById(buttonId);
       if (!btn) return;
       if (isLoading) {
-        btn.disabled = true;
+        btn.disabled = true; // غیرفعال کردن دکمه برای جلوگیری از کلیک دوباره
+        btn.style.pointerEvents = "none";
         btn.innerHTML = `<span style="display:inline-block; width:14px; height:14px; border:2px solid var(--text); border-top-color:transparent; border-radius:50%; animation:spinCustom 0.8s linear infinite; vertical-align:middle; margin-left:5px;"></span> در حال پردازش...`;
       } else {
         btn.disabled = false;
+        btn.style.pointerEvents = "auto";
         btn.innerHTML = originalText;
       }
     }
-
-    // انیمیشن ساده چرخیدن برای اسپینر لودینگ دکمه (اگر در استایل‌ها نبود)
+  
     if (!document.getElementById('btnSpinStyle')) {
       const style = document.createElement('style');
       style.id = 'btnSpinStyle';
       style.innerHTML = `@keyframes spinCustom { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`;
       document.head.appendChild(style);
     }
-
+  
     // تابع اصلی ثبت نام
     async function handleSignUp() {
       const name = document.getElementById("authName").value.trim();
       let email = document.getElementById("authEmail").value.trim();
       const password = document.getElementById("authPassword").value;
       const confirmPassword = document.getElementById("authConfirmPassword").value;
-
+  
       if (!name || !email || !password) { alert("همه فیلدها رو پر کن دادا!"); return; }
       if (password !== confirmPassword) { alert("پسوردها با هم یکی نیستن!"); return; }
       if (password.length < 8) { alert("پسورد باید حداقل ۸ رقم باشه!"); return; }
-
+  
       if (!email.includes("@")) email = email + "@gmail.com";
-
-      // فعال‌سازی حالت لودینگ روی دکمه
+  
       setAuthLoading(true, "signUpBtn", "ایجاد حساب کاربری");
-
+  
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-
-        // ثبت اطلاعات تکمیلی در فایراستور دیتابیس
-        await setDoc(doc(db, "users", user.uid), {
-          uid: user.uid,
-          displayName: name,
-          email: email,
-          coins: 10,
-          hackCount: 0,
-          isBanned: false
-        });
-
+        await handleUserFirestoreSetup(userCredential.user, name, 10);
+  
         alert("ثبت نام موفقیت‌آمیز بود! ۱۰ سکه هدیه گرفتی رئیس.");
-
-        // ⚡️ فورس کردن مرورگر برای انتقال قطعی به ایندکس
-        setTimeout(() => {
-          window.location.replace("index.html");
-        }, 100);
-
+        setTimeout(() => { window.location.replace("index.html"); }, 100);
+  
       } catch (error) {
-        alert("خطا در ثبت نام: " + error.message);
-        // در صورت خطا، لودینگ دکمه رو برمی‌گردونیم به حالت اول
-        setAuthLoading(false, "signUpBtn", " ایجاد حساب کاربری");
+        // مدیریت هوشمند کلیک‌های همزمان یا ایمیل تکراری
+        if (error.code === 'auth/email-already-in-use') {
+          alert("این ایمیل قبلاً ثبت شده دادا! اگه اکانت داری وارد شو یا ایمیل رو عوض کن.");
+        } else {
+          alert("خطا در ثبت نام: " + error.message);
+        }
+        setAuthLoading(false, "signUpBtn", "ایجاد حساب کاربری");
       }
     }
-
-    // تابع ورود با گوگل به همراه لودینگ بی نقص
+  
+    // تابع ورود با گوگل بهینه شده برای تلگرام
     async function handleGoogleSignIn() {
       setAuthLoading(true, "googleBtn", "ورود با حساب گوگل");
-      try {
-        const result = await signInWithPopup(auth, googleProvider);
-        const user = result.user;
-
-        await setDoc(doc(db, "users", user.uid), {
-          uid: user.uid,
-          displayName: user.displayName || "کاربر گوگل",
-          email: user.email,
-          coins: 100,
-          hackCount: 0,
-          isBanned: false
-        }, { merge: true });
-
-        alert("با اکانت گوگل با موفقیت وارد شدی دادا!");
-
-        // ⚡️ فورس کردن مرورگر برای انتقال قطعی به ایندکس
-        setTimeout(() => {
-          window.location.replace("index.html");
-        }, 100);
-
-      } catch (error) {
-        alert("خطای گوگل: " + error.message);
-        setAuthLoading(false, "googleBtn", `ورود با حساب گوگل`);
+      
+      // تشخیص اینکه کاربر داخل تلگرام یا مرورگرهای مشابه است
+      const isWebView = /Telegram|FBAN|FBAV|Instagram/i.test(navigator.userAgent);
+  
+      if (isWebView) {
+        // اگر داخل تلگرام بود، به جای پاپ‌آپ از ریدایرکت استفاده کن
+        try {
+          await signInWithRedirect(auth, googleProvider);
+        } catch (error) {
+          alert("خطا در هدایت به گوگل: " + error.message);
+          setAuthLoading(false, "googleBtn", "ورود با حساب گوگل");
+        }
+      } else {
+        // مرورگر عادی (کروم، فایرفاکس و...)
+        try {
+          const result = await signInWithPopup(auth, googleProvider);
+          await handleUserFirestoreSetup(result.user, result.user.displayName || "کاربر گوگل", 100);
+          alert("با اکانت گوگل با موفقیت وارد شدی دادا!");
+          setTimeout(() => { window.location.replace("index.html"); }, 100);
+        } catch (error) {
+          // اگر پاپ آپ به هر دلیلی مسدود شد، سوییچ کن روی ریدایرکت
+          if (error.code === 'auth/popup-blocked' || error.code === 'auth/cancelled-popup-request') {
+            try {
+              await signInWithRedirect(auth, googleProvider);
+            } catch (reError) {
+              alert("خطا در ورود با گوگل: " + reError.message);
+              setAuthLoading(false, "googleBtn", "ورود با حساب گوگل");
+            }
+          } else {
+            alert("خطای گوگل: " + error.message);
+            setAuthLoading(false, "googleBtn", "ورود با حساب گوگل");
+          }
+        }
       }
     }
-
-    // ست کردن توابع روی آبجکت سراسری window
+  
     window.checkPasswordStrength = checkPasswordStrength;
     window.handleSignUp = handleSignUp;
     window.handleGoogleSignIn = handleGoogleSignIn;
