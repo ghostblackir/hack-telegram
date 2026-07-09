@@ -48,7 +48,7 @@ body {
 
 .topbar {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: space-between;
   margin-bottom: 16px;
   gap: 10px;
@@ -118,6 +118,24 @@ body {
   gap: 16px;
   grid-template-columns: 1fr 1fr;
   align-items: start;
+}
+
+/* کلاس مخصوص زبان‌های فارسی و عربی */
+.rtl-text {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* کلاس مخصوص زبان‌های انگلیسی، روسی، فرانسوی و... */
+.ltr-text {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+/* فیکس کردن جهت فیلدها و لوک‌باکس ماتریکس که همیشه باید چپ‌چین و منظم بمانند */
+.field input, .log-box, .typing, #phone {
+  direction: ltr !important;
+  text-align: left !important;
 }
 
 @media (max-width: 840px) {
@@ -649,4 +667,134 @@ body{
 @keyframes spinCustom {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* ======== هوشمندسازی کامل جهت صفحات و پنل‌ها (RTL / LTR) ======== */
+
+/* حالت پیش‌فرض برای زبان‌های راست به چپ (فارسی و عربی) */
+html[dir="rtl"] body {
+  direction: rtl;
+  text-align: right;
+}
+
+/* حالت چپ به راست برای زبان‌های انگلیسی، روسی و... */
+html[dir="ltr"] body {
+  direction: ltr;
+  text-align: left;
+}
+
+/* اصلاح جهت المان‌های داخلی فیلدها در حالت چپ‌چین برای جلوگیری از باگ ظاهری */
+html[dir="ltr"] .field input {
+  padding: 12px 12px 12px 42px !important; /* جابه‌جایی پدینگ برای آیکون سمت چپ */
+}
+
+html[dir="ltr"] .field .toggle-eye {
+  right: auto !important;
+  left: 10px !important; /* بردن آیکون چشم به سمت چپ ورودی در حالت انگلیسی */
+}
+
+/* فیکس کردن نمایش سرچ‌باکس‌ها در حالت انگلیسی */
+html[dir="ltr"] .country-search-wrapper .search-icon {
+  right: auto !important;
+  left: 28px !important;
+}
+
+html[dir="ltr"] #countrySearch, html[dir="ltr"] #languageSearch {
+  padding: 10px 12px 10px 35px !important;
+}
+
+/* فیکس نگه‌داشتن باکس لوگ‌های ماتریکس و فیلد شماره که همیشه باید چپ‌چین باشند */
+.log-box, .typing, #phone {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+/* ========================================================
+   هماهنگ‌سازی گرافیکی صفحات Auth و Admin با تم اصلی سایت
+   ======================================================== */
+
+/* استایل کادرهای والد برای وسط‌چین کردن باکس‌ها در صفحات فرعی */
+.auth-page-wrapper, .admin-page-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* باکس ثبت‌نام و ادمین کاملاً منطبق با ساختار .panel اصلی */
+.auth-box.panel, .admin-panel.panel {
+  width: 100%;
+  max-width: 420px; /* جلوگیری از تغییر ابعاد نامناسب در دسکتاپ و مچ شدن در موبایل */
+  margin: 0 auto;
+  box-shadow: 0 0 40px rgba(0, 244, 255, 0.15); /* هماهنگ با سایانِ صفحه اصلی */
+}
+
+/* هدرهای پنل‌ها */
+.auth-box h2, .admin-panel h2 {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 24px;
+  letter-spacing: 0.5px;
+}
+
+/* دکمه گوگل اختصاصی و شیک */
+.google-btn {
+  background: transparent !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+.google-btn:hover {
+  background: rgba(0, 244, 255, 0.08) !important;
+  box-shadow: 0 0 15px rgba(0, 244, 255, 0.2) !important;
+}
+
+.google-btn img {
+  width: 18px;
+  height: 18px;
+}
+
+/* جداکننده گرافیکی بین دکمه اصلی و گوگل */
+.auth-divider {
+  text-align: center;
+  margin: 15px 0 5px 0;
+  color: var(--muted);
+  font-size: 12px;
+  position: relative;
+}
+
+/* رنگ نوار مقاومت پسورد هماهنگ با تم */
+.strength-bar-container {
+  border: 1px solid rgba(0, 244, 255, 0.1);
+}
+/* رنگ‌های نوار نئونی برای قدرت پسورد */
+.bg-weak { background-color: #ff3333 !important; box-shadow: 0 0 8px #ff3333; }
+.bg-medium { background-color: #ffaa00 !important; box-shadow: 0 0 8px #ffaa00; }
+.bg-strong { background-color: #00ff66 !important; box-shadow: 0 0 8px #00ff66; }
+
+/* تنظیمات باکس فشرده جدید */
+.settings-container {
+  position: relative;
+}
+
+#settingsMenuModal {
+  background: var(--panel) !important;
+  border: 1px solid var(--border) !important;
+  backdrop-filter: blur(10px);
+  animation: fadeInSettings 0.2s ease-out;
+}
+
+@keyframes fadeInSettings {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

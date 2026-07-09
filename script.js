@@ -19,23 +19,29 @@ const languages = [
   { code: "en", flagCode: "gb", name: "English" },
   { code: "ar", flagCode: "sa", name: "العربية" },
   { code: "ru", flagCode: "ru", name: "Русский" },
+  { code: "uk", flagCode: "ua", name: "українська" },
   { code: "fr", flagCode: "fr", name: "Français" },
   { code: "tr", flagCode: "tr", name: "Türkçe" },
-  { code: "es", flagCode: "es", name: "Español" }
+  { code: "es", flagCode: "es", name: "Español" },
+  { code: "de", flagCode: "de", name: "Deutsch" },
+  { code: "zh-CN", flagCode: "cn", name: "中文 (Chinese)" }
 ];
 
 const countryToLangMap = {
-  "IR": "fa", // ایران -> فارسی
-  "RU": "ru", // روسیه -> روسی
-  "SA": "ar", // عربستان -> عربی
-  "AE": "ar", // امارات -> عربی
-  "IQ": "ar", // عراق -> عربی
-  "QA": "ar", // قطر -> عربی
-  "OM": "ar", // عمان -> عربی
-  "US": "en", // آمریکا -> انگلیسی
-  "GB": "en", // انگلیس -> انگلیسی
-  "CA": "en", // کانادا -> انگلیسی
-  "AU": "en"  // استرالیا -> انگلیسی
+  "IR": "fa", 
+  "RU": "ru", 
+  "ua": "uk",
+  "SA": "ar", 
+  "AE": "ar", 
+  "IQ": "ar", 
+  "QA": "ar", 
+  "OM": "ar", 
+  "US": "en", 
+  "GB": "en", 
+  "CA": "en", 
+  "AU": "en",  
+  "de": "de",
+  "cn": "zh-CN"
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -55,6 +61,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeLanguageModalBtn = document.getElementById("closeLanguageModal");
   const languageSearchInput = document.getElementById("languageSearch");
   const languageModalList = document.getElementById("languageModalList");
+
+  // ⚡️ تست هوشمند فیلترشکن و رفع تحریم فایربیس
+  function checkFirebaseConnection() {
+    // تست پینگ روی دامنه اختصاصی API فایربیس شما
+    fetch("https://firestore.googleapis.com/v1/projects/ghost-3151c", { mode: 'no-cors' })
+      .then(() => {
+        console.log("✅ اتصال به سرور فایربیس پایدار است (فیلترشکن فعال).");
+      })
+      .catch((err) => {
+        console.warn("❌ سرور فایربیس در دسترس نیست. احتمالاً فیلترشکن خاموش است.");
+        const vpnModal = document.getElementById("vpnWarningBox");
+        if (vpnModal) {
+          vpnModal.style.display = "flex";
+        }
+      });
+  }
+
+  // اجرای تست ۲ ثانیه بعد از باز شدن صفحه تا لودینگ اولیه سایت خراب نشه
+  setTimeout(checkFirebaseConnection, 2000);
 
   // ۱. لود دیتای کامل کشورها از فایل JSON شما
   fetch("countries.json")
@@ -244,7 +269,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function changeLanguage(langCode) {
     localStorage.setItem("selected_lang", langCode);
     
-    // نمایش لودینگ اختصاصی نئونی
+    // ۱. نمایش لودینگ اختصاصی نئونی
     const loader = document.getElementById("customLanguageLoader");
     if (loader) {
       const loaderText = loader.querySelector(".custom-loader-text");
@@ -252,15 +277,27 @@ document.addEventListener("DOMContentLoaded", () => {
         if (langCode === "fa") loaderText.textContent = "در حال بارگذاری زبان فارسی...";
         else if (langCode === "ar") loaderText.textContent = "جاري تحميل اللغة العربية...";
         else if (langCode === "ru") loaderText.textContent = "ЗАГРУЗКА СИСТЕМЫ...";
+        else if (langCode === "uk") loaderText.textContent = "Завантаження української мови...";
         else if (langCode === "fr") loaderText.textContent = "CHARGEMENT DU SYSTÈME...";
         else if (langCode === "tr") loaderText.textContent = "Türkçe dil yükleniyor...";
         else if (langCode === "es") loaderText.textContent = "Cargando español...";
+        else if (langCode === "de") loaderText.textContent = "Deutsche Sprache wird geladen...";
+        else if (langCode === "zh-CN") loaderText.textContent = "正在加载中文系统...";
         else loaderText.textContent = "TRANSLATING SYSTEM...";
       }
       loader.style.display = "flex";
     }
     
-    // اعمال روی ویجت مخفی گوگل ترنسلیت
+    // ۲. ⚡️ تغییر جهت کل سایت و پنل‌ها به صورت آنی
+    if (langCode === "fa" || langCode === "ar") {
+      document.documentElement.setAttribute("dir", "rtl");
+      document.documentElement.setAttribute("lang", langCode);
+    } else {
+      document.documentElement.setAttribute("dir", "ltr");
+      document.documentElement.setAttribute("lang", langCode);
+    }
+    
+    // ۳. اعمال روی ویجت مخفی گوگل ترنسلیت
     const wait = setInterval(() => {
       const combo = document.querySelector(".goog-te-combo");
       if (combo) {
@@ -308,6 +345,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // در صورت قطع بودن اینترنت یا ارور شبکه، به عنوان بک‌آپ زبان رو فارسی می‌ذاریم
         changeLanguage("fa");
       });
+      window.location.reload();
   }
 
   // ایجاد رویدادها (Event Listeners) برای بخش زبان
@@ -357,13 +395,27 @@ const qsa = (sel) => Array.from(document.querySelectorAll(sel));
 function goTo(step) {
   currentStep = step;
   const ids = ['step1', 'step2', 'step3', 'step4', 'step5', 'step6'];
+  
   ids.forEach((id, idx) => {
     const el = qs('#' + id);
     if (!el) return;
     const visible = (idx + 1) === step;
     el.classList.toggle('hidden', !visible);
   });
+
+  // 🤖 فیکس باگ: به محض اینکه سیستم وارد مرحله ۳ (تایید هویت) شد، سیستم کپچا و تایمر زاپاس استارت می‌خوره
+  if (step === Steps.VERIFY) {
+    console.log("🪐 وارد مرحله تایید هویت شدیم. در حال استارت کپچای هوشمند...");
+    setTimeout(() => {
+      if (typeof window.initServerCaptcha === 'function') {
+        window.initServerCaptcha();
+      }
+    }, 150);
+  }
 }
+
+// متصل کردن به پنجره اصلی برای حل ارورهای ماژول
+window.goTo = goTo;
 
 // ======== تم و صدا ========
 if (qs('#toggleSound')) {
@@ -420,244 +472,97 @@ function resetAll() {
   goTo(Steps.INPUT);
 }
 
-function startDemo() {
-  const phoneEl = qs('#phone');
-  const tokenEl = qs('#tokenInput');
-  const errEl = qs('#error');
+window.startDemo = startDemo;
 
-  let phoneRaw = phoneEl.value.trim();
-  const token = tokenEl.value.trim();
-
-  // اگر هنوز فایل JSON لود نشده باشد
-  if (!selectedCountry) {
-    errEl.textContent = "❌ در حال بارگذاری اطلاعات سرور، کمی بعد تلاش کنید.";
-    return;
-  }
-
-  // ۱. بررسی خالی نبودن کادر شماره
-  if (phoneRaw.length === 0) {
-    errEl.textContent = "❌ لطفاً شماره تلفن را وارد کنید.";
-    Audio.beep(200, 0.15, "sawtooth", 0.03);
-    return;
-  }
-
-  // ۲. بررسی فقط عدد بودن ورودی
-  if (!/^\d+$/.test(phoneRaw)) {
-    errEl.textContent = "❌ شماره تلفن فقط باید شامل اعداد باشد.";
-    Audio.beep(200, 0.15, "sawtooth", 0.03);
-    return;
-  }
-
-  // اعتبارسنجی هوشمند طول بر اساس قوانین کشور انتخاب شده جاری (که ممکنه آمریکا یا کانادا باشه)
-  const hasZero = phoneRaw.startsWith("0");
-  let requiredLength = hasZero ? selectedCountry.lengthWithZero : selectedCountry.lengthWithoutZero;
-
-  if (phoneRaw.length !== requiredLength) {
-    if (hasZero) {
-      errEl.textContent = `❌ شماره‌های کشور ${selectedCountry.name} در صورت شروع با صفر باید دقیقاً ${selectedCountry.lengthWithZero} رقم باشند. (شما ${phoneRaw.length} رقم وارد کردید)`;
-    } else {
-      errEl.textContent = `❌ شماره‌های کشور ${selectedCountry.name} بدون صفر باید دقیقاً ${selectedCountry.lengthWithoutZero} رقم باشند. (شما ${phoneRaw.length} رقم وارد کردید)`;
-    }
-    if (typeof Audio !== 'undefined' && Audio.beep) Audio.beep(200, 0.15, "sawtooth", 0.03);
-    return;
-  }
-
-  // تصفیه نهایی شماره (حذف صفر اول برای یکپارچه‌سازی در صورت نیاز سیستم شما)
-  if (hasZero && selectedCountry.code === "+98") {
-    phoneRaw = phoneRaw.substring(1);
-  }
-
-  // ترکیب کد کشور و شماره نهایی تصفیه شده
-  const fullPhoneNumber = selectedCountry.code + phoneRaw;
-
-  // بقیه کدهای سیستم (بررسی توکن، قفل و فاز شبیه‌سازی سرور...)
-  if (isPhoneBlocked(fullPhoneNumber)) {
-    errEl.textContent = "📛 این شماره قبلاً بررسی شده و تا ۲۴ ساعت آینده امکان بررسی مجدد ندارد.";
-    return;
-  }
-
-  if (token.length === 0) {
-    errEl.textContent = "توکن را وارد کنید.";
-    Audio.beep(200, 0.15, "sawtooth", 0.03);
-    return;
-  }
-
-  if (token !== "5jWjSzP2XlIa9") {
-    errEl.textContent = "توکن معتبر نیست یا منقضی شده است.";
-    Audio.beep(300, 0.05, "square", 0.01);
-    return;
-  }
-
-  // شلوغی فیک فقط بار اول
-  if (!fakeBusyShown) {
-    fakeBusyShown = true;
-    buttonLocked = true;
-    if (qs('#btnStart')) qs('#btnStart').disabled = true;
-
-    errEl.textContent = "⏳ در حال اتصال به سرور...";
-
-    busyTimeout1 = setTimeout(() => {
-      errEl.textContent = "❌ سرورها شلوغ هستند، لطفاً کمی بعد تلاش کنید.";
-    }, 4000);
-
-    busyTimeout2 = setTimeout(() => {
-      buttonLocked = false;
-      if (qs('#btnStart')) qs('#btnStart').disabled = false;
-      errEl.textContent = "🔄 سرور آزاد شد. مجدداً روی شروع بررسی کلیک کنید.";
-    }, 8000);
-
-    return; 
-  }
-
-  errEl.textContent = "";
-  goTo(Steps.LOGS);
-
-  const logBox = qs("#logBox");
-  logBox.innerHTML = "";
-
-  function randomHex(len = 8) {
-    return [...Array(len)].map(() => Math.floor(Math.random() * 16).toString(16)).join("");
-  }
-
-  function randomPercent() {
-    return (Math.random() * 100).toFixed(1) + "%";
-  }
-
-  function randomRisk() {
-    const r = Math.random();
-    if (r < 0.33) return "کم";
-    if (r < 0.66) return "متوسط";
-    return "زیاد";
-  }
-
-  const AI_POOL = [
-    "در حال تحلیل داده...", "در حال ارزیابی رفتار کاربر...", "سیگنال امنیتی دریافت شد...",
-    "در حال استخراج الگوی تایپ...", "بررسی پارامترهای امنیتی...", "آنالیز لایه دوم فعال شد...",
-    "بررسی ساختار ورودی...", "سنجش میزان ریسک...", "در حال بررسی fingerprint رفتاری...",
-    "محاسبه entropy...", "بررسی هماهنگی داده‌ها...", "سازگار سازی مدل AI...",
-  ];
-
-  function generateAILine() {
-    const base = AI_POOL[Math.floor(Math.random() * AI_POOL.length)];
-    const patterns = [
-      `${base}`,
-      `${base} | هش: ${randomHex()}`,
-      `${base} | پردازش: ${randomPercent()}`,
-      `${base} | ریسک: ${randomRisk()}`,
-    ];
-    return patterns[Math.floor(Math.random() * patterns.length)];
-  }
-
-  function pickDynamicLines() {
-    const pool = new Set();
-    while (pool.size < 5) { pool.add(generateAILine()); }
-    return [...pool];
-  }
-
-  const aiLines = pickDynamicLines();
-  let index = 0;
-
-  function runAI() {
-    if (index < aiLines.length) {
-      typeLine(aiLines[index], (el) => {
-        setTimeout(() => {
-          deleteLine(el, () => {
-            index++;
-            runAI();
-          });
-        }, 600);
-      });
-    } else {
-      showValidation();
-    }
-  }
-
-  function typeLine(text, done) {
-    const el = document.createElement("div");
-    el.style.color = "#00f4ff";
-    el.style.margin = "8px 0";
-    logBox.appendChild(el);
-    let i = 0;
-    function typer() {
-      if (i <= text.length) {
-        el.textContent = text.slice(0, i); i++;
-        setTimeout(typer, 15);
-      } else { done(el); }
-    }
-    typer();
-  }
-
-  function deleteLine(el, done) {
-    let txt = el.textContent;
-    let i = txt.length;
-    function erase() {
-      if (i >= 0) {
-        el.textContent = txt.slice(0, i); i--;
-        setTimeout(erase, 10);
-      } else { el.remove(); done(); }
-    }
-    erase();
-  }
-
-  function showValidation() {
-    const el = document.createElement("div");
-    el.style.color = "#0f0";
-    el.innerHTML = `شماره: ${fullPhoneNumber} ✔ معتبر<br>توکن : ${token} ✔ تایید شد<br><br>`;
-    logBox.appendChild(el);
-    setTimeout(checkPhoneStatus, 600);
-  }
-
-  function checkPhoneStatus() {
-    const el = document.createElement("div");
-    el.style.color = "#00f4ff";
-    logBox.appendChild(el);
-    
-    const statusText = "در حال بررسی وضعیت فعال بودن شماره...";
-    let i = 0;
-    function typerStatus() {
-      if (i <= statusText.length) {
-        el.textContent = statusText.slice(0, i); i++;
-        setTimeout(typerStatus, 15);
-      } else {
-        setTimeout(() => {
-          el.innerHTML += "<br>✔ شماره فعال است.";
-          setTimeout(() => {
-            runLogs(fullPhoneNumber);
-          }, 800);
-        }, 500);
-      }
-    }
-    typerStatus();
-  }
-
-  runAI();
-}
+// حتماً برای دسترسی جهانی این‌ها رو زنجیر کن
+window.startDemo = startDemo;
 
 function runLogs(fullPhoneNumber) {
   const logBox = qs('#logBox');
   logBox.innerHTML = '';
 
   let i = 0; 
-  let timer = 12; 
+  let timer = 220; 
   
   const LOG_POOL = [
     'ping example.com -c 4',
     'nslookup demo.local',
     'curl -I https://httpbin.org/status/200',
+    'starting https://telegram.org/api/error',
     'openssl rand -hex 8',
     'traceroute 1.1.1.1',
     'whois example.org',
     'dig +short txt demo.training',
     'nmap -sS 127.0.0.1',
     'gzip --test sample.log.gz',
-    'jq \'{status: \'\'ok\'\'}\'',
+    'jq \'{status: "ok"}\'',
     'node -e "console.log(\'demo\')"',
-    'python - <<PY\nprint(\'hello demo\')\nPY',
+    'python - <<PY\nprint("hello demo")\nPY',
     'git status --porcelain',
-    'docker ps --format "table {{.Names}}\t{{.Status}}"',
+    'docker ps --format "table {{.Names}}\\t{{.Status}}"',
     'kubectl version --client',
     'echo $RANDOM',
     'sleep 0.1 && echo done',
+
+    'git log --oneline -5',
+    'git branch',
+    'git diff --stat',
+    'git stash list',
+  
+    'npm list --depth=0',
+    'npm audit',
+    'npm outdated',
+    'yarn --version',
+    'pnpm list',
+  
+    'python --version',
+    'pip list',
+    'pip freeze',
+    'java -version',
+    'go version',
+    'rustc --version',
+    'cargo build',
+    'gcc --version',
+  
+    'docker sms',
+    'docker network ls',
+    'docker volume ls',
+    'docker stats --no-stream',
+  
+    'kubectl get pods',
+    'kubectl get nodes',
+    'kubectl get svc',
+    'kubectl config current-context',
+  
+    'sqlite3 demo.db ".tables"',
+    'redis-cli ping',
+    'mysql --version',
+    'psql --version',
+  
+    'curl https://api.github.com',
+    'openssl version',
+    'base64 sample.txt',
+    'sha256sum demo.txt',
+    'md5sum demo.txt',
+    'xxd demo.bin | head',
+    'hexdump -C demo.bin | head',
+  
+    'tail -f app.log',
+    'head -20 app.log',
+    'wc -l app.log',
+    'sort sample.txt',
+    'uniq sample.txt',
+    'grep "INFO" app.log',
+    'awk \'{print $1}\' sample.txt',
+    'sed -n "1,10p" sample.txt',
+  
+    'echo "Starting diagnostics..."',
+    'echo "Loading configuration..."',
+    'echo "Checking sms..."',
+    'echo "Initializing services..."',
+    'echo "Synchronizing data..."',
+    'echo "Running validation..."',
+    'echo "Operation completed."'
   ];
 
   if (qs('#timer')) qs('#timer').textContent = `⏱ زمان باقی‌مانده: ${timer} ثانیه`;
@@ -754,6 +659,7 @@ function hideWarning() {
   if (document.getElementById("warningBox")) {
     document.getElementById("warningBox").style.display = "none"; 
   }
+  window.hideWarning = hideWarning;
 }
 
 function hideTwoStepBox() { 
@@ -816,28 +722,328 @@ if (canvas) {
     clearInterval(timer);
   }
 
-  function startHold() {
-    if (holding) return;
-    holding = true;
-    if (status) status.textContent = "نگه دار...";
-
-    timer = setInterval(() => {
-      progress += STEP;
-      if (fill) fill.style.width = Math.min(100, (progress / HOLD_TIME) * 100) + "%";
-
-      if (progress >= HOLD_TIME) {
-        clearInterval(timer);
-        btn.classList.add("success");
-        if (status) status.textContent = "✔️ تأیید شد";
-        setTimeout(() => {
-          goTo(4);        
-          startCountdown();
-        }, 600);
-      }
-    }, STEP);
-  }
+  // هر جا که کاربر وارد مرحله تایید هویت انسان میشه این تابع رو صدا بزن:
+if (currentStep === Steps.VERIFY) {
+  setTimeout(() => {
+      if (window.initServerCaptcha) window.initServerCaptcha();
+  }, 100);
+}
 
   btn.addEventListener("mousedown", startHold);
   btn.addEventListener("touchstart", startHold);
   ["mouseup", "mouseleave", "touchend", "touchcancel"].forEach(ev => btn.addEventListener(ev, reset));
 })();
+
+// ========================================================
+// 🪐 بخش اتصال ۱۰۰٪ آنلاین به فایربیس و مدیریت سکه‌ها از سرور
+// ========================================================
+
+// ایمپورت دقیق متدها از فایربیس محلی خودت
+import { auth, db, onAuthStateChanged, doc, getDoc, updateDoc } from "./firebase.js";
+import { getDoc as firestoreGetDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+let currentUserDocRef = null;
+let currentCoins = 0;
+let hackCount = 0;
+
+// شنودر زنده وضعیت لاگین کاربر و لود کردن آنی سکه‌ها از سرور
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    window.location.href = "auth.html";
+  } else {
+    // تشکیل رفرنس دقیق داکیومنت کاربر در سرور
+    currentUserDocRef = doc(db, "users", user.uid);
+    
+    try {
+      const userSnap = await getDoc(currentUserDocRef);
+      if (userSnap.exists()) {
+        const userData = userSnap.data();
+        if (userData.isBanned) {
+          alert("حساب کاربری شما مسدود است.");
+          window.location.href = "auth.html";
+          return;
+        }
+        
+        // گرفتن مستقیم مقدار سکه از سرور فایربیس
+        currentCoins = userData.coins || 0;
+        hackCount = userData.hackCount || 0;
+        
+        // آپدیت نام کاربری در فرانت
+        const nameElement = document.getElementById("settingsUserName");
+        if (nameElement) {
+          nameElement.textContent = userData.displayName || user.email.split('@')[0] || "کاربر شبح";
+        }
+        
+        // تزریق UID واقعی کاربر برای کپی کردن راحت ادمین
+        const uidElement = document.getElementById("userUidDisplay");
+        if (uidElement) {
+          uidElement.textContent = user.uid;
+        }
+        
+        // آپدیت باکس نمایش سکه در هدر یا منو
+        const coinsElement = document.getElementById("userCoins");
+        if (coinsElement) {
+          coinsElement.textContent = currentCoins;
+        }
+      }
+    } catch (error) {
+      console.error("خطا در لود اولیه اطلاعات از سرور:", error);
+    }
+  }
+});
+
+// 🚀 تابع استارت دمو - کاملاً بازنویسی شده برای چک کردن از سمت سرور
+async function startDemo() {
+  const phoneEl = qs('#phone');
+  const errEl = qs('#error');
+  const btnStart = qs('#btnStart');
+  const btnTextEl = qs('#btnStartText');
+
+  let phoneRaw = phoneEl ? phoneEl.value.trim() : "";
+
+  if (!selectedCountry) {
+    if (errEl) errEl.textContent = "❌ در حال بارگذاری اطلاعات سرور، کمی بعد تلاش کنید.";
+    return;
+  }
+
+  if (phoneRaw.length === 0) {
+    if (errEl) errEl.textContent = "❌ لطفاً شماره تلفن را وارد کنید.";
+    if (typeof Audio !== 'undefined' && Audio.beep) Audio.beep(200, 0.15, "sawtooth", 0.03);
+    return;
+  }
+
+  if (!/^\d+$/.test(phoneRaw)) {
+    if (errEl) errEl.textContent = "❌ شماره تلفن فقط باید شامل اعداد باشد.";
+    if (typeof Audio !== 'undefined' && Audio.beep) Audio.beep(200, 0.15, "sawtooth", 0.03);
+    return;
+  }
+
+  const hasZero = phoneRaw.startsWith("0");
+  let requiredLength = hasZero ? selectedCountry.lengthWithZero : selectedCountry.lengthWithoutZero;
+
+  if (phoneRaw.length !== requiredLength) {
+    if (errEl) {
+      errEl.textContent = hasZero 
+        ? `❌ شماره‌های کشور ${selectedCountry.name} با صفر باید ${selectedCountry.lengthWithZero} رقم باشند.`
+        : `❌ شماره‌های کشور ${selectedCountry.name} بدون صفر باید ${selectedCountry.lengthWithoutZero} رقم باشند.`;
+    }
+    if (typeof Audio !== 'undefined' && Audio.beep) Audio.beep(200, 0.15, "sawtooth", 0.03);
+    return;
+  }
+
+  if (hasZero && selectedCountry.code === "+98") {
+    phoneRaw = phoneRaw.substring(1);
+  }
+
+  const fullPhoneNumber = selectedCountry.code + phoneRaw;
+
+  // 🔄 فعال کردن لودینگ
+  if (btnStart) btnStart.disabled = true;
+  if (btnTextEl) btnTextEl.textContent = " در حال اتصال به سرور...";
+  if (errEl) {
+    errEl.style.color = "var(--accent)";
+    errEl.textContent = "⏳ در حال استعلام موجودی از سرور GHOST...";
+  }
+
+  try {
+    // امنیت سرور: بررسی رفرنس کاربر
+    if (!currentUserDocRef) {
+      if (errEl) errEl.textContent = "❌ خطا: اتصال به سرور برقرار نیست. صفحه را رفرش کنید.";
+      if (btnStart) btnStart.disabled = false;
+      if (btnTextEl) btnTextEl.textContent = "شروع بررسی";
+      return;
+    }
+
+    // 🪙 استعلام مستقیم و زنده موجودی از خود سرور فایربیس (نه متغیر محلی مرورگر!)
+    const userSnap = await firestoreGetDoc(currentUserDocRef);
+    if (!userSnap.exists()) {
+      if (errEl) errEl.textContent = "❌ داکیومنت کاربری شما در سرور یافت نشد.";
+      if (btnStart) btnStart.disabled = false;
+      if (btnTextEl) btnTextEl.textContent = "شروع بررسی";
+      return;
+    }
+
+    const serverCoins = userSnap.data().coins || 0;
+
+    // 🎯 حل باگ اتمامی موجودی: اگر سکه سرور کمتر از 10 باشه
+    if (serverCoins < 10) {
+      if (errEl) {
+        errEl.style.color = "var(--danger)"; // تغییر رنگ به قرمز خطایی
+        errEl.textContent = `❌ سکه کافی نداری رئیس! موجودی سرور شما: ${serverCoins} سکه است (۱۰ سکه لازمه).`;
+      }
+      if (btnStart) btnStart.disabled = false;
+      if (btnTextEl) btnTextEl.textContent = "شروع بررسی";
+      if (typeof Audio !== 'undefined' && Audio.beep) Audio.beep(150, 0.3, "sawtooth", 0.04);
+      return;
+    }
+
+    // 🪙 کسر ۱۰ سکه مستقیماً روی سرور فایربیس
+    let newCoins = serverCoins - 10;
+    await updateDoc(currentUserDocRef, { coins: newCoins });
+    
+    // آپدیت لوکال دایلوگ‌ها
+    currentCoins = newCoins;
+    const coinsElement = document.getElementById("userCoins");
+    if (coinsElement) coinsElement.textContent = currentCoins;
+
+    // ریست دکمه برای مراحل بعدی
+    if (btnStart) btnStart.disabled = false;
+    if (btnTextEl) btnTextEl.textContent = "شروع بررسی";
+
+  } catch (e) {
+    console.error("خطای فایربیس در کسر سکه:", e);
+    if (btnStart) btnStart.disabled = false;
+    if (btnTextEl) btnTextEl.textContent = "شروع بررسی";
+    if (errEl) errEl.textContent = "❌ خطای سرور در کسر سکه: " + e.message;
+    return;
+  }
+
+  // 🚀 در صورت موفقیت، هدایت به بخش لاگ‌ها
+  if (errEl) errEl.textContent = "";
+  goTo(Steps.LOGS);
+
+  const logBox = qs("#logBox");
+  if (logBox) logBox.innerHTML = "";
+
+  runLogs(fullPhoneNumber);
+}
+
+// زنجیر کردن تمام توابع ماژول به پنجره اصلی مرورگر (Window) برای جلوگیری از ارورهای HTML
+window.startDemo = startDemo;
+
+window.copyUserUid = function() {
+  const uidText = document.getElementById("userUidDisplay").textContent;
+  if (!uidText || uidText.includes("------")) return;
+
+  navigator.clipboard.writeText(uidText).then(() => {
+    const icon = document.getElementById("copyUidIcon");
+    icon.className = "fa-solid fa-check";
+    icon.style.color = "var(--accent-2)";
+    setTimeout(() => {
+      icon.className = "fa-regular fa-copy";
+      icon.style.color = "var(--accent)";
+    }, 1500);
+  });
+};
+
+window.toggleSettingsModal = function() {
+  const modal = document.getElementById("settingsMenuModal");
+  if (modal) {
+    modal.style.display = (modal.style.display === "none" || modal.style.display === "") ? "block" : "none";
+  }
+};
+
+window.hideWarning = hideWarning;
+window.hideTwoStepBox = hideTwoStepBox;
+
+// ⚡️ مچ کردن نهایی تابع با پنجره اصلی برای حل ارور is not defined
+if (typeof startDemo !== 'undefined') {
+  window.startDemo = startDemo;
+} else {
+  console.error("دادا! تابع startDemo کلاً توی فایل اسکریپت غیب شده یا پاک شده!");
+}
+
+
+// 👁️ تابع سوئیچ بین حالت رمز (نقطه) و آشکارسازی شماره تلفن همراه با تغییر آیکون قفل
+window.toggleVisibility = function(elementId, iconWrapper) {
+  const field = document.getElementById(elementId);
+  if (!field) return;
+
+  const icon = iconWrapper.querySelector('i');
+  if (!icon) return;
+
+  if (field.type === "password") {
+    field.type = "text"; 
+    icon.classList.remove("fa-lock");
+    icon.classList.add("fa-lock-open"); 
+  } else {
+    
+    field.type = "password"; 
+    icon.classList.remove("fa-lock-open");
+    icon.classList.add("fa-lock"); 
+  }
+};
+
+import { RecaptchaVerifier } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+let ghostTimerTimeout = null;
+
+// تابع اصلی لود و مدیریت کپچای هوشمند سرور (اصلاح شده)
+window.initServerCaptcha = function() {
+  const container = document.getElementById('recaptcha-container');
+  const loader = document.getElementById('captchaLoader');
+  const backupArea = document.getElementById('ghostBackupArea');
+  const btnManual = document.getElementById('btnManualVerify');
+
+  if (!container) return;
+
+  // ریست کردن وضعیت‌ها و پاک کردن کپچاهای قبلی برای جلوگیری از دبل شدن
+  container.innerHTML = "";
+  if (loader) loader.style.display = "block";
+  if (backupArea) backupArea.style.display = "none";
+  if (btnManual) btnManual.style.display = "none";
+
+  try {
+    if (!auth) {
+      console.error("خطا: شیء auth هنوز لود نشده یا در دسترس نیست!");
+      if (backupArea) backupArea.style.display = "block";
+      return;
+    }
+
+    // رندر دقیق کپچا بر اساس استانداردهای فایربیس نسخه 10
+    window.recaptchaVerifier = new RecaptchaVerifier(auth, container, {
+      'size': 'normal',
+      'callback': (response) => {
+        if (loader) loader.style.display = "none";
+        if (btnManual) btnManual.style.display = "block";
+        if (backupArea) backupArea.style.display = "none";
+        console.log("✅ کپچای گوگل با موفقیت حل شد.");
+      },
+      'expired-callback': () => {
+        alert("زمان پاسخ‌گویی به کپچا به پایان رسید، دوباره تلاش کن دادا.");
+        if (btnManual) btnManual.style.display = "none";
+      }
+    });
+
+    window.recaptchaVerifier.render().then(() => {
+      if (loader) loader.style.display = "none";
+      console.log("🟢 کپچای تک و اصلی با موفقیت رندر شد.");
+    }).catch(err => {
+      console.log("گوگل بلاک کرد یا فیلتره، زاپاس فعال شد:", err);
+      if (backupArea) backupArea.style.display = "block";
+      if (loader) loader.style.display = "none";
+    });
+
+  } catch (error) {
+    console.error("خطا در بازگذاری کپچا:", error);
+    if (backupArea) backupArea.style.display = "block";
+    if (loader) loader.style.display = "none";
+  }
+
+  // فعال‌سازی تایمر ۱۰ ثانیه‌ای برای ظاهر شدن دکمه دور زدن GHOST
+  if (ghostTimerTimeout) clearTimeout(ghostTimerTimeout);
+  ghostTimerTimeout = setTimeout(() => {
+    if (backupArea && (!btnManual || btnManual.style.display === "none")) {
+      backupArea.style.display = "block"; 
+      if (loader) loader.style.display = "none"; 
+    }
+  }, 30000); 
+};
+
+// ✅ دکمه تایید نهایی (استارت تایمر اضافه شد)
+window.triggerCaptchaSuccess = function() {
+  if (typeof goTo === 'function') {
+    goTo(Steps.COUNTDOWN); // هدایت به مرحله ۴
+    // استارت زدن موتور تایمر بعد از انیمیشن تغییر مرحله
+    setTimeout(() => {
+      if (typeof startCountdown === 'function') startCountdown();
+    }, 300);
+  }
+};
+
+// ⚡️ تابع دور زدن کپچا با دکمه زاپاس GHOST (استارت تایمر اضافه شد)
+window.bypassCaptchaWithGhost = function() {
+  if (ghostTimerTimeout) clearTimeout(ghostTimerTimeout);
+  console.log("کپچا با موفقیت توسط سرور GHOST بای‌پاس شد.");
+};
+

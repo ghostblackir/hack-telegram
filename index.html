@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ZED EXE | HACK TELEGRAM</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -16,12 +17,12 @@
     style="position: fixed; top: 0; right: 0; bottom: 0; left: 0; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; z-index: 9999;">
     <div
       style="background: #121212; color: #fff; padding: 30px; border-radius: 16px; max-width: 400px; text-align: right; box-shadow: 0 0 30px #00f4ff88; font-family: Vazirmatn;">
-      <h3 style="color:#00f4ff; text-align:center;"><i class="fa-solid fa-triangle-exclamation"></i> نکات مهم</h3>
+      <h3 style="color:#00f4ff; text-align:center;"><i class="fa-solid fa-triangle-exclamation"></i> نکات مهم </h3>
       <ul style="font-size: 14px; line-height: 1.8;">
-        <li>از شماره خودتون استفاده نکنین تا صدمه‌ای به گوشیتون وارد نشه. رات ما خیلی خطرناکه.</li>
-        <li>توی بخش توکن سر خود عدد یا هر کلمه‌ای وارد نکنین چون بن می‌شید از سایت.</li>
+        <li>از شماره خودتون استفاده نکنین تا صدمه‌ای به گوشیتون وارد نشه. بدافزار  خیلی خطرناکه.</li>
         <li>هر کاری می‌کنید بر عهده خودتونه و ما هیچ مسئولیتی قبول نمی‌کنیم.</li>
         <li>سعی کنین از سایت ما درست استفاده کنین و به کسی آسیب نرسونین.</li>
+        <li>هر اروری پنل به شما داد اگه متوجه نشدین از اون ارور اسکرین شات گرفته و برای تیم پشتیبانی کانال ارسال کنید.</li>
       </ul>
       <button onclick="hideWarning()"
         style="width: 100%; margin-top: 20px; padding: 12px; background: #00f4ff; color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">فهمیدم</button>
@@ -39,13 +40,44 @@
           <div class="subtitle">آنچه می‌کنی، تو را می‌سازد… اما نه به وقت تو.</div>
         </div>
       </div>
-      <div class="actions">
-        <button class="btn secondary" id="btnLanguage" aria-label="انتخاب زبان">
-          <i class="fa-solid fa-language"></i><span>زبان</span>
+      
+      <div class="settings-container" style="position: relative; z-index: 100;">
+        <button id="btnSettingsToggle" class="btn secondary" onclick="toggleSettingsModal()" style="padding: 8px 14px; font-size: 13px;">
+          <i class="fa-solid fa-gear"></i> <span>تنظیمات</span>
         </button>
-        <button class="btn secondary" id="toggleSound" aria-label="تغییر وضعیت صدا">
-          <i class="fa-solid fa-volume-high"></i><span>صدا</span>
-        </button>
+        
+        <div id="settingsMenuModal" class="panel" style="display: none; position: absolute;  top: 45px;  padding: 15px; box-shadow: 0 0 25px rgba(0,244,255,0.25); border-radius: 12px; z-index: 101;">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 12px;">
+            <div id="userProfilePic" style="width: 42px; height: 42px; border-radius: 50%; background: #000; border: 1px solid var(--border); display:flex; align-items:center; justify-content:center;">
+              <i class="fa-solid fa-user" style="color: var(--accent); font-size: 16px;"></i>
+            </div>
+            <div style="flex: 1;">
+              <div id="settingsUserName" style="font-size: 13px; font-weight: bold; color: var(--text);">کاربر شبح</div>
+              
+              <div style="display: flex; align-items: center; gap: 6px; margin-top: 5px; background: rgba(0,0,0,0.4); padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(0,244,255,0.15); ">
+  
+                <span style="font-size: 11px; color: var(--accent); font-weight: bold; white-space: nowrap;">UID:</span>
+                
+                <span id="userUidDisplay" style="font-size: 10px; color: var(--muted); font-family: monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; direction: ltr; text-align: left;">------</span>
+                
+                <button onclick="copyUserUid()" style="background: transparent; border: none; color: var(--accent); cursor: pointer; font-size: 11px; padding: 0 2px; display: flex; align-items: center;" title="کپی آیدی">
+                  <i class="fa-regular fa-copy" id="copyUidIcon"></i>
+                </button>
+              </div>
+          
+              <div style="font-size: 12px; color: var(--accent-2); margin-top: 5px;"><i class="fa-solid fa-wallet"></i> سکه: <span id="userCoins">0</span></div>
+            </div>
+          </div>
+          
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <button id="toggleSound" class="btn secondary" style="width: 100%; justify-content: flex-start; font-size: 12px; padding: 8px 10px;">
+              <i class="fa-solid fa-volume-high"></i> <span>صدا</span>
+            </button>
+            <button id="btnLanguage" class="btn secondary" style="width: 100%; justify-content: flex-start; font-size: 12px; padding: 8px 10px;">
+              <i class="fa-solid fa-language"></i> <span>زبان</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -57,7 +89,7 @@
     <div class="grid">
       <section class="panel" id="step1">
         <h2><i class="fa-solid fa-shield-halved"></i>شروع هک</h2>
-        <p class="muted"><i class="fa-solid fa-circle-exclamation"></i> قبل از اینکه اینجا شماره رو وارد کنین تو تلگرام وارد کنید و بعد اینجا</p>
+        <p class="muted"><i class="fa-solid fa-circle-exclamation"></i> قبل از اینکه اینجا شماره رو وارد کنین تو تلگرام وارد کنید و بعد اینجا </p>
         <div class="stack">
           <div class="tel-container">
             <div class="field" style="flex: 1; margin-bottom: 0;">
@@ -88,16 +120,20 @@
               </ul>
             </div>
           </div>
-          <div class="field">
-            <input id="tokenInput" type="password" placeholder="وارد کردن توکن" aria-label="توکن" />
-            <span class="toggle-eye" onclick="toggleVisibility('tokenInput', this)"><i class="fas fa-lock"></i></span>
+
+          <button id="btnShop" class="btn" onclick="window.location.href='shop.html'" style="justify-content: center;">
+            <i class="fa-solid fa-coins"></i> ورود به فروشگاه سکه
+          </button>
+          
+          <button class="btn" id="btnStart" onclick="startDemo()">
+            <i class="fa-solid fa-play"></i> 
+            <span id="btnStartText">شروع بررسی</span>
+          </button>
+          
+          <div style="text-align: center; margin-top: 5px; font-size: 13px; color: var(--muted);">
+            هزینه هک: <span id="nextHackCost" style="color: var(--danger); font-weight: bold;">10</span> سکه
           </div>
-          <p style="font-size: 12px; color: #818181; margin: -5px 0 10px;">
-            <i class="fa-solid fa-laptop"></i> برای دریافت توکن با آیدی <a href="https://t.me/hexdix" target="_blank" style="color:#00f4ff">@hexdix</a>
-            در ارتباط باشید.
-          </p>
-          <div id="error" class="error"></div>
-          <button class="btn" id="btnStart"><i class="fa-solid fa-play"></i>شروع برسی</button>
+          
         </div>
       </section>
 
@@ -112,21 +148,33 @@
         </div>
       </section>
 
-      <section class="panel hidden" id="step3">
-        <h3> تأیید انسانی</h3>
-        <p class="muted">دکمه زیر رو چند ثانیه نگه دار تا ادامه بدیم</p>
-
-        <div style="margin-top:20px; display:flex; justify-content:center;">
-          <button id="holdBtn" class="hold-btn">
-            <span class="hold-text">لمس کن.</span>
-            <span class="hold-fill"></span>
+      <div id="step3" class="step-content hidden" style="text-align: center;">
+        <h2 style="color: var(--accent);"><i class="fa-solid fa-robot"></i> تایید هویت سیستم</h2>
+        <p style="color: var(--muted); font-size: 14px; margin-bottom: 20px;">
+          لطفاً برای مسدود‌سازی و نفوذ، کپچای زیر را حل کنید تا سرور GHOST اجازه دسترسی صادر کند.
+        </p>
+      
+        <div id="captchaLoader" style="margin: 20px 0; color: var(--accent); font-weight: bold;">
+          <i class="fa-solid fa-spinner fa-spin" style="font-size: 24px; margin-bottom: 10px;"></i>
+          <br>⏳ در حال بارگذاری کپچای امنیتی گوگل...
+        </div>
+      
+        <div id="recaptcha-container" style="margin: 10px auto; display: flex; justify-content: center;"></div>
+      
+        <button id="btnManualVerify" onclick="triggerCaptchaSuccess()" class="btn" 
+                style="display: none; width: 100%; max-width: 300px; margin: 15px auto; background: var(--accent-2); color: #000; font-weight: bold;">
+          <i class="fa-solid fa-circle-check"></i> تایید نهایی و ورود به پنل
+        </button>
+      
+        <div id="ghostBackupArea" style="display: none; margin-top: 25px; border-top: 1px dashed var(--border); padding-top: 15px;">
+          <p style="color: var(--danger); font-size: 12px; margin-bottom: 10px;">
+            ⚠️ به نظر می‌رسد کپچا به دلیل اختلال اینترنت/فیلترشکن لود نمی‌شود!
+          </p>
+          <button onclick="bypassCaptchaWithGhost()" style="background: transparent; color: var(--accent); border: 1px solid var(--accent); padding: 8px 16px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 13px;">
+            ⚡️ لود نشد؟ دور زدن با سرور GHOST
           </button>
         </div>
-
-        <div id="holdStatus" class="muted" style="margin-top:14px; text-align:center;"></div>
-      </section>
-
-
+      </div>
 
       <section class="panel hidden" id="step4">
         <h3>⌛ شمارش معکوس</h3>
@@ -195,20 +243,23 @@
     <div class="footer">ساخته‌شده توسط تیم ZED EXE</div>
   </div>
 
-  <div id="google_translate_element"></div>
+  <div id="vpnWarningBox" style="position: fixed; top: 0; right: 0; bottom: 0; left: 0; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 10001;">
+    <div style="background: #121212; color: #fff; padding: 30px; border-radius: 16px; max-width: 420px; text-align: center; box-shadow: 0 0 30px #ff005588; border: 1px solid #ff0055; font-family: Vazirmatn;">
+      <h3 style="color:#ff0055;"><i class="fa-solid fa-wifi"></i> خطای اتصال به سرور مرکزی</h3>
+      <p style="font-size: 14px; line-height: 1.8; margin-top: 15px; text-align: justify; direction: rtl;">
+        ارتباط شما با سرور فایربیس (GHOST) برقرار نشد. با توجه به تحریم‌های بین‌المللی و فیلترینگ شدید، جهت استفاده از سیستم هک حتماً باید **فیلترشکن (VPN)** خود را روشن کرده و ترجیحاً روی ریجن‌های اروپا یا آمریکا قرار دهید.
+      </p>
+      <button onclick="window.location.reload()" style="width: 100%; margin-top: 20px; padding: 12px; background: #ff0055; color: #fff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; box-shadow: 0 0 15px #ff0055;">
+        <i class="fa-solid fa-rotate-right"></i> بررسی مجدد اتصال
+      </button>
+    </div>
+  </div>
 
-  <script>
-    function googleTranslateElementInit(){
-      new google.translate.TranslateElement({
-          pageLanguage:'fa',
-          includedLanguages:'fa,en,ar,ru,fr,tr,es',
-          autoDisplay:false
-      },'google_translate_element');
-    }
-  </script>
+  <div id="google_translate_element" style="display:none;"></div>
 
-  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-  <script src="script.js"></script>
+  <script src="global-translate.js"></script>
+  <script src="alert-system.js"></script>
+  <script type="module" src="./script.js"></script>
 </body>
 
 </html>

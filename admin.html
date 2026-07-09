@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GHOST CORE | CONTROL PANEL</title>
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0b0b0b;
+            --panel: #121212;
+            --text: #e6e6e6;
+            --accent: #00f4ff;
+            --accent-2: #00ff95;
+            --muted: #9aa0a6;
+            --danger: #ff5252;
+            --border: #00f4ff33;
+        }
+
+        body {
+            margin: 0;
+            font-family: Tahoma, sans-serif;
+            background: #050505;
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px 25px;
+            box-shadow: 0 0 40px rgba(51, 197, 255, 0.15);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* فرم لاگین ادمین */
+        #adminAuthBox {
+            max-width: 400px;
+        }
+
+        /* بدنه اصلی پنل (بعد از لاگین) */
+        #adminMainContent {
+            display: none;
+            /* در ابتدا مخفی است */
+            width: 100%;
+            max-width: 900px;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--accent);
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 24px;
+            text-shadow: 0 0 10px rgba(51, 197, 255, 0.4);
+        }
+
+        .field {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .field label {
+            color: var(--muted);
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .field input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: #00000055;
+            color: var(--text);
+            font-size: 15px;
+            outline: none;
+            box-sizing: border-box;
+            transition: all 0.25s ease;
+        }
+
+        .field input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 12px rgba(51, 197, 255, 0.4);
+        }
+
+        .btn {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 14px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.2);
+            box-shadow: 0 0 15px rgba(51, 197, 255, 0.4);
+        }
+
+        /* استایل جدول کاربران */
+        .table-wrapper {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 0 30px rgba(255, 51, 51, 0.05);
+            overflow-x: auto;
+        }
+
+        .table-wrapper h3 {
+            margin-top: 0;
+            color: var(--accent);
+            font-size: 16px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 5px rgba(51, 173, 255, 0.3);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: right;
+            font-size: 14px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(51, 231, 255, 0.1);
+        }
+
+        th {
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .user-row-pic {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #000;
+            border: 1px solid var(--border);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 12px;
+            transition: 0.2s;
+        }
+
+        .btn-table-ban {
+            background: #33cfff;
+            color: #fff;
+        }
+
+        .btn-table-unban {
+            background: var(--accent-2);
+            color: #000;
+        }
+
+        .action-btn:hover {
+            filter: brightness(1.2);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="adminAuthBox" class="panel">
+        <h2><i class="fa-solid fa-lock-open"></i> تایید هویت ادمین ارشد GHOST</h2>
+        <div class="field">
+            <label>ایمیل مدیریت</label>
+            <input type="email" id="adminEmail" placeholder="admin@example.com">
+        </div>
+        <div class="field">
+            <label>گذرواژه امنیتی</label>
+            <input type="password" id="adminPassword" placeholder="******">
+        </div>
+        <button class="btn" id="btnLoginAdmin" onclick="handleAdminLogin()">🔓 ورود به هسته کنترل</button>
+    </div>
+
+    <div id="adminMainContent">
+        <div class="panel">
+            <h2>☢️ ستاد فرماندهی و مود ادمین GHOST</h2>
+
+            <div class="field">
+                <label>آیدی منحصر‌به‌فرد یا ایمیل کاربر (دارای پیشنهاد خودکار)</label>
+                <input type="text" id="targetUid" list="usersDataList" placeholder="کد UID یا ایمیل کاربر را وارد کنید">
+                <datalist id="usersDataList"></datalist>
+            </div>
+
+            <div class="field">
+                <label>مقدار تغییر سکه (مثلاً 50 یا -20)</label>
+                <input type="number" id="coinAmount" placeholder="تعداد سکه">
+            </div>
+
+            <button class="btn" onclick="modifyCoins()">🪙 اعمال تغییرات سکه</button>
+        </div>
+
+        <div class="card" style="margin-top: 20px;">
+            <h3><i class="fa-solid fa-gift"></i> تولید انبوه ریدیم کد (کد هدیه)</h3>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <input type="number" id="redeemCount" placeholder="تعداد کد (مثلاً 100)" value="100"
+                    style="flex: 1; min-width: 120px;">
+                <input type="number" id="redeemCoins" placeholder="مقدار سکه هر کد (مثلاً 50)" value="50"
+                    style="flex: 1; min-width: 120px;">
+                <button onclick="adminGenerateCodes()"
+                    style="background: var(--accent); color: #000; font-weight: bold;">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> تولید و ثبت در سرور
+                </button>
+            </div>
+            <div id="redeemAdminMsg"
+                style="margin-top: 15px; font-size: 14px; color: var(--accent-2); font-weight: bold;"></div>
+
+            <div id="generatedCodesArea" style="display: none; margin-top: 15px;">
+                <label style="display:block; margin-bottom:5px; color:var(--muted); font-size:13px;">📋 لیست کدهای تولید
+                    شده (می‌تونی همشو کپی کنی):</label>
+                <textarea id="codesOutput" readonly
+                    style="width: 100%; height: 150px; background: #1a1a1a; color: #00ff95; border: 1px solid var(--border); border-radius: 6px; padding: 10px; font-family: monospace; font-size: 14px; resize: vertical; box-sizing: border-box; direction: ltr; text-align: left;"></textarea>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <h3><i class="fa-solid fa-users"></i> لیست کل شبح‌های پایگاه داده</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>کاربر</th>
+                        <th>ایمیل</th>
+                        <th>کد UID</th>
+                        <th>سکه‌ها</th>
+                        <th>وضعیت حساب</th>
+                        <th>عملیات ضربتی</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="alert-system.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, updateDoc, increment, collection, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCKGR-kZpIowWukh8fnbr-hepGuXyZG3Vg",
+            authDomain: "ghost-3151c.firebaseapp.com",
+            projectId: "ghost-3151c",
+            storageBucket: "ghost-3151c.firebasestorage.app",
+            messagingSenderId: "538505756050",
+            appId: "1:538505756050:web:1448b00baff4018cc4954b"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // ۱. تابع ورود لایه اول ادمین
+        async function handleAdminLogin() {
+            const email = document.getElementById("adminEmail").value.trim();
+            const password = document.getElementById("adminPassword").value;
+            const btn = document.getElementById("btnLoginAdmin");
+
+            if (!email || !password) { alert("فیلدها رو پر کن فرمانده!"); return; }
+
+            btn.disabled = true;
+            btn.innerText = "در حال اتصال به سرور مرکزی...";
+
+            try {
+                // لاگین مستقیم با اکانت ادمین در پایگاه فایربیس
+                await signInWithEmailAndPassword(auth, email, password);
+
+                // پنهان کردن باکس لاگین و نمایش کل پنل و جدول
+                document.getElementById("adminAuthBox").style.display = "none";
+                document.getElementById("adminMainContent").style.display = "flex";
+
+                // فعال کردن لیسنر زنده اطلاعات کاربران
+                startLiveUserSync();
+
+            } catch (error) {
+                alert("دسترسی غیرمجاز: " + error.message);
+                btn.disabled = false;
+                btn.innerText = "🔓 ورود به هسته کنترل";
+            }
+        }
+
+        // ۲. همگام‌سازی زنده دیتابیس با جدول برای رفع باگ عدم نمایش اطلاعات
+        function startLiveUserSync() {
+            onSnapshot(collection(db, "users"), (snapshot) => {
+                const datalist = document.getElementById("usersDataList");
+                const tableBody = document.getElementById("usersTableBody");
+
+                if (!datalist || !tableBody) return;
+
+                datalist.innerHTML = "";
+                tableBody.innerHTML = "";
+
+                snapshot.forEach((docSnap) => {
+                    const u = docSnap.data();
+                    const uid = u.uid || docSnap.id;
+                    const name = u.displayName || "کاربر شبح";
+                    const email = u.email || "بدون ایمیل";
+                    const coins = u.coins || 0;
+                    const isBanned = u.isBanned || false;
+
+                    // پر کردن دیتالیست پیشنهادات خودکار بالا
+                    datalist.innerHTML += `<option value="${uid}">${name} (${email})</option>`;
+
+                    // ساخت زنده ردیف‌های جدول
+                    const row = `
+            <tr>
+              <td>
+                <div class="user-row-pic"><i class="fa-solid fa-user" style="color:var(--accent); font-size:11px;"></i></div>
+                <span>${name}</span>
+              </td>
+              <td style="direction:ltr; text-align:right;">${email}</td>
+              <td style="font-size:11px; color:var(--muted); font-family:monospace;">${uid}</td>
+              <td style="color:var(--accent-2); font-weight:bold;">${coins} 🪙</td>
+              <td>${isBanned ? '<span style="color:#ff3333">⛔️ مسدود</span>' : '<span style="color:var(--accent-2)">🟢 فعال</span>'}</td>
+              <td>
+                ${isBanned
+                            ? `<button class="action-btn btn-table-unban" onclick="directBanStatus('${uid}', false)">🟢 رفع بن</button>`
+                            : `<button class="action-btn btn-table-ban" onclick="directBanStatus('${uid}', true)">⛔️ بن</button>`
+                        }
+              </td>
+            </tr>
+          `;
+                    tableBody.innerHTML += row;
+                });
+            }, (error) => {
+                console.error("خطای دسترسی فایراستور: ", error);
+                alert("خطا در خواندن دیتا! مطمئن شو که ایمیلت توی Rules فایربیس به عنوان ادمین تعریف شده باشه.");
+            });
+        }
+
+        // ۳. اعمال آنلاین سکه
+        async function modifyCoins() {
+            const uid = document.getElementById("targetUid").value.trim();
+            const amount = parseInt(document.getElementById("coinAmount").value);
+            if (!uid || isNaN(amount)) { alert("اطلاعات رو ناقص وارد کردی دادا!"); return; }
+            try {
+                await updateDoc(doc(db, "users", uid), { coins: increment(amount) });
+                alert(`تعداد ${amount} سکه با موفقیت ویرایش شد.`);
+            } catch (error) {
+                alert("خطا در آپدیت سکه: " + error.message);
+            }
+        }
+
+        // ۴. دکمه بن و آن بن مستقیم داخل سطر جدول
+        async function directBanStatus(uid, status) {
+            try {
+                await updateDoc(doc(db, "users", uid), { isBanned: status });
+            } catch (error) {
+                alert("خطا در تعلیق حساب: " + error.message);
+            }
+        }
+
+
+        // ⚡️ فوق العاده مهم: متصل کردن توابع به window برای خارج شدن از قرنطینه ماژول مرورگر و رفع قطعی باگ کار نکردن دکمه‌ها
+        window.handleAdminLogin = handleAdminLogin;
+        window.modifyCoins = modifyCoins;
+        window.directBanStatus = directBanStatus;
+
+        window.adminGenerateCodes = async function () {
+            const countInput = document.getElementById("redeemCount");
+            const coinsInput = document.getElementById("redeemCoins");
+            const msgEl = document.getElementById("redeemAdminMsg");
+            const codesArea = document.getElementById("generatedCodesArea");
+            const codesOutput = document.getElementById("codesOutput");
+
+            const count = parseInt(countInput.value);
+            const coins = parseInt(coinsInput.value);
+
+            if (isNaN(count) || count <= 0 || isNaN(coins) || coins <= 0) {
+                alert("لطفاً تعداد کد و مقدار سکه را به درستی وارد کن دادا!");
+                return;
+            }
+
+            // مخفی کردن باکس کدهای قبلی در شروع فرآیند جدید
+            codesArea.style.display = "none";
+            codesOutput.value = "";
+
+            msgEl.style.color = "var(--accent)";
+            msgEl.textContent = `⏳ در حال ساخت و ارسال ${count} ریدیم کد به سرور فایربیس...`;
+
+            // این آرایه کدهای تولید شده رو برامون نگه می‌داره
+            let generatedList = [];
+
+            try {
+                for (let i = 0; i < count; i++) {
+                    // تولید کد رندوم: ZED-XXXX-XXXX
+                    const part1 = Math.random().toString(36).substring(2, 6).toUpperCase();
+                    const part2 = Math.random().toString(36).substring(2, 6).toUpperCase();
+                    const generatedCode = `ZED-${part1}-${part2}`;
+
+                    // اضافه کردن به لیست محلی برای نمایش به ادمین
+                    generatedList.push(generatedCode);
+
+                    // ثبت در کالکشن اختصاصی redeemCodes در فایربیس
+                    await setDoc(doc(collection(db, "redeemCodes"), generatedCode), {
+                        coins: coins,
+                        isUsed: false,
+                        usedBy: "",
+                        createdAt: new Date()
+                    });
+                }
+
+                msgEl.style.color = "var(--accent-2)"; // سبز نئونی
+                msgEl.textContent = `✅ عملیات موفق! تعداد ${count} کد هدیه (${coins} سکه‌ای) ساخته و در سرور ثبت شد.`;
+
+                // 🚀 اصلاح خط ارور:
+                codesOutput.value = generatedList.join("\n");
+                codesArea.style.display = "block"; // 🎯 کلمه style اضافی پاک شد
+
+            } catch (error) {
+                console.error(error);
+                msgEl.style.color = "var(--danger)";
+                msgEl.textContent = "❌ خطا در برقراری ارتباط با سرور فایربیس: " + error.message;
+            }
+        }
+    </script>
+</body>
+
+</html>

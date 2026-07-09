@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZED EXE | فروشگاه سکه</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      background: #0a0a0a;
+      color: #fff;
+      font-family: sans-serif;
+      padding: 20px;
+      direction: rtl;
+    }
+
+    .shop-container {
+      max-width: 500px;
+      margin: 40px auto;
+      background: #121212;
+      border: 1px solid #00f4ff33;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 0 30px rgba(0, 244, 255, 0.15);
+    }
+
+    .shop-title {
+      text-align: center;
+      color: #00f4ff;
+      margin-bottom: 30px;
+      font-size: 24px;
+      text-shadow: 0 0 10px rgba(0, 244, 255, 0.3);
+    }
+
+    .coin-selector {
+      margin-bottom: 25px;
+    }
+
+    .coin-selector label {
+      display: block;
+      margin-bottom: 12px;
+      color: #ccc;
+    }
+
+    .range-slider {
+      width: 100%;
+      height: 8px;
+      border-radius: 5px;
+      appearance: none;
+      background: #222;
+      outline: none;
+    }
+
+    .range-slider::-webkit-slider-thumb {
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #00f4ff;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00f4ff;
+    }
+
+    .coin-display {
+      text-align: center;
+      font-size: 32px;
+      color: #00ff95;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+
+    .price-box {
+      background: #1a1a1a;
+      border: 1px dashed #00ff95;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    .original-price {
+      text-decoration: line-through;
+      color: #888;
+      font-size: 14px;
+      margin-left: 10px;
+    }
+
+    .final-price {
+      font-size: 20px;
+      color: #fff;
+      margin-top: 5px;
+    }
+
+    .discount-badge {
+      background: #ff0055;
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      display: inline-block;
+    }
+
+    .btn-buy {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      font-family: inherit;
+      transition: 0.2s;
+    }
+
+    .btn-telegram {
+      background: #0088cc;
+      color: white;
+    }
+
+    .btn-telegram:hover {
+      background: #00a2f3;
+      box-shadow: 0 0 15px rgba(0, 136, 204, 0.4);
+    }
+
+    .btn-tether {
+      background: #26a17b;
+      color: white;
+    }
+
+    .btn-tether:hover {
+      background: #2ec496;
+      box-shadow: 0 0 15px rgba(38, 161, 123, 0.4);
+    }
+
+    /* مودال تتر */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: #121212;
+      border: 1px solid #26a17b;
+      padding: 25px;
+      border-radius: 12px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(38, 161, 123, 0.3);
+    }
+
+    .wallet-addr {
+      background: #222;
+      padding: 10px;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 13px;
+      word-break: break-all;
+      margin: 15px 0;
+      color: #00ff95;
+      border: 1px solid #333;
+    }
+
+    .btn-copy {
+      background: #333;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .close-btn {
+      margin-top: 20px;
+      background: #ff0055;
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* بخش ریدیم کد */
+    .redeem-box {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid #222;
+      text-align: center;
+    }
+
+    .redeem-input {
+      width: 100%;
+      padding: 12px;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 6px;
+      color: #fff;
+      text-align: center;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+      font-family: monospace;
+      font-size: 16px;
+    }
+
+    .btn-redeem {
+      background: #00f4ff;
+      color: #000;
+      font-weight: bold;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .btn-redeem:hover {
+      background: #5df7ff;
+    }
+
+    /* ======== مخفی‌سازی کامل لودینگ پیش‌فرض گوگل ======== */
+    .VIpgJd-ZVi9od-aZ2wEe-wOHMyf,
+    .VIpgJd-ZVi9od-aZ2wEe-O16pdw,
+    #goog-gt-tt,
+    .goog-te-spinner-pos {
+      display: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+
+    /* ======== ساخت لودینگ اختصاصی نئونی سایت ======== */
+    .custom-loader-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      display: none;
+      /* پیش‌فرض مخفی است */
+      justify-content: center;
+      align-items: center;
+      z-index: 99999;
+      /* بالاتر از همه المان‌ها */
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .custom-spinner {
+      width: 60px;
+      height: 60px;
+      border: 4px solid rgba(0, 244, 255, 0.1);
+      border-left-color: var(--accent);
+      /* رنگ نئونی اصلی */
+      border-right-color: var(--accent-2);
+      /* رنگ نئونی دوم */
+      border-radius: 50%;
+      animation: spinCustom 1s linear infinite;
+      box-shadow: 0 0 20px rgba(0, 244, 255, 0.4);
+    }
+
+    .custom-loader-text {
+      color: var(--accent);
+      font-family: Vazirmatn, sans-serif;
+      font-size: 16px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-shadow: 0 0 10px rgba(0, 244, 255, 0.6);
+    }
+
+    @keyframes spinCustom {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* نوار بالای گوگل */
+    .goog-te-banner-frame,
+    .skiptranslate iframe {
+      display: none !important;
+    }
+
+    body {
+      top: 0 !important;
+    }
+
+    /* ویجت پیشفرض گوگل */
+    .goog-te-gadget {
+      display: none !important;
+    }
+
+    /* لوگوی گوگل */
+    .goog-logo-link {
+      display: none !important;
+    }
+
+    /* متن Powered by */
+    .goog-te-gadget span {
+      display: none !important;
+    }
+
+    /* کمبوباکس پیشفرض */
+    .goog-te-combo {
+      display: none !important;
+    }
+
+    /* پنجره Tooltip */
+    #goog-gt-tt,
+    .goog-tooltip,
+    .goog-tooltip:hover,
+    .goog-text-highlight {
+      display: none !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+
+    body {
+      top: 0 !important;
+    }
+
+    html {
+      margin-top: 0 !important;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="shop-container">
+    <div class="shop-title"><i class="fa-solid fa-store"></i> فروشگاه سکه ZED EXE</div>
+
+    <div class="coin-selector">
+      <label>تعداد سکه مورد نیاز خود را انتخاب کنید:</label>
+      <input type="range" id="coinRange" class="range-slider" min="10" max="100" step="5" value="10">
+      <div class="coin-display"><span id="coinValue">10</span> سکه</div>
+    </div>
+
+    <div class="price-box">
+      <div id="discountSection" style="display:none;">
+        <span class="original-price" id="origPrice">0 تومان</span>
+        <span class="discount-badge" id="discountPercent">تخفیف</span>
+      </div>
+      <div class="final-price">قیمت نهایی: <span id="finalPrice" style="color:#00ff95;">50,000</span> تومان</div>
+      <div style="font-size: 12px; color: #aaa; margin-top: 5px;">قیمت تتر با تخفیف ویژه: <span
+          id="tetherPrice">1.00</span> USDT</div>
+    </div>
+
+    <button class="btn-buy btn-telegram" onclick="payTelegram()"><i class="fa-brands fa-telegram"></i> خرید و اتصال به
+      تلگرام hexdik</button>
+    <button class="btn-buy btn-tether" onclick="openTetherModal()"><i class="fa-solid fa-coins"></i> پرداخت سریع با تتر
+      (USDT - TRC20)</button>
+
+    <div class="redeem-box">
+      <h4 style="color:#00f4ff; margin-top:0; margin-bottom: 10px;"><i class="fa-solid fa-gift"></i> کد هدیه دارى رئیس؟
+      </h4>
+      <input type="text" id="redeemInput" class="redeem-input" placeholder="کد هدیه خود را اینجا بزن...">
+      <button class="btn-redeem" onclick="applyRedeemCode()">بررسی و فعال‌سازی کد</button>
+      <div id="redeemMsg" style="margin-top:10px; font-size:13px; font-weight: bold;"></div>
+    </div>
+  </div>
+
+  <div id="tetherModal" class="modal">
+    <div class="modal-content">
+      <h3 style="color:#26a17b; margin-top:0;"><i class="fa-solid fa-wallet"></i> واریز با تتر (TRC-20)</h3>
+      <p style="font-size:14px; color:#ccc;">مبلغ دقیق زیر را به آدرس ولت زیر واریز کنید و تصویر رسید را به پشتیبانی
+        تلگرام بفرستید تا اکانتتان شارژ شود:</p>
+      <div style="font-size: 26px; color: #fff; margin: 15px 0; font-weight: bold;"><span
+          id="modalTetherAmount">1.00</span> USDT</div>
+      <div class="wallet-addr" id="walletAddress">TFmg1ouLvzjHtbHypDqxL99CJfDFps7wp1</div>
+      <button class="btn-copy" onclick="copyWallet()"><i class="fa-regular fa-copy"></i> کپی آدرس کیف پول</button>
+      <br><button class="close-btn" onclick="closeTetherModal()">بستن پنجره</button>
+    </div>
+  </div>
+
+  <script src="global-translate.js"></script>
+  <script src="alert-system.js"></script>
+  <script type="module">
+    import { db, auth } from "./firebase.js";
+    import { doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    window.applyRedeemCode = async function () {
+      const codeInput = document.getElementById('redeemInput').value.trim();
+      const msg = document.getElementById('redeemMsg');
+
+      if (!codeInput) {
+        msg.style.color = '#ff0055';
+        msg.textContent = '❌ لطفاً ابتدا یک کد وارد کنید دادا.';
+        return;
+      }
+
+      msg.style.color = '#00f4ff';
+      msg.textContent = '⏳ در حال استعلام کد از سرور...';
+
+      try {
+        const user = auth.currentUser;
+        if (!user) {
+          msg.style.color = '#ff0055';
+          msg.textContent = '❌ دادا ابتدا باید وارد اکانتت شده باشی!';
+          return;
+        }
+
+        const codeDocRef = doc(db, "redeemCodes", codeInput);
+        const codeSnap = await getDoc(codeDocRef);
+
+        if (!codeSnap.exists()) {
+          msg.style.color = '#ff0055';
+          msg.textContent = '❌ این کد هدیه اشتباه است یا وجود ندارد!';
+          return;
+        }
+
+        const codeData = codeSnap.data();
+
+        if (codeData.isUsed) {
+          msg.style.color = '#ffaa00';
+          msg.textContent = '❌ این کد قبلاً توسط شخص دیگری استفاده شده و باطل است!';
+          return;
+        }
+
+        // ۱. باطل کردن کد هدیه روی سرور (یکبار مصرف)
+        await updateDoc(codeDocRef, {
+          isUsed: true,
+          usedBy: user.uid,
+          usedAt: new Date()
+        });
+
+        // ۲. اضافه کردن سکه‌ها به صورت آنلاین به اکانت کاربر جاری
+        const userDocRef = doc(db, "users", user.uid);
+        await updateDoc(userDocRef, {
+          coins: increment(codeData.coins)
+        });
+
+        msg.style.color = '#00ff95';
+        msg.textContent = `🎉 تبریک دادا! کد با موفقیت اعمال شد و ${codeData.coins} سکه به حسابت اضافه گردید.`;
+        document.getElementById('redeemInput').value = '';
+
+      } catch (error) {
+        console.error(error);
+        msg.style.color = '#ff0055';
+        msg.textContent = '❌ خطای سرور در تایید کد! اینترنتت رو چک کن.';
+      }
+    }
+  </script>
+
+  <script>
+    const coinRange = document.getElementById('coinRange');
+    const coinValue = document.getElementById('coinValue');
+    const origPriceEl = document.getElementById('origPrice');
+    const finalPriceEl = document.getElementById('finalPrice');
+    const discountPercent = document.getElementById('discountPercent');
+    const discountSection = document.getElementById('discountSection');
+    const tetherPriceEl = document.getElementById('tetherPrice');
+    const modalTetherAmount = document.getElementById('modalTetherAmount');
+
+    const BASE_COIN_PRICE = 5000; // هر سکه پایه ۵ هزار تومان (۱۰ تا = ۵۰ هزار تومان)
+    const TETHER_RATE = 55000;    // قیمت فرضی دلار/تتر برای محاسبه زنده مبلغ تتر
+
+    function calculatePrice() {
+      const coins = parseInt(coinRange.value);
+      coinValue.textContent = coins;
+
+      let rawPrice = coins * BASE_COIN_PRICE;
+      let discount = 0;
+
+      // سیستم تخفیف خودکار پلکانی و خفن برای ترغیب کاربر به خرید بیشتر
+      if (coins >= 30 && coins < 50) {
+        discount = 0.10; // ۱۰٪ تخفیف
+      } else if (coins >= 50 && coins < 80) {
+        discount = 0.20; // ۲۰٪ تخفیف
+      } else if (coins >= 80) {
+        discount = 0.35; // ۳۵٪ تخفیف سنگین برای خرید ۱۰۰ سکه!
+      }
+
+      let finalPrice = rawPrice * (1 - discount);
+      let usdtPrice = (finalPrice / TETHER_RATE).toFixed(2);
+
+      if (discount > 0) {
+        discountSection.style.display = 'block';
+        origPriceEl.textContent = rawPrice.toLocaleString() + ' تومان';
+        discountPercent.textContent = `٪${discount * 100} تخفیف ویژه خرید عمده`;
+      } else {
+        discountSection.style.display = 'none';
+      }
+
+      finalPriceEl.textContent = Math.round(finalPrice).toLocaleString();
+      tetherPriceEl.textContent = usdtPrice;
+      modalTetherAmount.textContent = usdtPrice;
+    }
+
+    coinRange.addEventListener('input', calculatePrice);
+    calculatePrice();
+
+    function payTelegram() {
+      const coins = coinRange.value;
+      const price = finalPriceEl.textContent;
+      const message = `سلام دادا، من درخواست خرید ${coins} سکه به ارزش نهایی ${price} تومان از سایت رو دارم. لطفاً راهنمایی بفرمایید.`;
+      window.open(`https://t.me/hexdik?text=${encodeURIComponent(message)}`, '_blank');
+    }
+
+    function openTetherModal() { document.getElementById('tetherModal').style.display = 'flex'; }
+    function closeTetherModal() { document.getElementById('tetherModal').style.display = 'none'; }
+
+    function copyWallet() {
+      const wallet = document.getElementById('walletAddress').textContent;
+      navigator.clipboard.writeText(wallet).then(() => {
+        alert('آدرس کیف پول تتر TRC-20 با موفقیت کپی شد دادا! 🚀');
+      });
+    }
+  </script>
+</body>
+
+</html>
