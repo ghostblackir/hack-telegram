@@ -15,6 +15,7 @@
       --accent-2: #00ff95;
       --muted: #9aa0a6;
       --danger: #ff5252;
+      --warning: #ffaa00;
       --border: #00f4ff33;
     }
 
@@ -34,8 +35,27 @@
     .auth-page-wrapper {
       width: 100%;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
+      gap: 15px;
+    }
+
+    /* باکس هشدار وضعیت شبکه */
+    .network-alert-box {
+      width: 100%;
+      max-width: 420px;
+      background: #1a1010;
+      border: 1px solid rgba(255, 82, 82, 0.3);
+      border-radius: 12px;
+      padding: 12px 15px;
+      box-sizing: border-box;
+      display: none; /* پیش‌فرض مخفی */
+      color: var(--danger);
+      font-size: 13px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(255, 82, 82, 0.15);
+      line-height: 22px;
     }
 
     .auth-box.panel {
@@ -153,26 +173,11 @@
       transition: 0.3s;
     }
 
-    .bg-weak {
-      background: var(--danger) !important;
-      box-shadow: 0 0 8px var(--danger);
-    }
+    .bg-weak { background: var(--danger) !important; box-shadow: 0 0 8px var(--danger); }
+    .bg-medium { background: var(--warning) !important; box-shadow: 0 0 8px var(--warning); }
+    .bg-strong { background: var(--accent-2) !important; box-shadow: 0 0 8px var(--accent-2); }
 
-    .bg-medium {
-      background: #ffaa00 !important;
-      box-shadow: 0 0 8px #ffaa00;
-    }
-
-    .bg-strong {
-      background: var(--accent-2) !important;
-      box-shadow: 0 0 8px var(--accent-2);
-    }
-
-    #strengthText {
-      margin-top: 4px;
-      display: block;
-      font-size: 11px;
-    }
+    #strengthText { margin-top: 4px; display: block; font-size: 11px; }
 
     /* ======== مخفی‌سازی کامل لودینگ پیش‌فرض گوگل ======== */
     .VIpgJd-ZVi9od-aZ2wEe-wOHMyf,
@@ -290,6 +295,12 @@
 <body>
 
   <div class="auth-page-wrapper">
+    
+    <div id="networkAlert" class="network-alert-box">
+      ⚠️ <b>اختلال در اتصال به سرورهای فایربیس!</b> <br>
+      تحریم یا فیلترینگ شدید روی شبکه شما شناسایی شد. لطفاً فیلترشکن (VPN) خود را تغییر دهید، در غیر این صورت فرآیند ثبت‌نام قفل خواهد شد.
+    </div>
+
     <div class="auth-box panel">
       <h2>پایگاه احراز هویت GHOST</h2>
 
@@ -317,8 +328,7 @@
         <input type="password" id="authConfirmPassword" placeholder="******">
       </div>
 
-      <button class="btn" id="signUpBtn" onclick="handleSignUp()"><i class="fa-solid fa-fingerprint"></i> ایجاد حساب
-        کاربری</button>
+      <button class="btn" id="signUpBtn" onclick="handleSignUp()">ایجاد حساب کاربری</button>
 
       <div class="auth-divider">یا</div>
 
@@ -331,11 +341,13 @@
 
   <script src="global-translate.js"></script>
   <script src="alert-system.js"></script>
+  <script src="check-network.js"></script>
+  
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
     import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-  
+
     const firebaseConfig = {
       apiKey: "AIzaSyCKGR-kZpIowWukh8fnbr-hepGuXyZG3Vg",
       authDomain: "ghost-3151c.firebaseapp.com",
@@ -344,27 +356,34 @@
       messagingSenderId: "538505756050",
       appId: "1:538505756050:web:1448b00baff4018cc4954b"
     };
-  
+
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
     const googleProvider = new GoogleAuthProvider();
-  
-    // کنترل بازگشت از ریدایرکت گوگل (مخصوص داخل تلگرام)
+
+    // بررسی وضعیت شبکه به محض اجرای صفحه
     window.addEventListener('DOMContentLoaded', async () => {
+      if (typeof checkFirebaseConnection === 'function') {
+        const netStatus = await checkFirebaseConnection();
+        if (!netStatus.success) {
+          const alertBox = document.getElementById("networkAlert");
+          if (alertBox) alertBox.style.display = "block";
+        }
+      }
+
+      // چک کردن بازگشت از ریدایرکت گوگل
       try {
         const result = await getRedirectResult(auth);
         if (result && result.user) {
-          const user = result.user;
-          await handleUserFirestoreSetup(user, "کاربر گوگل", 100);
+          await handleUserFirestoreSetup(result.user, "کاربر گوگل", 100);
           window.location.replace("index.html");
         }
       } catch (error) {
         console.error("Redirect Auth Error:", error);
       }
     });
-  
-    // تابع کمکی برای ثبت دیتابیس جهت جلوگیری از تکرار کد
+
     async function handleUserFirestoreSetup(user, displayName, coins) {
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
@@ -375,48 +394,32 @@
         isBanned: false
       }, { merge: true });
     }
-  
-    // ۱. سیستم تشخیص قدرت پسورد نئونی
+
     function checkPasswordStrength(password) {
       const bar = document.getElementById("strengthBar");
       const text = document.getElementById("strengthText");
-  
-      if (!password) {
-        bar.style.width = "0%";
-        text.textContent = "";
-        return;
-      }
-  
+      if (!password) { bar.style.width = "0%"; text.textContent = ""; return; }
+
       let score = 0;
       if (password.length >= 8) score++;
       if (/[A-Z]/.test(password) || /[0-9]/.test(password)) score++;
       if (/[^A-Za-z0-9]/.test(password)) score++;
-  
+
       bar.className = "";
       if (score <= 1 || password.length < 8) {
-        bar.style.width = "33%";
-        bar.classList.add("bg-weak");
-        text.textContent = "ضعیف ❌";
-        text.style.color = "var(--danger)";
+        bar.style.width = "33%"; bar.classList.add("bg-weak"); text.textContent = "ضعیف ❌"; text.style.color = "var(--danger)";
       } else if (score === 2) {
-        bar.style.width = "66%";
-        bar.classList.add("bg-medium");
-        text.textContent = "متوسط ⚠️";
-        text.style.color = "#ffaa00";
+        bar.style.width = "66%"; bar.classList.add("bg-medium"); text.textContent = "متوسط ⚠️"; text.style.color = "var(--warning)";
       } else if (score === 3) {
-        bar.style.width = "100%";
-        bar.classList.add("bg-strong");
-        text.textContent = "امنیت گاد و فول نجومی! ✅";
-        text.style.color = "var(--accent-2)";
+        bar.style.width = "100%"; bar.classList.add("bg-strong"); text.textContent = "امنیت گاد و فول نجومی! ✅"; text.style.color = "var(--accent-2)";
       }
     }
-  
-    // ۳- تابع تغییر وضعیت لودینگ دکمه
+
     function setAuthLoading(isLoading, buttonId, originalText) {
       const btn = document.getElementById(buttonId);
       if (!btn) return;
       if (isLoading) {
-        btn.disabled = true; // غیرفعال کردن دکمه برای جلوگیری از کلیک دوباره
+        btn.disabled = true;
         btn.style.pointerEvents = "none";
         btn.innerHTML = `<span style="display:inline-block; width:14px; height:14px; border:2px solid var(--text); border-top-color:transparent; border-radius:50%; animation:spinCustom 0.8s linear infinite; vertical-align:middle; margin-left:5px;"></span> در حال پردازش...`;
       } else {
@@ -425,56 +428,50 @@
         btn.innerHTML = originalText;
       }
     }
-  
+
     if (!document.getElementById('btnSpinStyle')) {
       const style = document.createElement('style');
       style.id = 'btnSpinStyle';
       style.innerHTML = `@keyframes spinCustom { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`;
       document.head.appendChild(style);
     }
-  
-    // تابع اصلی ثبت نام
+
     async function handleSignUp() {
       const name = document.getElementById("authName").value.trim();
       let email = document.getElementById("authEmail").value.trim();
       const password = document.getElementById("authPassword").value;
       const confirmPassword = document.getElementById("authConfirmPassword").value;
-  
+
       if (!name || !email || !password) { alert("همه فیلدها رو پر کن دادا!"); return; }
       if (password !== confirmPassword) { alert("پسوردها با هم یکی نیستن!"); return; }
       if (password.length < 8) { alert("پسورد باید حداقل ۸ رقم باشه!"); return; }
-  
+
       if (!email.includes("@")) email = email + "@gmail.com";
-  
+
       setAuthLoading(true, "signUpBtn", "ایجاد حساب کاربری");
-  
+
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         await handleUserFirestoreSetup(userCredential.user, name, 10);
-  
         alert("ثبت نام موفقیت‌آمیز بود! ۱۰ سکه هدیه گرفتی رئیس.");
         setTimeout(() => { window.location.replace("index.html"); }, 100);
-  
       } catch (error) {
-        // مدیریت هوشمند کلیک‌های همزمان یا ایمیل تکراری
         if (error.code === 'auth/email-already-in-use') {
           alert("این ایمیل قبلاً ثبت شده دادا! اگه اکانت داری وارد شو یا ایمیل رو عوض کن.");
+        } else if (error.message.includes("network-request-failed")) {
+          alert("خطای اتصال شبکه! فیلترشکنت با فایربیس مشکل داره دادا، عوضش کن.");
         } else {
           alert("خطا در ثبت نام: " + error.message);
         }
         setAuthLoading(false, "signUpBtn", "ایجاد حساب کاربری");
       }
     }
-  
-    // تابع ورود با گوگل بهینه شده برای تلگرام
+
     async function handleGoogleSignIn() {
       setAuthLoading(true, "googleBtn", "ورود با حساب گوگل");
-      
-      // تشخیص اینکه کاربر داخل تلگرام یا مرورگرهای مشابه است
       const isWebView = /Telegram|FBAN|FBAV|Instagram/i.test(navigator.userAgent);
-  
+
       if (isWebView) {
-        // اگر داخل تلگرام بود، به جای پاپ‌آپ از ریدایرکت استفاده کن
         try {
           await signInWithRedirect(auth, googleProvider);
         } catch (error) {
@@ -482,14 +479,12 @@
           setAuthLoading(false, "googleBtn", "ورود با حساب گوگل");
         }
       } else {
-        // مرورگر عادی (کروم، فایرفاکس و...)
         try {
           const result = await signInWithPopup(auth, googleProvider);
           await handleUserFirestoreSetup(result.user, result.user.displayName || "کاربر گوگل", 100);
           alert("با اکانت گوگل با موفقیت وارد شدی دادا!");
           setTimeout(() => { window.location.replace("index.html"); }, 100);
         } catch (error) {
-          // اگر پاپ آپ به هر دلیلی مسدود شد، سوییچ کن روی ریدایرکت
           if (error.code === 'auth/popup-blocked' || error.code === 'auth/cancelled-popup-request') {
             try {
               await signInWithRedirect(auth, googleProvider);
@@ -504,7 +499,7 @@
         }
       }
     }
-  
+
     window.checkPasswordStrength = checkPasswordStrength;
     window.handleSignUp = handleSignUp;
     window.handleGoogleSignIn = handleGoogleSignIn;
