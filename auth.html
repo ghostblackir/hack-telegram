@@ -372,11 +372,11 @@
         }
       }
 
-      // چک کردن بازگشت از ریدایرکت گوگل
+      // چک کردن بازگشت از ریدایرکت گوگل (مخصوص کاربران تلگرام)
       try {
         const result = await getRedirectResult(auth);
         if (result && result.user) {
-          await handleUserFirestoreSetup(result.user, "کاربر گوگل", 100);
+          await handleUserFirestoreSetup(result.user, result.user.displayName || "کاربر گوگل", 10); 
           window.location.replace("index.html");
         }
       } catch (error) {
@@ -481,7 +481,7 @@
       } else {
         try {
           const result = await signInWithPopup(auth, googleProvider);
-          await handleUserFirestoreSetup(result.user, result.user.displayName || "کاربر گوگل", 100);
+          await handleUserFirestoreSetup(result.user, result.user.displayName || "کاربر گوگل", 10);
           alert("با اکانت گوگل با موفقیت وارد شدی دادا!");
           setTimeout(() => { window.location.replace("index.html"); }, 100);
         } catch (error) {
