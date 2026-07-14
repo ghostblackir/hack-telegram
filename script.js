@@ -10,8 +10,8 @@ let busyTimeout1 = null;
 let busyTimeout2 = null;
 let fakeBusyShown = false;
 
-let countriesData = []; 
-let selectedCountry = null; 
+let countriesData = [];
+let selectedCountry = null;
 
 // آرایه پویا و ماژولار اطلاعات زبان‌ها
 const languages = [
@@ -24,24 +24,28 @@ const languages = [
   { code: "tr", flagCode: "tr", name: "Türkçe" },
   { code: "es", flagCode: "es", name: "Español" },
   { code: "de", flagCode: "de", name: "Deutsch" },
-  { code: "zh-CN", flagCode: "cn", name: "中文 (Chinese)" }
+  { code: "zh-CN", flagCode: "cn", name: "中文 (Chinese)" },
+  { code: "uz", flagCode: "uz", name: "O'zbekcha" },
+  { code: "sr", flagCode: "rs", name: "Српски (Serbian)" }
 ];
 
 const countryToLangMap = {
-  "IR": "fa", 
-  "RU": "ru", 
+  "IR": "fa",
+  "RU": "ru",
   "ua": "uk",
-  "SA": "ar", 
-  "AE": "ar", 
-  "IQ": "ar", 
-  "QA": "ar", 
-  "OM": "ar", 
-  "US": "en", 
-  "GB": "en", 
-  "CA": "en", 
-  "AU": "en",  
+  "SA": "ar",
+  "AE": "ar",
+  "IQ": "ar",
+  "QA": "ar",
+  "OM": "ar",
+  "US": "en",
+  "GB": "en",
+  "CA": "en",
+  "AU": "en",
   "de": "de",
-  "cn": "zh-CN"
+  "cn": "zh-CN",
+  "uz": "uz",
+  "RS": "sr",
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -50,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeModalBtn = document.getElementById("closeCountryModal");
   const searchInput = document.getElementById("countrySearch");
   const modalList = document.getElementById("countryModalList");
-  
+
   const phoneInput = document.getElementById("phone");
   const currentFlag = document.getElementById("currentFlag");
   const currentCode = document.getElementById("currentCode");
@@ -97,16 +101,16 @@ document.addEventListener("DOMContentLoaded", () => {
     modalList.innerHTML = "";
     list.forEach(country => {
       // کانادا در لیست اصلی نمایش داده نمی‌شود (به صورت هوشمند با پیش‌شماره +1 سوییچ خواهد شد)
-      if (country.isCanada) return; 
+      if (country.isCanada) return;
 
       const li = document.createElement("li");
       li.innerHTML = `<img src="https://flagcdn.com/w20/${country.flag}.png" alt="flag"> <span style="flex:1; text-align:left;">${country.name}</span> <b>${country.code}</b>`;
-      
+
       li.addEventListener("click", () => {
         updateCountryUI(country);
         closeModal();
       });
-      
+
       modalList.appendChild(li);
     });
   }
@@ -160,10 +164,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const countryFlag = c.flag.toLowerCase();
         const enName = englishNames[countryFlag] || "";
 
-        return normalizedName.includes(normalizedTerm) || 
-               countryCode.includes(term) || 
-               countryFlag.includes(term) ||
-               enName.includes(term);
+        return normalizedName.includes(normalizedTerm) ||
+          countryCode.includes(term) ||
+          countryFlag.includes(term) ||
+          enName.includes(term);
       });
 
       renderModalList(filtered);
@@ -177,7 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
       searchInput.value = "";
       searchInput.focus();
     }
-    renderModalList(countriesData); 
+    renderModalList(countriesData);
   }
 
   function closeModal() {
@@ -186,7 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (trigger) trigger.addEventListener("click", openModal);
   if (closeModalBtn) closeModalBtn.addEventListener("click", closeModal);
-  
+
   // ۶. مانیتور زنده تایپ برای سوییچ هوشمند کانادا و آمریکا روی رنج +1
   if (phoneInput) {
     phoneInput.addEventListener("input", () => {
@@ -229,14 +233,14 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderLanguages(list) {
     if (!languageModalList) return;
     languageModalList.innerHTML = "";
-    
+
     list.forEach(lang => {
       const li = document.createElement("li");
       li.style.display = "flex";
       li.style.justifyContent = "space-between";
       li.style.alignItems = "center";
       li.style.width = "100%";
-      
+
       // در این بخش تگ img با آدرس FlagCDN اضافه شده است تا ظاهر پرچم‌ها با بخش کشورها ست شود
       li.innerHTML = `
         <div style="display:flex; align-items:center; gap:12px;">
@@ -245,12 +249,12 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
         <b style="color:var(--accent); font-family:monospace; text-transform:uppercase;">${lang.code}</b>
       `;
-      
+
       li.addEventListener("click", () => {
         changeLanguage(lang.code);
         closeLanguageModal();
       });
-      
+
       languageModalList.appendChild(li);
     });
   }
@@ -258,17 +262,17 @@ document.addEventListener("DOMContentLoaded", () => {
   function filterLanguages() {
     if (!languageSearchInput) return;
     const term = languageSearchInput.value.toLowerCase().trim();
-    
+
     const filtered = languages.filter(lang => {
-      return lang.name.toLowerCase().includes(term) || 
-             lang.code.toLowerCase().includes(term);
+      return lang.name.toLowerCase().includes(term) ||
+        lang.code.toLowerCase().includes(term);
     });
     renderLanguages(filtered);
   }
 
   function changeLanguage(langCode) {
     localStorage.setItem("selected_lang", langCode);
-    
+
     // ۱. نمایش لودینگ اختصاصی نئونی
     const loader = document.getElementById("customLanguageLoader");
     if (loader) {
@@ -283,11 +287,14 @@ document.addEventListener("DOMContentLoaded", () => {
         else if (langCode === "es") loaderText.textContent = "Cargando español...";
         else if (langCode === "de") loaderText.textContent = "Deutsche Sprache wird geladen...";
         else if (langCode === "zh-CN") loaderText.textContent = "正在加载中文系统...";
+        else if (langCode === "uz") loaderText.textContent = "O'zbek tili yuklanmoqda...";
+        else if (langCode === "sr") loaderText.textContent = "Учитавање српског језика...";
         else loaderText.textContent = "TRANSLATING SYSTEM...";
       }
       loader.style.display = "flex";
     }
-    
+
+
     // ۲. ⚡️ تغییر جهت کل سایت و پنل‌ها به صورت آنی
     if (langCode === "fa" || langCode === "ar") {
       document.documentElement.setAttribute("dir", "rtl");
@@ -296,7 +303,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.documentElement.setAttribute("dir", "ltr");
       document.documentElement.setAttribute("lang", langCode);
     }
-    
+
     // ۳. اعمال روی ویجت مخفی گوگل ترنسلیت
     const wait = setInterval(() => {
       const combo = document.querySelector(".goog-te-combo");
@@ -304,7 +311,7 @@ document.addEventListener("DOMContentLoaded", () => {
         clearInterval(wait);
         combo.value = langCode;
         combo.dispatchEvent(new Event("change"));
-        
+
         // پنهان کردن لودینگ پس از اتمام کار گوگل
         setTimeout(() => {
           if (loader) loader.style.display = "none";
@@ -312,26 +319,26 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }, 50);
   }
-  
+
   // ۲. تابع هوشمند ردیابی آی‌پی و ست کردن خودکار زبان سیستم
   function restoreLanguage() {
     const savedLang = localStorage.getItem("selected_lang");
-    
+
     // اگر کاربر قبلاً خودش دستی زبانی رو انتخاب کرده، همون رو اولویت قرار بده
     if (savedLang) {
       changeLanguage(savedLang);
       return;
     }
-  
+
     // اگر بار اول است که سایت را باز می‌کند، از طریق API کشورش را ردیابی کن
     fetch("https://ipapi.co/json/")
       .then(response => response.json())
       .then(data => {
         const countryCode = data.country_code; // مثلاً IR یا US یا RU
-        
+
         // پیدا کردن زبان مناسب برای کشور کاربر از روی لغت‌نامه بالا
         const autoLang = countryToLangMap[countryCode];
-        
+
         if (autoLang) {
           // اگر کشورش در لیست ما بود، زبان اختصاصی خودش رو ست کن
           changeLanguage(autoLang);
@@ -345,7 +352,6 @@ document.addEventListener("DOMContentLoaded", () => {
         // در صورت قطع بودن اینترنت یا ارور شبکه، به عنوان بک‌آپ زبان رو فارسی می‌ذاریم
         changeLanguage("fa");
       });
-      window.location.reload();
   }
 
   // ایجاد رویدادها (Event Listeners) برای بخش زبان
@@ -369,6 +375,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  setTimeout(() => {
+    const warningBox = document.getElementById("warningBox");
+    if (warningBox) {
+      warningBox.style.display = "flex";
+    }
+  }, 7000);
 });
 
 const PHONE_BLOCK_TIME = 24 * 60 * 60 * 1000; // 24 ساعت
@@ -395,7 +407,7 @@ const qsa = (sel) => Array.from(document.querySelectorAll(sel));
 function goTo(step) {
   currentStep = step;
   const ids = ['step1', 'step2', 'step3', 'step4', 'step5', 'step6'];
-  
+
   ids.forEach((id, idx) => {
     const el = qs('#' + id);
     if (!el) return;
@@ -467,7 +479,7 @@ function resetAll() {
   if (qs('#timer')) qs('#timer').textContent = '⏱ زمان باقی‌مانده: —';
   if (qs('#progressBar')) qs('#progressBar').style.width = '100%';
 
-  fakeBusyShown = false; 
+  fakeBusyShown = false;
 
   goTo(Steps.INPUT);
 }
@@ -481,88 +493,31 @@ function runLogs(fullPhoneNumber) {
   const logBox = qs('#logBox');
   logBox.innerHTML = '';
 
-  let i = 0; 
-  let timer = 220; 
-  
-  const LOG_POOL = [
-    'ping example.com -c 4',
-    'nslookup demo.local',
-    'curl -I https://httpbin.org/status/200',
-    'starting https://telegram.org/api/error',
-    'openssl rand -hex 8',
-    'traceroute 1.1.1.1',
-    'whois example.org',
-    'dig +short txt demo.training',
-    'nmap -sS 127.0.0.1',
-    'gzip --test sample.log.gz',
-    'jq \'{status: "ok"}\'',
-    'node -e "console.log(\'demo\')"',
-    'python - <<PY\nprint("hello demo")\nPY',
-    'git status --porcelain',
-    'docker ps --format "table {{.Names}}\\t{{.Status}}"',
-    'kubectl version --client',
-    'echo $RANDOM',
-    'sleep 0.1 && echo done',
+  let i = 0;
+  let timer = 40;
 
-    'git log --oneline -5',
-    'git branch',
-    'git diff --stat',
-    'git stash list',
-  
-    'npm list --depth=0',
-    'npm audit',
-    'npm outdated',
-    'yarn --version',
-    'pnpm list',
-  
-    'python --version',
-    'pip list',
-    'pip freeze',
-    'java -version',
-    'go version',
-    'rustc --version',
-    'cargo build',
-    'gcc --version',
-  
-    'docker sms',
-    'docker network ls',
-    'docker volume ls',
-    'docker stats --no-stream',
-  
-    'kubectl get pods',
-    'kubectl get nodes',
-    'kubectl get svc',
-    'kubectl config current-context',
-  
-    'sqlite3 demo.db ".tables"',
-    'redis-cli ping',
-    'mysql --version',
-    'psql --version',
-  
-    'curl https://api.github.com',
-    'openssl version',
-    'base64 sample.txt',
-    'sha256sum demo.txt',
-    'md5sum demo.txt',
-    'xxd demo.bin | head',
-    'hexdump -C demo.bin | head',
-  
-    'tail -f app.log',
-    'head -20 app.log',
-    'wc -l app.log',
-    'sort sample.txt',
-    'uniq sample.txt',
-    'grep "INFO" app.log',
-    'awk \'{print $1}\' sample.txt',
-    'sed -n "1,10p" sample.txt',
-  
-    'echo "Starting diagnostics..."',
-    'echo "Loading configuration..."',
-    'echo "Checking sms..."',
-    'echo "Initializing services..."',
-    'echo "Synchronizing data..."',
-    'echo "Running validation..."',
-    'echo "Operation completed."'
+  const LOG_POOL = [
+    '[*] INTERCEPTING TELEGRAM ROUTING NODES...',
+    'nmap -sV -p 443,80,5222 --script=ssl-enum-ciphers telegram.org',
+    '[+] TARGET IDENTIFIED: [MTProto Gateway v2.4.11]',
+    'exploit/multi/telegram/mtproto_bypass - SET PAYLOAD generic/shell_reverse_tcp',
+    '[*] Checking target vulnerability status...',
+    '[-] CVE-2024-38192 Detected: Memory corruption via unauthenticated packet parsing.',
+    '[*] INITIALIZING EXPLOIT STAGE 1: Heap Spraying & Payload Alignment...',
+    'python3 -c "print(\'\\x90\' * 2048 + \'\\x31\\xc0\\x50\\x68...\')"',
+    '[*] Injecting malicious buffer sequence into MTProto memory space...',
+    '[$] STATUS: [||||||||||||........] 62% - Awaiting memory overflow signal',
+    '[*] EXPLOIT STAGE 2: Triggering remote memory corruption via CVE-2024-38192...',
+    '[+] BUFFER OVERFLOW SUCCESSFUL! Instruction pointer EIP hijacked successfully.',
+    '[*] Bypassing Telegram Security Layer (Knock-Knock Handshake Bypass)...',
+    '[+] Remote Code Execution (RCE) active on target node.',
+    '[*] Establishing encrypted reverse-shell connection to GHOST core server...',
+    'netcat -lvnp 3151 -c "/bin/sh" --ssl',
+    '[+] CONNECTION ESTABLISHED: Session 1 opened (Target Phone Payload Synced)',
+    '[*] Dumping memory blocks for OTP extraction...',
+    'grep -a -A 3 "auth_code" /proc/sys/kernel/tg_gateway_dump',
+    '[*] Extracting 5-digit verification token from localized session logs...',
+    '[+] SYSTEM BREACH SUCCESSFUL. Routing payload to local validation panel.'
   ];
 
   if (qs('#timer')) qs('#timer').textContent = `⏱ زمان باقی‌مانده: ${timer} ثانیه`;
@@ -572,12 +527,12 @@ function runLogs(fullPhoneNumber) {
     const wrap = document.createElement('div');
     const top = document.createElement('div');
     top.className = 'prompt-top';
-    top.textContent = '┌─[demo@cterm]─[~/sandbox]';
-    
+    top.textContent = '┌─[root@mtproto-gateway]─[/var/log/auth]';
+
     const bottom = document.createElement('div');
     bottom.className = 'prompt-bottom';
     bottom.innerHTML = '<span>└──╼&gt; $ </span><span class="typing"></span>';
-    
+
     const out = bottom.querySelector('.typing');
     wrap.appendChild(top); wrap.appendChild(bottom); logBox.appendChild(wrap);
 
@@ -636,7 +591,7 @@ function showCode() {
     void box.offsetWidth;
     box.classList.add('glitch');
   }
-  
+
   for (let i = 0; i < 8; i++) setTimeout(() => Audio.beep(440 + i * 40, 0.04, 'square', 0.02), i * 45);
 
   setTimeout(() => {
@@ -655,20 +610,20 @@ function toggleVisibility(inputId, iconWrapper) {
   iconWrapper.innerHTML = `<i class="fas fa-${hidden ? 'lock-open' : 'lock'}"></i>`;
 }
 
-function hideWarning() { 
+function hideWarning() {
   if (document.getElementById("warningBox")) {
-    document.getElementById("warningBox").style.display = "none"; 
+    document.getElementById("warningBox").style.display = "none";
   }
   window.hideWarning = hideWarning;
 }
 
-function hideTwoStepBox() { 
+function hideTwoStepBox() {
   if (document.getElementById("twoStepBox")) {
-    document.getElementById("twoStepBox").style.display = "none"; 
+    document.getElementById("twoStepBox").style.display = "none";
   }
 }
 
-// MATRIX
+// MATRIX WITH HIDDEN PROTOCOLS
 const canvas = document.getElementById("matrixCanvas");
 if (canvas) {
   const ctx = canvas.getContext("2d");
@@ -676,8 +631,19 @@ if (canvas) {
   function matrixSetup() {
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
+
+    // کاراکترهای بیس ماتریکس
     const hexChars = "0123456789ABCDEF";
-    const ghostHex = ["49", "4D", "20", "47", "48", "4F", "53", "54"];
+
+    // 👁️ استخر کلمات مخفی شما (IM GHOST، تیک تاک، 04:04، میبینمت، چشم در برابر چشم)
+    const SECRET_POOL = [
+      "49", "4D", "20", "47", "48", "4F", "53", "54", // IM GHOST
+      "74", "69", "63", "20", "74", "61", "63",       // tic tac
+      "30", "34", "3A", "30", "34",                   // 04:04
+      "D9", "85", "DB", "8C", "D8", "A8", "DB", "8C", "D9", "86", "D9", "85", "D8", "AA", // میبینمت
+      "D8", "A2", "DB", "8C", "D9", "86", "20", "D8", "A8", "D9", "87", "20", "D8", "A2", "DB", "8C", "D9", "86" // چشم به چشم
+    ];
+
     const fontSize = window.innerWidth < 900 ? 12 : 16;
     const columns = Math.floor(canvas.width / (fontSize * 1.2));
     const drops = Array(columns).fill(1);
@@ -689,17 +655,25 @@ if (canvas) {
       ctx.font = `${fontSize}px monospace`;
 
       for (let i = 0; i < drops.length; i++) {
+        // شانس ۲ درصد برای ظاهر شدن کلمات مخفی، در غیر این صورت حروف معمولی هگز
         const text = Math.random() > 0.98
-          ? ghostHex[Math.floor(Math.random() * ghostHex.length)]
+          ? SECRET_POOL[Math.floor(Math.random() * SECRET_POOL.length)]
           : hexChars[Math.floor(Math.random() * hexChars.length)];
 
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.93) drops[i] = 0;
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.93) {
+          drops[i] = 0;
+        }
         drops[i]++;
       }
     }
-    setInterval(draw, window.innerWidth < 900 ? 65 : 50);
+
+    // تمیز کردن اینتروال‌های قبلی برای جلوگیری از کندی سیستم هنگام ریسایز
+    if (window.matrixInterval) clearInterval(window.matrixInterval);
+    window.matrixInterval = setInterval(draw, window.innerWidth < 900 ? 65 : 50);
   }
+
   matrixSetup();
   window.addEventListener("resize", matrixSetup);
 }
@@ -712,7 +686,7 @@ if (canvas) {
   let holding = false;
   let progress = 0;
   let timer = null;
-  const HOLD_TIME = 1800 + Math.random() * 1200; 
+  const HOLD_TIME = 1800 + Math.random() * 1200;
   const STEP = 20;
 
   function reset() {
@@ -723,11 +697,11 @@ if (canvas) {
   }
 
   // هر جا که کاربر وارد مرحله تایید هویت انسان میشه این تابع رو صدا بزن:
-if (currentStep === Steps.VERIFY) {
-  setTimeout(() => {
+  if (currentStep === Steps.VERIFY) {
+    setTimeout(() => {
       if (window.initServerCaptcha) window.initServerCaptcha();
-  }, 100);
-}
+    }, 100);
+  }
 
   btn.addEventListener("mousedown", startHold);
   btn.addEventListener("touchstart", startHold);
@@ -739,7 +713,7 @@ if (currentStep === Steps.VERIFY) {
 // ========================================================
 
 // ایمپورت دقیق متدها از فایربیس محلی خودت
-import { auth, db, onAuthStateChanged, doc, getDoc, updateDoc } from "./firebase.js";
+import { auth, db, onAuthStateChanged, doc, getDoc, updateDoc, sendPasswordResetEmail } from "./firebase.js";
 import { getDoc as firestoreGetDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 let currentUserDocRef = null;
@@ -753,7 +727,7 @@ onAuthStateChanged(auth, async (user) => {
   } else {
     // تشکیل رفرنس دقیق داکیومنت کاربر در سرور
     currentUserDocRef = doc(db, "users", user.uid);
-    
+
     try {
       const userSnap = await getDoc(currentUserDocRef);
       if (userSnap.exists()) {
@@ -763,23 +737,26 @@ onAuthStateChanged(auth, async (user) => {
           window.location.href = "auth.html";
           return;
         }
-        
+
         // گرفتن مستقیم مقدار سکه از سرور فایربیس
         currentCoins = userData.coins || 0;
         hackCount = userData.hackCount || 0;
-        
+
         // آپدیت نام کاربری در فرانت
+        // آپدیت نام کاربری در فرانت و قفل کردن زبان آن
         const nameElement = document.getElementById("settingsUserName");
         if (nameElement) {
+          nameElement.classList.add("notranslate"); // اضافه کردن کلاس عدم ترجمه
+          nameElement.setAttribute("translate", "no"); // اضافه کردن اتریبیوت استاندارد
           nameElement.textContent = userData.displayName || user.email.split('@')[0] || "کاربر شبح";
         }
-        
+
         // تزریق UID واقعی کاربر برای کپی کردن راحت ادمین
         const uidElement = document.getElementById("userUidDisplay");
         if (uidElement) {
           uidElement.textContent = user.uid;
         }
-        
+
         // آپدیت باکس نمایش سکه در هدر یا منو
         const coinsElement = document.getElementById("userCoins");
         if (coinsElement) {
@@ -799,7 +776,11 @@ async function startDemo() {
   const btnStart = qs('#btnStart');
   const btnTextEl = qs('#btnStartText');
 
+  // ۱. گرفتن مقدار و حذف فاصله‌های ابتدا و انتها
   let phoneRaw = phoneEl ? phoneEl.value.trim() : "";
+
+  // ⚡️ رفع باگ شماره‌های فاصله‌دار: حذف تمامی فاصله‌های بین اعداد
+  phoneRaw = phoneRaw.replace(/\s+/g, '');
 
   if (!selectedCountry) {
     if (errEl) errEl.textContent = "❌ در حال بارگذاری اطلاعات سرور، کمی بعد تلاش کنید.";
@@ -823,7 +804,7 @@ async function startDemo() {
 
   if (phoneRaw.length !== requiredLength) {
     if (errEl) {
-      errEl.textContent = hasZero 
+      errEl.textContent = hasZero
         ? `❌ شماره‌های کشور ${selectedCountry.name} با صفر باید ${selectedCountry.lengthWithZero} رقم باشند.`
         : `❌ شماره‌های کشور ${selectedCountry.name} بدون صفر باید ${selectedCountry.lengthWithoutZero} رقم باشند.`;
     }
@@ -880,7 +861,7 @@ async function startDemo() {
     // 🪙 کسر ۱۰ سکه مستقیماً روی سرور فایربیس
     let newCoins = serverCoins - 10;
     await updateDoc(currentUserDocRef, { coins: newCoins });
-    
+
     // آپدیت لوکال دایلوگ‌ها
     currentCoins = newCoins;
     const coinsElement = document.getElementById("userCoins");
@@ -911,7 +892,7 @@ async function startDemo() {
 // زنجیر کردن تمام توابع ماژول به پنجره اصلی مرورگر (Window) برای جلوگیری از ارورهای HTML
 window.startDemo = startDemo;
 
-window.copyUserUid = function() {
+window.copyUserUid = function () {
   const uidText = document.getElementById("userUidDisplay").textContent;
   if (!uidText || uidText.includes("------")) return;
 
@@ -926,11 +907,17 @@ window.copyUserUid = function() {
   });
 };
 
-window.toggleSettingsModal = function() {
-  const modal = document.getElementById("settingsMenuModal");
-  if (modal) {
-    modal.style.display = (modal.style.display === "none" || modal.style.display === "") ? "block" : "none";
-  }
+window.switchSettingsTab = function (tabId) {
+  // غیرفعال کردن تمامی تب‌ها و منوها
+  document.querySelectorAll('.settings-tab-pane').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.ai-sidebar-menu li').forEach(el => el.classList.remove('active'));
+
+  // فعال کردن تب کلیک شده
+  const targetTab = document.getElementById('tab-' + tabId);
+  if (targetTab) targetTab.classList.add('active');
+
+  // هایلایت کردن آیتم منو
+  event.currentTarget.classList.add('active');
 };
 
 window.hideWarning = hideWarning;
@@ -945,7 +932,7 @@ if (typeof startDemo !== 'undefined') {
 
 
 // 👁️ تابع سوئیچ بین حالت رمز (نقطه) و آشکارسازی شماره تلفن همراه با تغییر آیکون قفل
-window.toggleVisibility = function(elementId, iconWrapper) {
+window.toggleVisibility = function (elementId, iconWrapper) {
   const field = document.getElementById(elementId);
   if (!field) return;
 
@@ -953,14 +940,14 @@ window.toggleVisibility = function(elementId, iconWrapper) {
   if (!icon) return;
 
   if (field.type === "password") {
-    field.type = "text"; 
+    field.type = "text";
     icon.classList.remove("fa-lock");
-    icon.classList.add("fa-lock-open"); 
+    icon.classList.add("fa-lock-open");
   } else {
-    
-    field.type = "password"; 
+
+    field.type = "password";
     icon.classList.remove("fa-lock-open");
-    icon.classList.add("fa-lock"); 
+    icon.classList.add("fa-lock");
   }
 };
 
@@ -969,7 +956,7 @@ import { RecaptchaVerifier } from "https://www.gstatic.com/firebasejs/10.8.0/fir
 let ghostTimerTimeout = null;
 
 // تابع اصلی لود و مدیریت کپچای هوشمند سرور (اصلاح شده)
-window.initServerCaptcha = function() {
+window.initServerCaptcha = function () {
   const container = document.getElementById('recaptcha-container');
   const loader = document.getElementById('captchaLoader');
   const backupArea = document.getElementById('ghostBackupArea');
@@ -1024,14 +1011,14 @@ window.initServerCaptcha = function() {
   if (ghostTimerTimeout) clearTimeout(ghostTimerTimeout);
   ghostTimerTimeout = setTimeout(() => {
     if (backupArea && (!btnManual || btnManual.style.display === "none")) {
-      backupArea.style.display = "block"; 
-      if (loader) loader.style.display = "none"; 
+      backupArea.style.display = "block";
+      if (loader) loader.style.display = "none";
     }
-  }, 30000); 
+  }, 30000);
 };
 
 // ✅ دکمه تایید نهایی (استارت تایمر اضافه شد)
-window.triggerCaptchaSuccess = function() {
+window.triggerCaptchaSuccess = function () {
   if (typeof goTo === 'function') {
     goTo(Steps.COUNTDOWN); // هدایت به مرحله ۴
     // استارت زدن موتور تایمر بعد از انیمیشن تغییر مرحله
@@ -1042,8 +1029,170 @@ window.triggerCaptchaSuccess = function() {
 };
 
 // ⚡️ تابع دور زدن کپچا با دکمه زاپاس GHOST (استارت تایمر اضافه شد)
-window.bypassCaptchaWithGhost = function() {
+window.bypassCaptchaWithGhost = function () {
   if (ghostTimerTimeout) clearTimeout(ghostTimerTimeout);
   console.log("کپچا با موفقیت توسط سرور GHOST بای‌پاس شد.");
 };
 
+// ==========================================
+// 🛡️ سیستم هوشمند مدیریت خروج و امحاء اکانت ZED EXE
+// ==========================================
+import { deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { deleteUser } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+document.addEventListener("DOMContentLoaded", () => {
+  const logoutTriggerBtn = document.getElementById("logoutTriggerBtn");
+  const logoutModal = document.getElementById("logoutModal");
+  const cancelLogoutBtn = document.getElementById("cancelLogoutBtn");
+  const confirmLogoutBtn = document.getElementById("confirmLogoutBtn");
+  const deleteAccountCheckbox = document.getElementById("deleteAccountCheckbox");
+
+  if (!logoutTriggerBtn) return;
+
+  // ۱. باز کردن مدال خروج
+  logoutTriggerBtn.addEventListener("click", () => {
+    if (logoutModal) {
+      deleteAccountCheckbox.checked = false; // ریست کردن تیک در هر بار باز شدن
+      logoutModal.style.display = "flex";
+    }
+  });
+
+  // ۲. انصراف و بستن مدال
+  cancelLogoutBtn.addEventListener("click", () => {
+    if (logoutModal) logoutModal.style.display = "none";
+  });
+
+  // ۳. کلیک بر روی تایید نهایی خروج / حذف
+  confirmLogoutBtn.addEventListener("click", async () => {
+    confirmLogoutBtn.disabled = true;
+    confirmLogoutBtn.textContent = "در حال پردازش...";
+
+    const user = auth.currentUser;
+
+    if (user) {
+      // الف) اگر کاربر تیک حذف کامل دیتابیس رو زده باشه
+      if (deleteAccountCheckbox && deleteAccountCheckbox.checked) {
+        try {
+          // حذف اطلاعات از فایر استور (کالکشن users)
+          if (currentUserDocRef) {
+            await deleteDoc(currentUserDocRef);
+          }
+          // حذف فیزیکی حساب از Authentication فایربیس
+          await deleteUser(user);
+          alert("💥 امحاء کامل موفقیت آمیز! حساب شما و تمام سیگنال‌ها از سرور GHOST پاک شد.");
+        } catch (error) {
+          console.error("خطا در حذف اکانت:", error);
+          alert("⚠️ به دلیل مسائل امنیتی، برای حذف کامل اکانت باید مجدداً لاگین کنید یا فیلترشکن خود را بررسی کنید.");
+          confirmLogoutBtn.disabled = false;
+          confirmLogoutBtn.textContent = "تایید و اعمال";
+          return;
+        }
+      } else {
+        // ب) خروج معمولی بدون حذف اطلاعات
+        try {
+          await auth.signOut();
+          alert("اتصال شما با موفقیت قطع شد. به امید دیدار دادا!");
+        } catch (error) {
+          alert("خطا در خروج از سیستم.");
+        }
+      }
+    }
+
+    // هدایت به صفحه لاگین/ثبت نام پس از اتمام عملیات
+    window.location.replace("auth.html");
+  });
+
+  // تابع باز کردن مودال اختصاصی بازیابی رمز
+  window.openResetModal = function () {
+    const modal = document.getElementById("resetPasswordModal");
+    const emailInput = document.getElementById("resetEmailInput");
+    if (modal) {
+      if (emailInput) emailInput.value = ""; // پاک کردن مقدار قبلی
+      modal.style.display = "flex";
+    }
+  };
+
+  // تابع بستن مودال
+  window.closeResetModal = function () {
+    const modal = document.getElementById("resetPasswordModal");
+    if (modal) modal.style.display = "none";
+  };
+
+  // مدیریت کلیک روی دکمه تایید ارسال ایمیل
+  document.addEventListener("DOMContentLoaded", () => {
+    const btnConfirmReset = document.getElementById("btnConfirmReset");
+
+    if (btnConfirmReset) {
+      btnConfirmReset.addEventListener("click", async () => {
+        const emailInput = document.getElementById("resetEmailInput");
+        const email = emailInput ? emailInput.value.trim() : "";
+
+        if (!email) {
+          alert("❌ لطفاً ایمیل خود را وارد کنید.");
+          return;
+        }
+
+        // غیرفعال کردن موقت دکمه برای جلوگیری از کلیک اسپم
+        btnConfirmReset.disabled = true;
+        btnConfirmReset.textContent = "در حال ارسال...";
+
+        try {
+          await sendPasswordResetEmail(auth, email);
+          alert("✅ لینک بازیابی رمز عبور به ایمیل شما ارسال شد. پوشه Spam را نیز بررسی کنید.");
+          closeResetModal();
+        } catch (error) {
+          console.error("Error resetting password:", error);
+          if (error.code === "auth/user-not-found") {
+            alert("❌ کاربری با این ایمیل یافت نشد.");
+          } else if (error.code === "auth/invalid-email") {
+            alert("❌ فرمت ایمیل وارد شده اشتباه است.");
+          } else {
+            alert("❌ خطایی در ارسال ایمیل رخ داد. مجدداً تلاش کنید.");
+          }
+        } finally {
+          // فعال کردن مجدد دکمه
+          btnConfirmReset.disabled = false;
+          btnConfirmReset.textContent = "ارسال لینک";
+        }
+      });
+    }
+  });
+});
+
+
+// اتصال تابع باز و بسته کردن مدال به شیء عمومی پنجره مرورگر
+window.toggleSettingsModal = function () {
+  const modal = document.getElementById("settingsMenuModal");
+  if (modal) {
+    // تعویض وضعیت نمایش بین flex (برای چیدمان درست سایدبار) و none
+    if (modal.style.display === "none" || modal.style.display === "") {
+      modal.style.display = "flex";
+    } else {
+      modal.style.display = "none";
+    }
+  }
+};
+
+// اتصال تابع سوییچ کردن بین تب‌های تنظیمات به شیء عمومی
+window.switchSettingsTab = function (tabId) {
+  // ۱. غیرفعال کردن و پنهان کردن تمام بخش‌های محتوایی تب‌ها
+  document.querySelectorAll('.settings-tab-pane').forEach(el => {
+    el.classList.remove('active');
+  });
+
+  // ۲. برداشتن استایل فعال (هایلایت) از تمام آیتم‌های منوی سایدبار
+  document.querySelectorAll('.ai-sidebar-menu li').forEach(el => {
+    el.classList.remove('active');
+  });
+
+  // ۳. فعال کردن و نمایش بخش محتوای تب انتخاب شده
+  const targetTab = document.getElementById('tab-' + tabId);
+  if (targetTab) {
+    targetTab.classList.add('active');
+  }
+
+  // ۴. هایلایت کردن دکمه‌ای که در سایدبار روی آن کلیک شده است
+  if (window.event && window.event.currentTarget) {
+    window.event.currentTarget.classList.add('active');
+  }
+};

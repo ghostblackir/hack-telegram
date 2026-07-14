@@ -1,6 +1,6 @@
 // استفاده از لینک مستقیم CDN برای اینکه مرورگر ارور نده
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, RecaptchaVerifier } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, RecaptchaVerifier, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 // کانفیگ اختصاصی خودت
@@ -29,5 +29,6 @@ export {
   setDoc, 
   updateDoc,
   RecaptchaVerifier, 
-  increment 
+  increment,
+  sendPasswordResetEmail
 };

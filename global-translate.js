@@ -1,11 +1,11 @@
 // لیست زبان‌های پشتیبانی شده سیستم شما
-const systemSupportedLanguages = ['fa', 'en', 'ar', 'ru', 'uk', 'fr', 'tr', 'es', 'de', 'zh-CN'];
+const systemSupportedLanguages = ['fa', 'en', 'ar', 'ru', 'uk', 'fr', 'tr', 'es', 'de', 'zh-CN', 'uz', 'sr'];
 
 // ۱. این تابع را برای مقداردهی اولیه گوگل ترنسلیت به پنجره اصلی وصل می‌کنیم
 window.googleTranslateElementInit = function() {
     new google.translate.TranslateElement({
         pageLanguage: 'fa',
-        includedLanguages: 'fa,en,ar,ru,uk,fr,tr,es,de,zh-CN',
+        includedLanguages: 'fa,en,ar,ru,uk,fr,tr,es,de,zh-CN,uz,sr',
         autoDisplay: false
     }, 'google_translate_element');
     

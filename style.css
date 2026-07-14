@@ -798,3 +798,216 @@ html[dir="ltr"] #countrySearch, html[dir="ltr"] #languageSearch {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* کانتینر اصلی مدال به صورت تمام صفحه */
+.ai-settings-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  font-family: Vazirmatn, Tahoma, sans-serif;
+}
+
+/* جعبه اصلی پنجره تنظیمات */
+.ai-settings-container {
+  display: flex;
+  width: 90%;
+  max-width: 780px;
+  height: 520px;
+  background: #121212;
+  border: 1px solid #222;
+  border-radius: 16px;
+  box-shadow: 0 0 40px rgba(0, 244, 255, 0.15);
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+/* سایدبار منو */
+.ai-settings-sidebar {
+  width: 240px;
+  background: #161616;
+  border-left: 1px solid #222;
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  position: relative;
+}
+
+.ai-settings-close {
+  font-size: 18px;
+  color: #666;
+  cursor: pointer;
+  padding: 5px 10px;
+  transition: color 0.2s;
+  align-self: flex-start;
+}
+.ai-settings-close:hover { color: #fff; }
+
+.ai-sidebar-menu {
+  list-style: none;
+  padding: 0; margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.ai-sidebar-menu li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  color: #aaa;
+  font-size: 13px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ai-sidebar-menu li:hover, .ai-sidebar-menu li.active {
+  background: rgba(0, 244, 255, 0.08);
+  color: #00f4ff;
+}
+
+/* بخش محتوای سمت چپ */
+.ai-settings-content {
+  flex: 1;
+  padding: 30px;
+  background: #111;
+  overflow-y: auto;
+}
+
+.settings-tab-pane {
+  display: none;
+}
+.settings-tab-pane.active {
+  display: block;
+}
+
+.ai-settings-content h2 {
+  font-size: 18px;
+  color: #fff;
+  margin-top: 0;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #222;
+  padding-bottom: 12px;
+}
+
+/* ردیف‌های تنظیمات */
+.settings-row-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid #1a1a1a;
+  gap: 15px;
+}
+
+.settings-row-item.danger-zone {
+  border-top: 1px dashed #ff525233;
+  margin-top: 20px;
+  border-bottom: none;
+}
+
+.row-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.row-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #eee;
+}
+
+.row-desc {
+  font-size: 12px;
+  color: #777;
+}
+
+.monospace-uid {
+  font-family: monospace;
+  color: #00f4ff;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* دکمه‌های اکشن داخل منو */
+.btn-action {
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.btn-action.secondary {
+  background: #222;
+  color: #fff;
+  border-color: #333;
+}
+.btn-action.secondary:hover {
+  background: #333;
+  border-color: #444;
+}
+
+.btn-action.danger {
+  background: rgba(255, 82, 82, 0.1);
+  color: #ff5252;
+  border-color: #ff525233;
+}
+.btn-action.danger:hover {
+  background: #ff5252;
+  color: #000;
+}
+
+.badge-coins {
+  font-size: 13px;
+  color: #ffaa00;
+  font-weight: bold;
+}
+
+/* مدیریت ریسپانسیو برای موبایل */
+@media (max-width: 640px) {
+  .ai-settings-container {
+    flex-direction: column;
+    height: 80vh;
+  }
+  .ai-settings-sidebar {
+    width: 100%;
+    border-left: none;
+    border-bottom: 1px solid #222;
+    padding: 10px;
+  }
+  .ai-sidebar-menu {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+  .settings-row-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .btn-action { width: 100%; text-align: center; }
+}
+#tab-security .field input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid #222;
+  border-radius: 8px;
+  color: #fff;
+  outline: none;
+  transition: border-color 0.2s;
+}
+#tab-security .field input:focus {
+  border-color: #00f4ff;
+}

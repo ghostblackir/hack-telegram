@@ -35,259 +35,183 @@
     .auth-page-wrapper {
       width: 100%;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      gap: 15px;
     }
 
-    /* باکس هشدار وضعیت شبکه */
-    .network-alert-box {
-      width: 100%;
-      max-width: 420px;
-      background: #1a1010;
-      border: 1px solid rgba(255, 82, 82, 0.3);
-      border-radius: 12px;
-      padding: 12px 15px;
-      box-sizing: border-box;
-      display: none; /* پیش‌فرض مخفی */
-      color: var(--danger);
-      font-size: 13px;
-      text-align: center;
-      box-shadow: 0 0 20px rgba(255, 82, 82, 0.15);
-      line-height: 22px;
-    }
-
-    .auth-box.panel {
+    .auth-card {
       background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 30px 25px;
       width: 100%;
       max-width: 420px;
-      box-shadow: 0 0 40px rgba(0, 244, 255, 0.15);
-      box-sizing: border-box;
+      padding: 35px 30px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0, 244, 255, 0.05);
       position: relative;
     }
 
-    .auth-box h2 {
+    .auth-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      border-radius: 16px 16px 0 0;
+    }
+
+    .brand-header {
       text-align: center;
-      color: var(--accent);
-      font-size: 20px;
-      font-weight: 800;
-      margin-bottom: 24px;
-      letter-spacing: 0.5px;
+      margin-bottom: 30px;
     }
 
-    .field {
-      position: relative;
-      margin-bottom: 20px;
-      display: flex;
-      flex-direction: column;
+    .brand-title {
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      background: linear-gradient(45deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 0 0 8px 0;
     }
 
-    .field label {
-      color: var(--muted);
+    .brand-subtitle {
       font-size: 12px;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
       margin-bottom: 8px;
     }
 
-    .field input {
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper input {
       width: 100%;
-      padding: 12px 15px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: #00000055;
-      color: var(--text);
-      font-size: 15px;
-      outline: none;
+      background: #181818;
+      border: 1px solid #2a2a2a;
+      padding: 12px 16px;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
       box-sizing: border-box;
-      transition: all 0.25s ease;
+      transition: all 0.3s ease;
     }
 
-    .field input:focus {
+    .input-wrapper input:focus {
+      outline: none;
       border-color: var(--accent);
-      box-shadow: 0 0 12px rgba(0, 244, 255, 0.4);
-      background: #00000088;
+      box-shadow: 0 0 10px rgba(0, 244, 255, 0.1);
     }
 
-    .btn {
-      background: var(--accent);
-      color: #032d2f;
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: #000;
       border: none;
-      border-radius: 12px;
-      padding: 12px 14px;
-      cursor: pointer;
-      font-weight: 700;
+      padding: 14px;
+      border-radius: 8px;
       font-size: 15px;
-      transition: transform .12s ease, filter .2s ease;
-      display: inline-flex;
+      font-weight: bold;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .btn-submit:hover {
+      opacity: 0.9;
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      margin: 25px 0;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    .divider:not(:empty)::before {
+      margin-left: .5em;
+    }
+
+    .divider:not(:empty)::after {
+      margin-right: .5em;
+    }
+
+    .btn-google {
+      width: 100%;
+      background: #181818;
+      color: #fff;
+      border: 1px solid #2a2a2a;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      width: 100%;
+      gap: 10px;
+      transition: background 0.3s ease;
     }
 
-    .btn:hover {
-      transform: translateY(-1px);
-      filter: saturate(1.2);
-      box-shadow: 0 0 15px rgba(0, 244, 255, 0.4);
+    .btn-google:hover {
+      background: #222;
     }
 
-    .google-btn {
-      background: transparent !important;
-      color: var(--text) !important;
-      border: 1px solid var(--border) !important;
-      margin-top: 12px;
-    }
-
-    .google-btn:hover {
-      background: rgba(0, 244, 255, 0.08) !important;
-      box-shadow: 0 0 15px rgba(0, 244, 255, 0.2) !important;
-    }
-
-    .google-btn img {
+    .btn-google img {
       width: 18px;
       height: 18px;
     }
 
-    .auth-divider {
-      text-align: center;
-      margin: 15px 0 5px 0;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .strength-bar-container {
-      background: #000;
-      height: 6px;
-      margin-top: 6px;
-      border-radius: 999px;
-      overflow: hidden;
-      border: 1px solid rgba(0, 244, 255, 0.1);
-    }
-
-    #strengthBar {
-      width: 0%;
-      height: 100%;
-      transition: 0.3s;
-    }
-
-    .bg-weak { background: var(--danger) !important; box-shadow: 0 0 8px var(--danger); }
-    .bg-medium { background: var(--warning) !important; box-shadow: 0 0 8px var(--warning); }
-    .bg-strong { background: var(--accent-2) !important; box-shadow: 0 0 8px var(--accent-2); }
-
-    #strengthText { margin-top: 4px; display: block; font-size: 11px; }
-
-    /* ======== مخفی‌سازی کامل لودینگ پیش‌فرض گوگل ======== */
-    .VIpgJd-ZVi9od-aZ2wEe-wOHMyf,
-    .VIpgJd-ZVi9od-aZ2wEe-O16pdw,
-    #goog-gt-tt,
-    .goog-te-spinner-pos {
-      display: none !important;
-      opacity: 0 !important;
-      visibility: hidden !important;
-      pointer-events: none !important;
-    }
-
-    /* ======== ساخت لودینگ اختصاصی نئونی سایت ======== */
-    .custom-loader-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(8px);
+    .error-display {
+      background: rgba(255, 82, 82, 0.1);
+      border: 1px solid var(--danger);
+      color: var(--danger);
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 20px;
       display: none;
-      /* پیش‌فرض مخفی است */
-      justify-content: center;
-      align-items: center;
-      z-index: 99999;
-      /* بالاتر از همه المان‌ها */
-      flex-direction: column;
-      gap: 20px;
+      line-height: 1.6;
     }
 
-    .custom-spinner {
-      width: 60px;
-      height: 60px;
-      border: 4px solid rgba(0, 244, 255, 0.1);
-      border-left-color: var(--accent);
-      /* رنگ نئونی اصلی */
-      border-right-color: var(--accent-2);
-      /* رنگ نئونی دوم */
-      border-radius: 50%;
-      animation: spinCustom 1s linear infinite;
-      box-shadow: 0 0 20px rgba(0, 244, 255, 0.4);
+    .switch-mode-text {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--muted);
     }
 
-    .custom-loader-text {
+    .switch-mode-text span {
       color: var(--accent);
-      font-family: Vazirmatn, sans-serif;
-      font-size: 16px;
+      cursor: pointer;
       font-weight: bold;
-      letter-spacing: 1px;
-      text-shadow: 0 0 10px rgba(0, 244, 255, 0.6);
-    }
-
-    @keyframes spinCustom {
-      0% {
-        transform: rotate(0deg);
-      }
-
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-
-    /* نوار بالای گوگل */
-    .goog-te-banner-frame,
-    .skiptranslate iframe {
-      display: none !important;
-    }
-
-    body {
-      top: 0 !important;
-    }
-
-    /* ویجت پیشفرض گوگل */
-    .goog-te-gadget {
-      display: none !important;
-    }
-
-    /* لوگوی گوگل */
-    .goog-logo-link {
-      display: none !important;
-    }
-
-    /* متن Powered by */
-    .goog-te-gadget span {
-      display: none !important;
-    }
-
-    /* کمبوباکس پیشفرض */
-    .goog-te-combo {
-      display: none !important;
-    }
-
-    /* پنجره Tooltip */
-    #goog-gt-tt,
-    .goog-tooltip,
-    .goog-tooltip:hover,
-    .goog-text-highlight {
-      display: none !important;
-      background: transparent !important;
-      box-shadow: none !important;
-      border: none !important;
-    }
-
-    body {
-      top: 0 !important;
-    }
-
-    html {
-      margin-top: 0 !important;
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -295,179 +219,234 @@
 <body>
 
   <div class="auth-page-wrapper">
-    
-    <div id="networkAlert" class="network-alert-box">
-      ⚠️ <b>اختلال در اتصال به سرورهای فایربیس!</b> <br>
-      تحریم یا فیلترینگ شدید روی شبکه شما شناسایی شد. لطفاً فیلترشکن (VPN) خود را تغییر دهید، در غیر این صورت فرآیند ثبت‌نام قفل خواهد شد.
-    </div>
-
-    <div class="auth-box panel">
-      <h2>پایگاه احراز هویت GHOST</h2>
-
-      <div class="field">
-        <label>نام کاربری</label>
-        <input type="text" id="authName" placeholder="نام خود را وارد کنید">
+    <div class="auth-card">
+      <div class="brand-header">
+        <h1 class="brand-title" id="authTitle">ثبت نام ZED EXE</h1>
+        <p class="brand-subtitle" id="authSubtitle">به هسته مرکزی سرور GHOST متصل شوید</p>
       </div>
 
-      <div class="field">
-        <label>ایمیل (بدون نیاز به @gmail.com)</label>
-        <input type="text" id="authEmail" placeholder="username یا username@gmail.com">
-      </div>
+      <div id="errorBox" class="error-display"></div>
 
-      <div class="field">
-        <label>رمز عبور (حداقل ۸ رقم)</label>
-        <input type="password" id="authPassword" placeholder="******" oninput="checkPasswordStrength(this.value)">
-        <div class="strength-bar-container">
-          <div id="strengthBar"></div>
+      <form id="authForm" onsubmit="handleAuthSubmit(event)">
+        <div class="form-group" id="usernameGroup">
+          <label for="usernameField">نام کاربری (حداقل ۵ کاراکتر)</label>
+          <div class="input-wrapper">
+            <input type="text" id="usernameField" placeholder="مثال: clown_zed">
+          </div>
         </div>
-        <small id="strengthText"></small>
-      </div>
 
-      <div class="field">
-        <label>تکرار رمز عبور</label>
-        <input type="password" id="authConfirmPassword" placeholder="******">
-      </div>
+        <div class="form-group">
+          <label for="emailField">آدرس ایمیل</label>
+          <div class="input-wrapper">
+            <input type="email" id="emailField" placeholder="example@gmail.com" required>
+          </div>
+        </div>
 
-      <button class="btn" id="signUpBtn" onclick="handleSignUp()">ایجاد حساب کاربری</button>
+        <div class="form-group">
+          <label for="passwordField">رمز عبور</label>
+          <div class="input-wrapper">
+            <input type="password" id="passwordField" placeholder="••••••••" required>
+          </div>
+        </div>
 
-      <div class="auth-divider">یا</div>
+        <button type="submit" id="submitBtn" class="btn-submit">ایجاد حساب کاربری</button>
+      </form>
 
-      <button class="btn google-btn" id="googleBtn" onclick="handleGoogleSignIn()">
+      <div class="divider">یا</div>
+
+      <button id="googleBtn" class="btn-google" onclick="handleGoogleAuth()">
         <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google">
-        ورود با حساب گوگل
+        <span id="googleBtnText">ورود با حساب گوگل</span>
       </button>
+
+      <p class="switch-mode-text" id="switchModeWrapper">
+        قبلاً ثبت نام کرده‌اید؟ <span onclick="toggleAuthMode('login')">وارد شوید</span>
+      </p>
     </div>
   </div>
 
-  <script src="global-translate.js"></script>
   <script src="alert-system.js"></script>
-  <script src="check-network.js"></script>
-  
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { 
+      auth, 
+      db, 
+      createUserWithEmailAndPassword, 
+      doc, 
+      getDoc, 
+      setDoc 
+    } from "./firebase.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyCKGR-kZpIowWukh8fnbr-hepGuXyZG3Vg",
-      authDomain: "ghost-3151c.firebaseapp.com",
-      projectId: "ghost-3151c",
-      storageBucket: "ghost-3151c.firebasestorage.app",
-      messagingSenderId: "538505756050",
-      appId: "1:538505756050:web:1448b00baff4018cc4954b"
-    };
+    import { 
+      signInWithEmailAndPassword,
+      signInWithPopup, 
+      signInWithRedirect,
+      GoogleAuthProvider 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+    import { 
+      collection,
+      query,
+      where,
+      getDocs 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
     const googleProvider = new GoogleAuthProvider();
+    let isLoginMode = false;
 
-    // بررسی وضعیت شبکه به محض اجرای صفحه
-    window.addEventListener('DOMContentLoaded', async () => {
-      if (typeof checkFirebaseConnection === 'function') {
-        const netStatus = await checkFirebaseConnection();
-        if (!netStatus.success) {
-          const alertBox = document.getElementById("networkAlert");
-          if (alertBox) alertBox.style.display = "block";
-        }
-      }
-
-      // چک کردن بازگشت از ریدایرکت گوگل (مخصوص کاربران تلگرام)
-      try {
-        const result = await getRedirectResult(auth);
-        if (result && result.user) {
-          await handleUserFirestoreSetup(result.user, result.user.displayName || "کاربر گوگل", 10); 
-          window.location.replace("index.html");
-        }
-      } catch (error) {
-        console.error("Redirect Auth Error:", error);
-      }
-    });
-
-    async function handleUserFirestoreSetup(user, displayName, coins) {
-      await setDoc(doc(db, "users", user.uid), {
-        uid: user.uid,
-        displayName: displayName,
-        email: user.email,
-        coins: coins,
-        hackCount: 0,
-        isBanned: false
-      }, { merge: true });
-    }
-
-    function checkPasswordStrength(password) {
-      const bar = document.getElementById("strengthBar");
-      const text = document.getElementById("strengthText");
-      if (!password) { bar.style.width = "0%"; text.textContent = ""; return; }
-
-      let score = 0;
-      if (password.length >= 8) score++;
-      if (/[A-Z]/.test(password) || /[0-9]/.test(password)) score++;
-      if (/[^A-Za-z0-9]/.test(password)) score++;
-
-      bar.className = "";
-      if (score <= 1 || password.length < 8) {
-        bar.style.width = "33%"; bar.classList.add("bg-weak"); text.textContent = "ضعیف ❌"; text.style.color = "var(--danger)";
-      } else if (score === 2) {
-        bar.style.width = "66%"; bar.classList.add("bg-medium"); text.textContent = "متوسط ⚠️"; text.style.color = "var(--warning)";
-      } else if (score === 3) {
-        bar.style.width = "100%"; bar.classList.add("bg-strong"); text.textContent = "امنیت گاد و فول نجومی! ✅"; text.style.color = "var(--accent-2)";
+    // مترجم فارسی ارورهای فایربیس
+    function getPersianErrorMessage(errorCode) {
+      switch (errorCode) {
+        case 'auth/invalid-email':
+          return 'آدرس ایمیل وارد شده معتبر نیست. لطفاً فرمت ایمیل را بررسی کنید.';
+        case 'auth/user-disabled':
+          return 'این حساب کاربری توسط مدیریت مسدود شده است.';
+        case 'auth/user-not-found':
+        case 'auth/invalid-credential':
+          return 'ایمیل یا رمز عبور اشتباه است. لطفاً دوباره تلاش کنید.';
+        case 'auth/wrong-password':
+          return 'رمز عبور وارد شده اشتباه است.';
+        case 'auth/email-already-in-use':
+          return 'این آدرس ایمیل قبلاً ثبت نام کرده است! اگر اکانت دارید وارد شوید.';
+        case 'auth/weak-password':
+          return 'رمز عبور خیلی ضعیف است! حداقل باید ۶ کاراکتر باشد.';
+        case 'auth/popup-blocked':
+          return 'پاپ‌آپ مرورگر شما مسدود شده است. لطفاً اجازه دسترسی بدهید.';
+        case 'auth/network-request-failed':
+          return 'خطا در اتصال به شبکه! فیلترشکن (VPN) خود را روشن کنید.';
+        default:
+          return 'یک خطای غیرمنتظره رخ داد. لطفاً مجدداً تلاش کنید.';
       }
     }
 
-    function setAuthLoading(isLoading, buttonId, originalText) {
-      const btn = document.getElementById(buttonId);
+    // تغییر وضعیت بین ورود و ثبت نام در ظاهر فرم
+    window.toggleAuthMode = function(mode) {
+      const authTitle = document.getElementById("authTitle");
+      const authSubtitle = document.getElementById("authSubtitle");
+      const usernameGroup = document.getElementById("usernameGroup");
+      const submitBtn = document.getElementById("submitBtn");
+      const switchModeWrapper = document.getElementById("switchModeWrapper");
+      const errorBox = document.getElementById("errorBox");
+
+      errorBox.style.display = "none";
+
+      if (mode === 'login') {
+        isLoginMode = true;
+        authTitle.textContent = "ورود به ZED EXE";
+        authSubtitle.textContent = "با مشخصات حساب خود وارد پنل شوید";
+        usernameGroup.style.display = "none";
+        submitBtn.textContent = "ورود به حساب کاربری";
+        switchModeWrapper.innerHTML = `حساب کاربری ندارید؟ <span onclick="toggleAuthMode('signup')">ثبت نام کنید</span>`;
+      } else {
+        isLoginMode = false;
+        authTitle.textContent = "ثبت نام ZED EXE";
+        authSubtitle.textContent = "به هسته مرکزی سرور GHOST متصل شوید";
+        usernameGroup.style.display = "block";
+        submitBtn.textContent = "ایجاد حساب کاربری";
+        switchModeWrapper.innerHTML = `قبلاً ثبت نام کرده‌اید؟ <span onclick="toggleAuthMode('login')">وارد شوید</span>`;
+      }
+    }
+
+    // مدیریت وضعیت لودینگ دکمه‌ها
+    function setAuthLoading(isLoading, btnId, originalText) {
+      const btn = document.getElementById(btnId);
       if (!btn) return;
       if (isLoading) {
         btn.disabled = true;
-        btn.style.pointerEvents = "none";
-        btn.innerHTML = `<span style="display:inline-block; width:14px; height:14px; border:2px solid var(--text); border-top-color:transparent; border-radius:50%; animation:spinCustom 0.8s linear infinite; vertical-align:middle; margin-left:5px;"></span> در حال پردازش...`;
+        btn.textContent = "... در حال پردازش اطلاعات ...";
       } else {
         btn.disabled = false;
-        btn.style.pointerEvents = "auto";
-        btn.innerHTML = originalText;
+        btn.textContent = originalText;
       }
     }
 
-    if (!document.getElementById('btnSpinStyle')) {
-      const style = document.createElement('style');
-      style.id = 'btnSpinStyle';
-      style.innerHTML = `@keyframes spinCustom { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`;
-      document.head.appendChild(style);
+    // راه اندازی سند کاربر در فایر استور
+    async function handleUserFirestoreSetup(user, username, coinsAmount) {
+      const userDocRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userDocRef);
+      if (!userSnap.exists()) {
+        await setDoc(userDocRef, {
+          uid: user.uid,
+          email: user.email,
+          displayName: username,
+          coins: coinsAmount,
+          createdAt: new Date().toISOString()
+        });
+      }
     }
 
-    async function handleSignUp() {
-      const name = document.getElementById("authName").value.trim();
-      let email = document.getElementById("authEmail").value.trim();
-      const password = document.getElementById("authPassword").value;
-      const confirmPassword = document.getElementById("authConfirmPassword").value;
+    // دکمه اصلی سابمیت فرم
+    window.handleAuthSubmit = async function(event) {
+      event.preventDefault();
+      const errorBox = document.getElementById("errorBox");
+      errorBox.style.display = "none";
 
-      if (!name || !email || !password) { alert("همه فیلدها رو پر کن دادا!"); return; }
-      if (password !== confirmPassword) { alert("پسوردها با هم یکی نیستن!"); return; }
-      if (password.length < 8) { alert("پسورد باید حداقل ۸ رقم باشه!"); return; }
+      const email = document.getElementById("emailField").value.trim();
+      const password = document.getElementById("passwordField").value.trim();
+      const usernameInput = document.getElementById("usernameField").value.trim();
 
-      if (!email.includes("@")) email = email + "@gmail.com";
-
-      setAuthLoading(true, "signUpBtn", "ایجاد حساب کاربری");
-
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        await handleUserFirestoreSetup(userCredential.user, name, 10);
-        alert("ثبت نام موفقیت‌آمیز بود! ۱۰ سکه هدیه گرفتی رئیس.");
-        setTimeout(() => { window.location.replace("index.html"); }, 100);
-      } catch (error) {
-        if (error.code === 'auth/email-already-in-use') {
-          alert("این ایمیل قبلاً ثبت شده دادا! اگه اکانت داری وارد شو یا ایمیل رو عوض کن.");
-        } else if (error.message.includes("network-request-failed")) {
-          alert("خطای اتصال شبکه! فیلترشکنت با فایربیس مشکل داره دادا، عوضش کن.");
-        } else {
-          alert("خطا در ثبت نام: " + error.message);
+      if (isLoginMode) {
+        // --- عملیات ورود ---
+        setAuthLoading(true, "submitBtn", "ورود به حساب کاربری");
+        try {
+          const result = await signInWithEmailAndPassword(auth, email, password);
+          const userDoc = await getDoc(doc(db, "users", result.user.uid));
+          let currentName = result.user.displayName || "کاربر سیستم";
+          if(userDoc.exists()) {
+            currentName = userDoc.data().displayName || currentName;
+          }
+          alert(`خوش آمدی دادا ${currentName}! هدایت به پنل هک...`);
+          setTimeout(() => { window.location.replace("index.html"); }, 100);
+        } catch (error) {
+          errorBox.textContent = getPersianErrorMessage(error.code);
+          errorBox.style.display = "block";
+          setAuthLoading(false, "submitBtn", "ورود به حساب کاربری");
         }
-        setAuthLoading(false, "signUpBtn", "ایجاد حساب کاربری");
-      }
-    }
+      } else {
+        // --- عملیات ثبت نام ---
+        // ۱. بررسی طول کاراکتر
+        if (usernameInput.length < 5) {
+          errorBox.textContent = "❌ خطای نام کاربری: نام کاربری باید حداقل ۵ کاراکتر باشد.";
+          errorBox.style.display = "block";
+          return;
+        }
 
-    async function handleGoogleSignIn() {
+        // ۲. مسدود کردن کلمات لیست سیاه به صورت Case Insensitive
+        const lowerUser = usernameInput.toLowerCase();
+        if (lowerUser === 'ghost' || lowerUser === 'aqay ghost' || lowerUser === 'aqay_ghost') {
+          errorBox.textContent = "❌ خطای امنیتی: انتخاب این نام کاربری به دلایل امنیتی قفل است!";
+          errorBox.style.display = "block";
+          return;
+        }
+
+        setAuthLoading(true, "submitBtn", "ایجاد حساب کاربری");
+
+        try {
+          // ۳. چک کردن تکراری نبودن نام کاربری در کل دیتابیس (با حفظ حساسیت حروف بزرگ و کوچک)
+          const q = query(collection(db, "users"), where("displayName", "==", usernameInput));
+          const querySnapshot = await getDocs(q);
+          if (!querySnapshot.empty) {
+            errorBox.textContent = `❌ نام کاربری "${usernameInput}" قبلاً توسط شخص دیگری رزرو شده است!`;
+            errorBox.style.display = "block";
+            setAuthLoading(false, "submitBtn", "ایجاد حساب کاربری");
+            return;
+          }
+
+          // ۴. ایجاد اکانت در سیستم احراز هویت
+          const result = await createUserWithEmailAndPassword(auth, email, password);
+          await handleUserFirestoreSetup(result.user, usernameInput, 10);
+          alert("حساب کاربری شما با موفقیت در هسته ZED EXE ثبت شد!");
+          setTimeout(() => { window.location.replace("index.html"); }, 100);
+
+        } catch (error) {
+          errorBox.textContent = getPersianErrorMessage(error.code);
+          errorBox.style.display = "block";
+          setAuthLoading(false, "submitBtn", "ایجاد حساب کاربری");
+        }
+      }
+    };
+
+    // ورود از طریق گوگل
+    window.handleGoogleAuth = async function() {
       setAuthLoading(true, "googleBtn", "ورود با حساب گوگل");
       const isWebView = /Telegram|FBAN|FBAV|Instagram/i.test(navigator.userAgent);
 
@@ -475,7 +454,8 @@
         try {
           await signInWithRedirect(auth, googleProvider);
         } catch (error) {
-          alert("خطا در هدایت به گوگل: " + error.message);
+          document.getElementById("errorBox").textContent = "خطا در هدایت به گوگل: " + getPersianErrorMessage(error.code);
+          document.getElementById("errorBox").style.display = "block";
           setAuthLoading(false, "googleBtn", "ورود با حساب گوگل");
         }
       } else {
@@ -489,21 +469,18 @@
             try {
               await signInWithRedirect(auth, googleProvider);
             } catch (reError) {
-              alert("خطا در ورود با گوگل: " + reError.message);
+              document.getElementById("errorBox").textContent = getPersianErrorMessage(reError.code);
+              document.getElementById("errorBox").style.display = "block";
               setAuthLoading(false, "googleBtn", "ورود با حساب گوگل");
             }
           } else {
-            alert("خطای گوگل: " + error.message);
+            document.getElementById("errorBox").textContent = getPersianErrorMessage(error.code);
+            document.getElementById("errorBox").style.display = "block";
             setAuthLoading(false, "googleBtn", "ورود با حساب گوگل");
           }
         }
       }
-    }
-
-    window.checkPasswordStrength = checkPasswordStrength;
-    window.handleSignUp = handleSignUp;
-    window.handleGoogleSignIn = handleGoogleSignIn;
+    };
   </script>
 </body>
-
 </html>
